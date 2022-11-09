@@ -9,16 +9,15 @@ namespace ERMAN.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(8)]
-        public int StudentId { get; set; }
+        [StringLength(360)]
+        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Please enter valid e-mail address")]
+        public string StudentEmailAddress { get; set; } = null!;
 
         [Required]  
         [StringLength(100)]
         public string StudentName { get; set; } = null!;
 
         [Required]
-        [StringLength(360)]
-        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Please enter valid e-mail address")]
-        public string StudentEmailAddress { get; set; } = null!;
+        public int StudentId { get; set; }
     }
 }

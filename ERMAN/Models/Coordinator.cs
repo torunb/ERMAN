@@ -17,7 +17,5 @@ namespace ERMAN.Models
 
         [Required(ErrorMessage = "Id must be provided")]
         public int CoordinatorId { get; set; }
-        
-
     }
 }
