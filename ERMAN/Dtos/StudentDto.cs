@@ -17,9 +17,7 @@ namespace ERMAN.Dtos
         [Required]
         public int StudentId { get; set; }
 
-        
-
-        
+        public bool IsRejected { get; set; }
     }
 
 }
