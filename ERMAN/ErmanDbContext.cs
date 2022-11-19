@@ -11,6 +11,7 @@ namespace ERMAN
         }
 
         public DbSet<Student> StudentTable { get; set; }
+        public DbSet<FAQItem> FAQTable { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
