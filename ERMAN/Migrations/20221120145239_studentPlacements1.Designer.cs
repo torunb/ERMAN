@@ -2,6 +2,7 @@
 using ERMAN;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERMAN.Migrations
 {
     [DbContext(typeof(ErmanDbContext))]
-    partial class ErmanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221120145239_studentPlacements1")]
+    partial class studentPlacements1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,8 +107,8 @@ namespace ERMAN.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("StudentId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("StudentId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("StudentLastName")
                         .IsRequired()
@@ -126,8 +129,8 @@ namespace ERMAN.Migrations
                     b.Property<double>("TranscriptPoints")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("UECGPA")
-                        .HasColumnType("double precision");
+                    b.Property<int>("UECGPA")
+                        .HasColumnType("integer");
 
                     b.Property<int>("UESECount")
                         .HasColumnType("integer");

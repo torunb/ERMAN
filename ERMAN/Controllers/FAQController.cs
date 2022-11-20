@@ -7,7 +7,7 @@ namespace ERMAN.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FAQController : Controller
+    public class FAQController : ControllerBase
     {
         private readonly ErmanDbContext _dbContext;
         public FAQController(ErmanDbContext dbContext)
