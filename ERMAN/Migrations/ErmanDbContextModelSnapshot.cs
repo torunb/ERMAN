@@ -155,6 +155,7 @@ namespace ERMAN.Migrations
                     b.ToTable("StudentTable");
                 });
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
             modelBuilder.Entity("ERMAN.Models.StudentPlacement", b =>
                 {
@@ -226,6 +227,9 @@ namespace ERMAN.Migrations
                     b.ToTable("StudentPlacements");
 =======
             modelBuilder.Entity("ERMAN.Models.Todo", b =>
+=======
+            modelBuilder.Entity("ERMAN.Models.StudentUser", b =>
+>>>>>>> yarkin
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -233,6 +237,7 @@ namespace ERMAN.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+<<<<<<< HEAD
                     b.Property<bool>("Done")
                         .HasColumnType("boolean");
 
@@ -285,6 +290,37 @@ namespace ERMAN.Migrations
 
                     b.ToTable("UniversityTable");
 >>>>>>> Stashed changes
+=======
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentUserTable");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.StudentUser", b =>
+                {
+                    b.HasOne("ERMAN.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+>>>>>>> yarkin
                 });
 #pragma warning restore 612, 618
         }

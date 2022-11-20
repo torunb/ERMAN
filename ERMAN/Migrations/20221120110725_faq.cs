@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using ERMAN.Models;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -32,7 +33,13 @@ namespace ERMAN.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+<<<<<<< HEAD:ERMAN/Migrations/20221120110725_faq.cs
                 name: "FAQTable");
+=======
+                name: "StudentTable");
+            migrationBuilder.DropTable(
+                name: "StudentUserTable");
+>>>>>>> yarkin:ERMAN/Migrations/20221119142321_InitialDatabase.cs
         }
     }
 }
