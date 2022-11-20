@@ -16,5 +16,7 @@ namespace ERMAN
         {
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<ERMAN.Models.StudentUser> StudentUserTable { get; set; }
     }
 }
