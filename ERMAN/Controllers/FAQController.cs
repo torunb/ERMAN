@@ -19,7 +19,7 @@ namespace ERMAN.Controllers
         // [HttpPost(Name = "FAQAPI")]
         public FAQItem Post(FAQItemDto faq)
         {
-            var faqNew = new FAQItem
+            FAQItem faqNew = new FAQItem
             {
                 FAQQuestion = faq.FAQQuestion,
                 FAQAnswer = faq.FAQAnswer,
@@ -29,7 +29,43 @@ namespace ERMAN.Controllers
             _dbContext.SaveChanges();
             return faqNew;
         }
+        [HttpPut]
+        public void Put(FAQItem toBeUpdated)
+        {
+            FAQItem faqUpdate = _dbContext.FAQTable.Find(toBeUpdated.FAQItemId);
+            if (faqUpdate != null)
+            {
+                faqUpdate.FAQQuestion = toBeUpdated.FAQQuestion;
+                faqUpdate.FAQAnswer = toBeUpdated.FAQAnswer;
+                _dbContext.FAQTable.Update(faqUpdate);
+                _dbContext.SaveChanges();
+            }
+        }
+        [HttpDelete("{id}")]
+        public void Delete( int id)
+        {
+            FAQItem toBeDeleted = _dbContext.FAQTable.Find(id);
+            if ( toBeDeleted != null)
+            {
+                _dbContext.FAQTable.Remove(toBeDeleted);
+                _dbContext.SaveChanges();
+            }
+        }
+        [HttpGet]
+        public List<FAQItem> Get()
+        {
+            List<FAQItem> list = _dbContext.FAQTable.ToList();
+            return list;
+        }
+        [HttpGet("{id}")]
+        public FAQItem Get(int id) // may return null, don't give a false id as parameter
+        {
+            FAQItem gettingFAQ = _dbContext.FAQTable.Find(id);
+            return gettingFAQ;
+            //return (FAQItem)_dbContext.FAQTable.ToList().Where(x => x.FAQItemId == id);
+        }
     }
+}
         /*
         [Route("api/[controller]")]
         [ApiController]
@@ -96,5 +132,5 @@ namespace ERMAN.Controllers
                 return list;
             }
 
-        }*/
-    }
+        }
+    }*/
