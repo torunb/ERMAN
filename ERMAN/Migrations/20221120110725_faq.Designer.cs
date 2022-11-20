@@ -2,6 +2,7 @@
 using ERMAN;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERMAN.Migrations
 {
     [DbContext(typeof(ErmanDbContext))]
-    partial class ErmanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221120110725_faq")]
+    partial class faq
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,13 +32,18 @@ namespace ERMAN.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FAQItemId"));
 
-                    b.Property<string>("FAQAnswer")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("FAQAnswer")
+                        .HasColumnType("integer");
 
                     b.Property<string>("FAQQuestion")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsChecked")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("FAQItemId");
 
