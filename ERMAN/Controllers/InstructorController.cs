@@ -9,6 +9,13 @@ namespace ERMAN.Controllers
     [ApiController]
     public class InstructorController : ControllerBase
     {
+        private readonly ErmanDbContext _dbContext;
+
+        public InstructorController(ErmanDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         [HttpPost(Name = "InstructorAPI")]
         public Instructor Post(InstructorDto instructor)
         {
@@ -18,6 +25,8 @@ namespace ERMAN.Controllers
                 InstructorEmailAddress = instructor.InstructorEmailAddress,
                 InstructorName = instructor.InstructorName,
             };
+            _dbContext.InstructorTable.Add(instructorNew);
+            _dbContext.SaveChanges();
             return instructorNew;
         }
     }

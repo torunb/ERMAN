@@ -9,6 +9,13 @@ namespace ERMAN.Controllers
     [ApiController]
     public class CoordinatorController : ControllerBase
     {
+        private readonly ErmanDbContext _dbContext;
+
+        public CoordinatorController(ErmanDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         [HttpPost(Name = "CoordinatorAPI")]
         public Coordinator Post(CoordinatorDto coordinator)
         {
@@ -18,6 +25,8 @@ namespace ERMAN.Controllers
                 CoordinatorEmailAddress = coordinator.CoordinatorEmailAddress,
                 CoordinatorName = coordinator.CoordinatorName,
             };
+            _dbContext.CoordinatorTable.Add(coordinatorNew);
+            _dbContext.SaveChanges();
             return coordinatorNew;
         }
     }

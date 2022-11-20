@@ -15,8 +15,8 @@ namespace ERMAN.Controllers
         {
             _dbContext = dbContext;
         }
-        [HttpPost(Name ="StudentAPI")]
 
+        [HttpPost(Name ="StudentAPI")]
         public Student Post(StudentDto student)
         {
             var studentNew = new Student

@@ -14,6 +14,16 @@ namespace ERMAN
         public DbSet<FAQItem> FAQTable { get; set; }
         public DbSet<StudentPlacement> StudentPlacements { get; set; }
 
+        public DbSet<Instructor> InstructorTable { get; set; }
+        
+        public DbSet<Coordinator> CoordinatorTable { get; set; }
+
+        public DbSet<University> UniversityTable { get; set; }
+
+        public DbSet<Todo> TodoTable { get; set; }
+
+        public DbSet<Faq> FaqTable { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

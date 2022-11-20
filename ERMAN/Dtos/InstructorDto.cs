@@ -12,11 +12,5 @@ namespace ERMAN.Dtos
         public string InstructorName { get; set; } = null!;
 
         public int InstructorId { get; set; }
-
-        
-
-        
-
-        
     }
 }

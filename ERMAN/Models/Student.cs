@@ -22,5 +22,7 @@ namespace ERMAN.Models
 
 
         public bool IsRejected { get; set; }
+
+        public DateTime InsertDate { get; set; } = DateTime.Now;
     }
 }
