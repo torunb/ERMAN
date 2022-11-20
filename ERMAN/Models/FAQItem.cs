@@ -11,6 +11,6 @@ namespace ERMAN.Models
         public string FAQQuestion { get; set; } = null!;
 
         [Required(ErrorMessage = "FAQ answer must be provided")]
-        public string FAQAnswer { get; set; }
+        public string FAQAnswer { get; set; } = null!;
     }
 }
