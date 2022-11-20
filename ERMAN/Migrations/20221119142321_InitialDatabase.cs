@@ -27,21 +27,6 @@ namespace ERMAN.Migrations
                 {
                     table.PrimaryKey("PK_StudentTable", x => x.Id);
                 });
-            migrationBuilder.CreateTable(
-                name: "StudentUserTable",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(360)", maxLength: 360, nullable: false),
-                    Student = table.Column<Student>(type: "Student", nullable: false),
-                    Password= table.Column<string>(type: "character varying(80)",maxLength: 80, nullable: false),
-                  
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StudentUserTable", y => y.Id);
-                });
         }
 
         /// <inheritdoc />
