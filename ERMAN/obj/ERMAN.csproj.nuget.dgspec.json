@@ -1,37 +1,20 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
-    "D:\\cs\\Erman\\ERMAN\\ERMAN\\ERMAN.csproj": {}
+    "C:\\Users\\emre\\ERMAN\\ERMAN\\ERMAN.csproj": {}
   },
   "projects": {
-    "D:\\cs\\Erman\\ERMAN\\ERMAN\\ERMAN.csproj": {
+    "C:\\Users\\emre\\ERMAN\\ERMAN\\ERMAN.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\cs\\Erman\\ERMAN\\ERMAN\\ERMAN.csproj",
+        "projectUniqueName": "C:\\Users\\emre\\ERMAN\\ERMAN\\ERMAN.csproj",
         "projectName": "ERMAN",
-        "projectPath": "D:\\cs\\Erman\\ERMAN\\ERMAN\\ERMAN.csproj",
-        "packagesPath": "C:\\Users\\drbya\\.nuget\\packages\\",
-        "outputPath": "D:\\cs\\Erman\\ERMAN\\ERMAN\\obj\\",
+        "projectPath": "C:\\Users\\emre\\ERMAN\\ERMAN\\ERMAN.csproj",
+        "packagesPath": "C:\\Users\\emre\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\emre\\ERMAN\\ERMAN\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\drbya\\AppData\\Roaming\\NuGet\\NuGet.Config",
-=======
-    "C:\\Users\\90530\\Documents\\GitHub\\ERMAN\\ERMAN\\ERMAN.csproj": {}
-  },
-  "projects": {
-    "C:\\Users\\90530\\Documents\\GitHub\\ERMAN\\ERMAN\\ERMAN.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\90530\\Documents\\GitHub\\ERMAN\\ERMAN\\ERMAN.csproj",
-        "projectName": "ERMAN",
-        "projectPath": "C:\\Users\\90530\\Documents\\GitHub\\ERMAN\\ERMAN\\ERMAN.csproj",
-        "packagesPath": "C:\\Users\\90530\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\90530\\Documents\\GitHub\\ERMAN\\ERMAN\\obj\\",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "C:\\Users\\90530\\AppData\\Roaming\\NuGet\\NuGet.Config",
->>>>>>> yarkin
+          "C:\\Users\\emre\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -100,7 +83,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -112,11 +96,7 @@
               "privateAssets": "all"
             }
           },
-<<<<<<< HEAD
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
-=======
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
->>>>>>> yarkin
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
