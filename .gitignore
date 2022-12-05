@@ -456,3 +456,7 @@ $RECYCLE.BIN/
 
 ### JS test stuff
 TestScripts/node_modules
+
+ERMAN/bin
+ERMAN/obj
+.vs
