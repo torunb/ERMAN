@@ -284,3 +284,4 @@ C:\Users\emre\ERMAN\ERMAN\obj\Debug\net6.0\refint\ERMAN.dll
 C:\Users\emre\ERMAN\ERMAN\obj\Debug\net6.0\ERMAN.pdb
 C:\Users\emre\ERMAN\ERMAN\obj\Debug\net6.0\ERMAN.genruntimeconfig.cache
 C:\Users\emre\ERMAN\ERMAN\obj\Debug\net6.0\ref\ERMAN.dll
+C:\Users\emre\ERMAN\ERMAN\bin\Debug\net6.0\BCrypt.Net-Next.dll

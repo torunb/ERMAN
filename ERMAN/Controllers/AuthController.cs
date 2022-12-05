@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace ERMAN.Controllers
 {
@@ -24,8 +26,8 @@ namespace ERMAN.Controllers
             public string password { get; set; }
         }
 
-        [HttpPost(Name = "AuthAPI")]
-        public async void Login(LoginRequest loginData)
+            [HttpPost("/api/login", Name = "AuthLogin")]
+        public ActionResult<bool> Login(LoginRequest loginData)
         {            
                 // Use Input.Email and Input.Password to authenticate the user
                 // with your custom authentication logic.
@@ -36,10 +38,10 @@ namespace ERMAN.Controllers
 
                 var user = AuthenticateUser(loginData.email, loginData.password);
 
-                //if (user == false)
-                //{
-                //    return;
-                //}
+                if (user == false)
+                {
+                    return StatusCode(400);
+                }
 
                 Console.WriteLine("asdas");
 
@@ -75,26 +77,27 @@ namespace ERMAN.Controllers
                     // redirect response value.
                 };
 
-                await HttpContext.SignInAsync(
+                HttpContext.SignInAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity),
                     authProperties);
 
-                return;
+                return StatusCode(200);
         }
 
-        private bool AuthenticateUser(string email, string password)
+        private bool AuthenticateUser(string email, string passwordHash)
         {
             // For demonstration purposes, authenticate a user
             // with a static email address. Ignore the password.
             // Assume that checking the database takes 500ms
+            var user = _dbContext.AuthenticationTable.Where(x => x.Username == email).First();
 
-            if (email == "maria.rodriguez@contoso.com")
+            if (user != null)
             {
-                return true;
+                bool verified = BCrypt.Net.BCrypt.Verify(passwordHash, user.Password);
+                return verified;
             }
-            else
-            {
+            else {
                 return false;
             }
         }

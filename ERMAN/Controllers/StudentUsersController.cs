@@ -31,9 +31,6 @@ namespace ERMAN.Controllers
 
             }
             return false;
-
-
-
         }
 
         [HttpPut(Name = "StudentUserChange")]

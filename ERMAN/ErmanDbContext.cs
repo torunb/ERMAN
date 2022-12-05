@@ -18,6 +18,8 @@ namespace ERMAN
         
         public DbSet<Coordinator> CoordinatorTable { get; set; }
 
+        public DbSet<Authentication> AuthenticationTable { get; set; }
+
         public DbSet<University> UniversityTable { get; set; }
 
         public DbSet<Todo> TodoTable { get; set; }
