@@ -85,6 +85,15 @@ namespace ERMAN.Controllers
                 return StatusCode(200);
         }
 
+        [HttpPost("/api/logout", Name = "Logout")]
+        public async void Logout()
+
+        {
+            if(HttpContext.User.Identity.IsAuthenticated)
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+        }
+
         private bool AuthenticateUser(string email, string passwordHash)
         {
             // For demonstration purposes, authenticate a user
