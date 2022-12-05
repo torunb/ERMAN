@@ -3,7 +3,7 @@ using System.Net.WebSockets;
 
 namespace ERMAN.Controllers
 {
-    // Because this is a websocket controller it need to be ignored
+    // Because this is a websocket controller it needs to be ignored
     // otherwise Swagger will complain about not knowning which HTTP verb
     // Get() below corresponds to
     [ApiExplorerSettings(IgnoreApi = true)]
