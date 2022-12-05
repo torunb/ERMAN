@@ -2,7 +2,7 @@
 
 namespace ERMAN.Models
 {
-    public class Todo
+    public class ToDo
     {
         [Key]
         public int Id { get; set; }

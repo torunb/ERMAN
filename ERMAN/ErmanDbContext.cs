@@ -22,6 +22,9 @@ namespace ERMAN
         public DbSet<Authentication> AuthenticationTable { get; set; }
 
         public DbSet<University> UniversityTable { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<ToDo> ToDos { get; set; }
+        public DbSet<Checklist> Checklists { get; set; }
 
         public DbSet<Todo> TodoTable { get; set; }
 
