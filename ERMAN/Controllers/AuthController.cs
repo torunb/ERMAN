@@ -87,7 +87,6 @@ namespace ERMAN.Controllers
 
         [HttpPost("/api/logout", Name = "Logout")]
         public async void Logout()
-
         {
             if(HttpContext.User.Identity.IsAuthenticated)
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

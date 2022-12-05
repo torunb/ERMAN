@@ -11,28 +11,28 @@ namespace ERMAN.Models
             this.context = context;
         }
 
-        public IEnumerable<ToDo> GetToDos()
+        public IEnumerable<Todo> Gettodos()
         {
-            return context.ToDos.ToList();
+            return context.Todos.ToList();
         }
 
-        public ToDo GetToDoeByID(int id)
+        public Todo GetToDoeByID(int id)
         {
-            return context.ToDos.Find(id);
+            return context.Todos.Find(id);
         }
 
-        public void InsertToDo(ToDo toDo)
+        public void InsertToDo(Todo toDo)
         {
-            context.ToDos.Add(toDo);
+            context.Todos.Add(toDo);
         }
 
         public void DeleteToDo(int toDoId)
         {
-            ToDo toDo = context.ToDos.Find(toDoId);
-            context.ToDos.Remove(toDo);
+            Todo todo = context.Todos.Find(toDoId);
+            context.Todos.Remove(todo);
         }
 
-        public void UpdateToDo(ToDo toDo)
+        public void UpdateToDo(Todo toDo)
         {
             context.Entry(toDo).State = EntityState.Modified;
         }
