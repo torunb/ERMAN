@@ -1,11 +1,9 @@
-﻿using ERMAN.Dtos;
-using ERMAN.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using ERMAN.Models;
+using ERMAN.Dtos;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 
 namespace ERMAN.Controllers
 {
@@ -26,7 +24,14 @@ namespace ERMAN.Controllers
             public string password { get; set; }
         }
 
-            [HttpPost("/api/login", Name = "AuthLogin")]
+        public class RegisterRequest
+        {
+            public string email { get; set; }
+            public string password { get; set; }
+            public string role { get; set; }
+        }
+
+        [HttpPost("/api/login", Name = "AuthLogin")]
         public ActionResult<bool> Login(LoginRequest loginData)
         {            
                 // Use Input.Email and Input.Password to authenticate the user
@@ -42,9 +47,6 @@ namespace ERMAN.Controllers
                 {
                     return StatusCode(400);
                 }
-
-                Console.WriteLine("asdas");
-
 
                 var claims = new List<Claim>
                 {
@@ -85,12 +87,37 @@ namespace ERMAN.Controllers
                 return StatusCode(200);
         }
 
+        [HttpPost("/api/register", Name = "AuthRegister")]
+        public ActionResult<bool> Register(RegisterRequest registerData)
+        {
+            var user = _dbContext.AuthenticationTable.Where(x => x.Username == registerData.email);
+
+            if (user != null)
+            {
+                // there is already a user with that username
+                return StatusCode(400);
+            }
+
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(registerData.password);
+
+            var newUser = new Authentication
+            {
+                Username = registerData.email,
+                Password = passwordHash,
+                Type = UserType.Student,
+            };
+            _dbContext.AuthenticationTable.Add(newUser);
+            _dbContext.SaveChanges();
+
+            return StatusCode(200);
+        }
+
         [HttpPost("/api/logout", Name = "Logout")]
         public async void Logout()
         {
-            if(HttpContext.User.Identity.IsAuthenticated)
+            if (HttpContext.User.Identity.IsAuthenticated) {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
+            }
         }
 
         private bool AuthenticateUser(string email, string passwordHash)

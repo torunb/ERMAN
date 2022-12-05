@@ -2,47 +2,45 @@
 
 namespace ERMAN.Models
 {
-    public class ToDoRepository : IDisposable
+    public class TodoRepository : IDisposable
     {
         private ErmanDbContext context;
 
-        public ToDoRepository(ErmanDbContext context)
+        public TodoRepository(ErmanDbContext context)
         {
             this.context = context;
         }
 
-        public IEnumerable<Todo> Gettodos()
+        public IEnumerable<Todo> GetTodos()
         {
             return context.Todos.ToList();
         }
 
-        public Todo GetToDoeByID(int id)
+        public Todo GetTodoByID(int id)
         {
             return context.Todos.Find(id);
         }
 
-        public void InsertToDo(Todo toDo)
+        public void InsertTodo(Todo todo)
         {
-            context.Todos.Add(toDo);
+            context.Todos.Add(todo);
         }
 
-        public void DeleteToDo(int toDoId)
+        public void DeleteTodo(int todoId)
         {
-            Todo todo = context.Todos.Find(toDoId);
+            Todo todo = context.Todos.Find(todoId);
             context.Todos.Remove(todo);
         }
 
-        public void UpdateToDo(Todo toDo)
+        public void UpdateToDo(Todo todo)
         {
-            context.Entry(toDo).State = EntityState.Modified;
+            context.Entry(todo).State = EntityState.Modified;
         }
 
         public void Save()
         {
             context.SaveChanges();
         }
-
-
 
 
         private bool disposed = false;
