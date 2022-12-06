@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ERMAN.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace ERMAN.Models
+namespace ERMAN.Repositories
 {
     public class ChecklistRepository : IDisposable
     {
@@ -48,14 +49,14 @@ namespace ERMAN.Models
         private bool disposed = false;
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
                     context.Dispose();
                 }
             }
-            this.disposed = true;
+            disposed = true;
         }
 
         public void Dispose()

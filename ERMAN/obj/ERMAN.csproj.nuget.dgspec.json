@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\emre\\ERMAN\\ERMAN\\ERMAN.csproj": {}
+    "D:\\cs\\Erman\\ERMAN\\ERMAN\\ERMAN.csproj": {}
   },
   "projects": {
-    "C:\\Users\\emre\\ERMAN\\ERMAN\\ERMAN.csproj": {
+    "D:\\cs\\Erman\\ERMAN\\ERMAN\\ERMAN.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\emre\\ERMAN\\ERMAN\\ERMAN.csproj",
+        "projectUniqueName": "D:\\cs\\Erman\\ERMAN\\ERMAN\\ERMAN.csproj",
         "projectName": "ERMAN",
-        "projectPath": "C:\\Users\\emre\\ERMAN\\ERMAN\\ERMAN.csproj",
-        "packagesPath": "C:\\Users\\emre\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\emre\\ERMAN\\ERMAN\\obj\\",
+        "projectPath": "D:\\cs\\Erman\\ERMAN\\ERMAN\\ERMAN.csproj",
+        "packagesPath": "C:\\Users\\drbya\\.nuget\\packages\\",
+        "outputPath": "D:\\cs\\Erman\\ERMAN\\ERMAN\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\emre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\drbya\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -87,8 +87,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -100,7 +99,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }
