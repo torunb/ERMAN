@@ -1,7 +1,10 @@
 using ERMAN;
+using ERMAN.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using ERMAN.Dtos;
+using ERMAN.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -9,6 +12,9 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddTransient<IGeneralInterface<FAQItem, FAQItemDto>, FaqRepository>();
+
 builder.Services.AddDbContext<ErmanDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("ErmanDb"));
