@@ -457,14 +457,8 @@ $RECYCLE.BIN/
 ### JS test stuff
 TestScripts/node_modules
 
-<<<<<<< HEAD
 ERMAN/bin
 ERMAN/obj
 .vs
-=======
-obj
-
-.vs
-
-ERMAN/bin
->>>>>>> 93ff6f9 (Removed Unneccesary Files Changed Gitignore)
+ERMAN/appsettings.Development.json
+ERMAN/appsettings.json

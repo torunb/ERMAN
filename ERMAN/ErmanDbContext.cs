@@ -1,5 +1,6 @@
 ﻿using ERMAN.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace ERMAN
 {
@@ -22,12 +23,17 @@ namespace ERMAN
         public DbSet<Authentication> AuthenticationTable { get; set; }
 
         public DbSet<University> UniversityTable { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Todo> Todos { get; set; }
+        public DbSet<Checklist> Checklists { get; set; }
 
         public DbSet<Todo> TodoTable { get; set; }
 
         public DbSet<Faq> FaqTable { get; set; }
 
         public DbSet<Course> CourseTable { get; set; }
+        public DbSet<Message> MessageTable { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

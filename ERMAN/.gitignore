@@ -458,7 +458,7 @@ $RECYCLE.BIN/
 TestScripts/node_modules
 
 ERMAN/obj
-
-.vs
-
 ERMAN/bin
+.vs
+appsettings.json
+appsettings.Development.json
