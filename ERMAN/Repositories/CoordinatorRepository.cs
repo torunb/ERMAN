@@ -1,6 +1,5 @@
 ﻿using ERMAN.Models;
-using System.Reflection.Metadata;
-
+using Microsoft.EntityFrameworkCore;
 namespace ERMAN.Repositories
 {
     public class CoordinatorRepository : IDisposable
@@ -17,12 +16,12 @@ namespace ERMAN.Repositories
         }
         public void InsertCoordinator(Coordinator coordinator)
         {
-            _context.CoordinatorTable.Insert(coordinator);
+            _context.CoordinatorTable.Add(coordinator);
         }
         public void DeleteCoordinator(int coordinatorId)
         {
             Coordinator coordinator = _context.CoordinatorTable.Find(coordinatorId);
-            _context.CoordinatorTable.Delete(coordinator);
+            _context.CoordinatorTable.Remove(coordinator);
         }
 
         public void UpdateCoordinator(Coordinator coordinator)

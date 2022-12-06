@@ -32,7 +32,7 @@ namespace ERMAN
         public DbSet<Faq> FaqTable { get; set; }
 
         public DbSet<Course> CourseTable { get; set; }
-        public DbSet<Course> MessageTable { get; set; }
+        public DbSet<Message> MessageTable { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
