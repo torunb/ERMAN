@@ -17,9 +17,9 @@ namespace ERMAN.Repositories
             return _context.MessageTable.ToList();
         }
 
-        public Student GetMessageByID(int id)
+        public Message GetMessageByID(int messageId)
         {
-            return _context.MessageTable.Find(id);
+            return _context.MessageTable.Find(messageId);
         }
 
         public void InsertMessage( Message message)
