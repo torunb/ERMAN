@@ -23,7 +23,9 @@ namespace ERMAN.Models
 
         public bool IsRejected { get; set; }
 
+        public List<Course> Courses { get; set; } = null!;
 
+        public List<Message> Messages { get; set; } = null!;
 
         public DateTime InsertDate { get; set; } = DateTime.Now;
     }

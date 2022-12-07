@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ERMAN.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ERMAN.Dtos
 {
@@ -10,6 +11,10 @@ namespace ERMAN.Dtos
 
         [Required]
         public string InstructorName { get; set; } = null!;
+
+        public List<Course> Courses { get; set; } = null!;
+
+        public List<Message> Messages { get; set; } = null!;
 
         public int InstructorId { get; set; }
     }
