@@ -14,8 +14,6 @@ namespace ERMAN.Dtos
 
         public List<Course> Courses { get; set; } = null!;
 
-        public List<Message> Messages { get; set; } = null!;
-
         public int InstructorId { get; set; }
     }
 }

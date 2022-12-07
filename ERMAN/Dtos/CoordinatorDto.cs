@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ERMAN.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ERMAN.Dtos
 {
@@ -16,7 +17,5 @@ namespace ERMAN.Dtos
         public int CoordinatorId { get; set; }
 
         public int CoordinatorUniversityId { get; set; }
-
-        public List<Message> Messages { get; set; } = null!;
     }
 }
