@@ -1,69 +1,53 @@
-﻿using ERMAN.Models;
+﻿using ERMAN.Dtos;
+using ERMAN.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERMAN.Repositories
 {
-    public class CourseRepository : IDisposable
+    public class CourseRepository : IGeneralInterface<Course, CourseDto>
     {
-        private ErmanDbContext context;
+        private readonly ErmanDbContext _dbContext;
 
-        public CourseRepository(ErmanDbContext context)
+        public CourseRepository(ErmanDbContext dbContext)
         {
-            this.context = context;
+            _dbContext = dbContext;
         }
 
-        public IEnumerable<Course> GetCourses()
+        public void Add(CourseDto course)
         {
-            return context.Courses.ToList();
-        }
-
-        public Course GetCourseByID(int id)
-        {
-            return context.Courses.Find(id);
-        }
-
-        public void InsertCourse(Course course)
-        {
-            context.Courses.Add(course);
-        }
-
-        public void DeleteCourse(int courseId)
-        {
-            Course course = context.Courses.Find(courseId);
-            context.Courses.Remove(course);
-        }
-
-        public void UpdateCourse(Course course)
-        {
-            context.Entry(course).State = EntityState.Modified;
-        }
-
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
-
-
-
-        private bool disposed = false;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
+            var courseNew = new Course
             {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            disposed = true;
+                InstructorId = course.InstructorId,
+                CourseName = course.CourseName,
+                CourseType = course.CourseType,
+                CourseCredit = course.CourseCredit,
+                UniversityId = course.UniversityId,
+                CourseCode = course.CourseCode,
+            };
+            _dbContext.CourseTable.Add(courseNew);
+            _dbContext.SaveChanges();
         }
 
-        public void Dispose()
+        public Course Remove(int id)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            Course toBeDeleted = _dbContext.CourseTable.Find(id);
+            if (toBeDeleted != null)
+            {
+                _dbContext.CourseTable.Remove(toBeDeleted);
+                _dbContext.SaveChanges();
+            }
+            return toBeDeleted;
+        }
+
+        public Course Get(int id)
+        {
+            Course toBeFind = _dbContext.CourseTable.Find(id);
+            return toBeFind;
+        }
+
+        public void Update()
+        {
+            _dbContext.SaveChanges();
         }
     }
 }
-

@@ -1,5 +1,6 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Models;
+using ERMAN.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,28 +10,35 @@ namespace ERMAN.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private readonly ErmanDbContext _dbContext;
-
-        public CourseController(ErmanDbContext dbContext)
+        private readonly IGeneralInterface<Course, CourseDto> _courseRepo;
+        public CourseController(IGeneralInterface<Course, CourseDto> courseRepo)
         {
-            _dbContext = dbContext;
+            _courseRepo = courseRepo;
         }
 
-        [HttpPost(Name = "CourseAPI")]
-        public Course Post(CourseDto course)
+        [HttpPost(Name = "CoursePost")]
+        public void Post(CourseDto course)
         {
-            var courseNew = new Course
-            {
-                InstructorId = course.InstructorId,
-                CourseName = course.CourseName,
-                CourseType = course.CourseType,
-                CourseCredit = course.CourseCredit,
-                UniversityId = course.UniversityId,
-                CourseCode = course.CourseCode,
-            };
-            _dbContext.CourseTable.Add(courseNew);
-            _dbContext.SaveChanges();
-            return courseNew;
+            _courseRepo.Add(course);
+        }
+
+
+        [HttpGet(Name = "CourseGet")]
+        public Course Get(int id)
+        {
+            return _courseRepo.Get(id);
+        }
+
+        [HttpDelete(Name = "CourseDelete")]
+        public Course Delete(int id)
+        {
+            return _courseRepo.Remove(id);
+        }
+
+        [HttpPut(Name = "CoursePut")]
+        public void Put()
+        {
+            _courseRepo.Update();
         }
     }
 }

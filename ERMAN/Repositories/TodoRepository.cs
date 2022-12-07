@@ -1,68 +1,66 @@
-﻿using ERMAN.Models;
+﻿using ERMAN.Dtos;
+using ERMAN.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using ERMAN.Dtos;
+using ERMAN.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ERMAN.Repositories
 {
-    public class TodoRepository : IDisposable
+    public class TodoRepository : IGeneralInterface<Todo, TodoDto>
     {
-        private ErmanDbContext context;
+        private readonly ErmanDbContext _dbContext;
 
-        public TodoRepository(ErmanDbContext context)
+        public TodoRepository(ErmanDbContext dbContext)
         {
-            this.context = context;
+            _dbContext = dbContext;
         }
 
-        public IEnumerable<Todo> GetTodos()
+        public void Add(TodoDto todo)
         {
-            return context.Todos.ToList();
-        }
-
-        public Todo GetTodoByID(int id)
-        {
-            return context.Todos.Find(id);
-        }
-
-        public void InsertTodo(Todo todo)
-        {
-            context.Todos.Add(todo);
-        }
-
-        public void DeleteTodo(int todoId)
-        {
-            Todo todo = context.Todos.Find(todoId);
-            context.Todos.Remove(todo);
-        }
-
-        public void UpdateTodo(Todo todo)
-        {
-            context.Entry(todo).State = EntityState.Modified;
-        }
-
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
-
-
-
-        private bool disposed = false;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
+            var todoNew = new Todo
             {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            disposed = true;
+                UserType = todo.UserType,
+                Text = todo.Text,
+                Type = todo.Type,
+                Starred = todo.Starred,
+                UserId = todo.UserId,
+                DueDate = todo.DueDate,
+                Done = todo.Done,
+            };
+            _dbContext.TodoTable.Add(todoNew);
+            _dbContext.SaveChanges();
         }
 
-        public void Dispose()
+        public Todo Remove(int id)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            Todo toBeDeleted = _dbContext.TodoTable.Find(id);
+            if (toBeDeleted != null)
+            {
+                _dbContext.TodoTable.Remove(toBeDeleted);
+                _dbContext.SaveChanges();
+            }
+            return toBeDeleted;
+        }
+
+        public Todo Get(int id)
+        {
+            Todo toBeFind = _dbContext.TodoTable.Find(id);
+            return toBeFind;
+        }
+
+        public IEnumerable<Todo> Get()
+        {
+            var userIdClaim = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault((claim => claim.Type == "userID")).Value);
+            return _dbContext.TodoTable.Where(C => C.UserId == userIdClaim).ToList();
+        }
+
+        public void Update()
+        {
+            _dbContext.SaveChanges();
         }
     }
 }
