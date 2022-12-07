@@ -1,6 +1,8 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ERMAN.Controllers
 {
@@ -16,23 +18,26 @@ namespace ERMAN.Controllers
         }
         
         [HttpGet]
-        public IEnumerable<Todo> Get(int userId)
+        [Authorize(Roles = "student")]
+        public IEnumerable<Todo> Get()
         {
-            return _dbContext.TodoTable.Where(C => C.UserId == userId).ToList();
-            
+            var userIdClaim = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault((claim => claim.Type == "userID")).Value);
+            return _dbContext.TodoTable.Where(C => C.UserId == userIdClaim).ToList();
         }
 
         [HttpPost]
-        public Todo Post(TodoDto todo,int userId)
+        [Authorize(Roles = "student")]
+        public Todo Post(TodoDto todo)
         {
-            var user = HttpContext.User.Claims.ToList()[userId];
+            var userId = HttpContext.User.Claims.FirstOrDefault((claim => claim.Type == "userID")).Value;
+            var userType = HttpContext.User.Claims.FirstOrDefault((claim => claim.Type == ClaimTypes.Role)).Value;
             var todoNew = new Todo
             {
-                UserType = user.GetType().ToString(),
+                UserType = userType,
                 Text = todo.Text,
                 Type = todo.Type,
                 Starred = todo.Starred,
-                UserId = userId,
+                UserId = Convert.ToInt32(userId),
                 DueDate = todo.DueDate,
                 Done = todo.Done,
             };
