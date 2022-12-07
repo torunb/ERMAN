@@ -20,6 +20,10 @@ builder.Services.AddTransient<IGeneralInterface<FAQItem, FAQItemDto>, FaqReposit
 
 builder.Services.AddTransient<IEmailServices, EmailService>();
 
+builder.Services.AddTransient<ErmanApplicationService>();
+
+builder.Services.AddTransient<MessagingService>();
+
 builder.Services.AddDbContext<ErmanDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("ErmanDb"));
