@@ -25,5 +25,16 @@ namespace ERMAN.Controllers
             var userId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault((claim => claim.Type == "userID")).Value);
             return _todoRepo.GetAll(userId);
         }
+
+        [HttpPost]
+        [Authorize(Roles = "student")]
+        public void Post(TodoDto todo)
+        {
+            var userId = HttpContext.User.Claims.FirstOrDefault((claim => claim.Type == "userID")).Value;
+            var userType = HttpContext.User.Claims.FirstOrDefault((claim => claim.Type == ClaimTypes.Role)).Value;
+            todo.UserType = userType;
+            todo.UserId = Convert.ToInt32(userId);
+            _todoRepo.Add(todo);
+        }
     }
 }

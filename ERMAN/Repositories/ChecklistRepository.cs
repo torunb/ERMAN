@@ -1,66 +1,57 @@
-﻿using ERMAN.Models;
+﻿using ERMAN.Dtos;
+using ERMAN.Models;
 using Microsoft.EntityFrameworkCore;
+using ERMAN.Dtos;
+
 
 namespace ERMAN.Repositories
 {
-    public class ChecklistRepository : IDisposable
+    public class ChecklistRepository : IGeneralInterface<Checklist, ChecklistDto>
     {
-        private ErmanDbContext context;
+        private readonly ErmanDbContext _dbContext;
 
-        public ChecklistRepository(ErmanDbContext context)
+        public ChecklistRepository(ErmanDbContext dbContext)
         {
-            this.context = context;
+            _dbContext = dbContext;
         }
 
-        public IEnumerable<Checklist> GetChecklists()
+        public void Add(ChecklistDto checklist)
         {
-            return context.Checklists.ToList();
-        }
-
-        public Checklist GetChecklisteByID(int id)
-        {
-            return context.Checklists.Find(id);
-        }
-
-        public void InsertChecklist(Checklist checklist)
-        {
-            context.Checklists.Add(checklist);
-        }
-
-        public void DeleteChecklist(int checklistId)
-        {
-            Checklist checklist = context.Checklists.Find(checklistId);
-            context.Checklists.Remove(checklist);
-        }
-
-        public void UpdateChecklist(Checklist checklist)
-        {
-            context.Entry(checklist).State = EntityState.Modified;
-        }
-
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
-
-        private bool disposed = false;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
+            var checklistNew = new Checklist
             {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            disposed = true;
+                UserId = checklist.UserId,
+                Text = checklist.Text,
+                Checked = checklist.Checked,
+            };
+            _dbContext.ChecklistTable.Add(checklistNew);
+            _dbContext.SaveChanges();
         }
 
-        public void Dispose()
+        public Checklist Remove(int id)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            Checklist toBeDeleted = _dbContext.ChecklistTable.Find(id);
+            if (toBeDeleted != null)
+            {
+                _dbContext.ChecklistTable.Remove(toBeDeleted);
+                _dbContext.SaveChanges();
+            }
+            return toBeDeleted;
+        }
+
+        public Checklist Get(int id)
+        {
+            Checklist toBeFind = _dbContext.ChecklistTable.Find(id);
+            return toBeFind;
+        }
+
+        public IEnumerable<Checklist> GetAll( int userId)
+        {
+            return _dbContext.ChecklistTable.Where(C => C.UserId == userId).ToList();
+        }
+
+        public void Update()
+        {
+            _dbContext.SaveChanges();
         }
     }
 }

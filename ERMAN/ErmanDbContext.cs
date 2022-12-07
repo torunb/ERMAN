@@ -32,6 +32,8 @@ namespace ERMAN
 
         public DbSet<Todo> TodoTable { get; set; }
 
+        public DbSet<Checklist> ChecklistTable { get; set; }
+
         public DbSet<Course> CourseTable { get; set; }
 
         public DbSet<Message> MessageTable { get; set; }
