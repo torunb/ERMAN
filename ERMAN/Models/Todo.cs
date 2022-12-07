@@ -15,8 +15,6 @@ namespace ERMAN.Models
 
         public string Type { get; set; } = null!;
 
-        public bool Starred { get; set; }
-
         public string DueDate { get; set; } = null!;
 
         public bool Done { get; set; }

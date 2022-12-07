@@ -1,16 +1,9 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using ERMAN.Dtos;
-using ERMAN.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace ERMAN.Repositories
 {
-    public class TodoRepository : IGeneralInterface<Todo, TodoDto>
+    public class TodoRepository 
     {
         private readonly ErmanDbContext _dbContext;
 
@@ -26,7 +19,6 @@ namespace ERMAN.Repositories
                 UserType = todo.UserType,
                 Text = todo.Text,
                 Type = todo.Type,
-                Starred = todo.Starred,
                 UserId = todo.UserId,
                 DueDate = todo.DueDate,
                 Done = todo.Done,
@@ -52,10 +44,9 @@ namespace ERMAN.Repositories
             return toBeFind;
         }
 
-        public IEnumerable<Todo> Get()
+        public IEnumerable<Todo> GetAll(int userId)
         {
-            var userIdClaim = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault((claim => claim.Type == "userID")).Value);
-            return _dbContext.TodoTable.Where(C => C.UserId == userIdClaim).ToList();
+            return _dbContext.TodoTable.Where(C => C.UserId == userId).ToList();
         }
 
         public void Update()

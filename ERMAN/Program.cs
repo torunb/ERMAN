@@ -24,6 +24,8 @@ builder.Services.AddTransient<ErmanApplicationService>();
 
 builder.Services.AddTransient<MessagingService>();
 
+builder.Services.AddTransient<TodoRepository>();
+
 builder.Services.AddDbContext<ErmanDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("ErmanDb"));

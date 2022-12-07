@@ -8,6 +8,8 @@
 
         T Get(int id);
 
+        //IEnumerable<T> GetAll();
+
         void Update();
     }
 }

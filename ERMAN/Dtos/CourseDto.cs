@@ -1,4 +1,6 @@
-﻿namespace ERMAN.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ERMAN.Dtos
 {
     public class CourseDto
     {

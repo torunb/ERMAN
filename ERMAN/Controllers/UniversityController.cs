@@ -1,6 +1,5 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ERMAN.Controllers
