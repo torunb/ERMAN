@@ -3,6 +3,7 @@ using System;
 using ERMAN;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERMAN.Migrations
 {
     [DbContext(typeof(ErmanDbContext))]
-    partial class ErmanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221206193249_CourseEntityAdded")]
+    partial class CourseEntityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,6 +148,30 @@ namespace ERMAN.Migrations
                     b.HasKey("FAQItemId");
 
                     b.ToTable("FAQTable");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.Faq", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("InsertDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FaqTable");
                 });
 
             modelBuilder.Entity("ERMAN.Models.Instructor", b =>

@@ -460,3 +460,5 @@ TestScripts/node_modules
 ERMAN/bin
 ERMAN/obj
 .vs
+ERMAN/appsettings.Development.json
+ERMAN/appsettings.json

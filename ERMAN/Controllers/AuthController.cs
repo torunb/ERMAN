@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ERMAN.Controllers
 {
@@ -41,17 +44,19 @@ namespace ERMAN.Controllers
                 // on the email address maria.rodriguez@contoso.com with 
                 // any password that passes model validation.
 
-                var user = AuthenticateUser(loginData.email, loginData.password);
+                var userId = AuthenticateUser(loginData.email, loginData.password);
 
-                if (user == false)
+                if (userId == null)
                 {
+                    // user does not exists or wrong password
                     return StatusCode(400);
                 }
 
                 var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Role, "student"),
-                };
+                    {
+                        new Claim(ClaimTypes.Role, "student"),
+                        new Claim(type: "userID", value: userId.ToString()) // this userID is never null here because if it is null then we early return above
+                    };
 
                 var claimsIdentity = new ClaimsIdentity(
                     claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -90,11 +95,11 @@ namespace ERMAN.Controllers
         [HttpPost("/api/register", Name = "AuthRegister")]
         public ActionResult<bool> Register(RegisterRequest registerData)
         {
-            var user = _dbContext.AuthenticationTable.Where(x => x.Username == registerData.email);
+            var user = _dbContext.AuthenticationTable.Where(x => x.Username == registerData.email).FirstOrDefault();
 
             if (user != null)
             {
-                // there is already a user with that username
+                // there is already a user with that username            
                 return StatusCode(400);
             }
 
@@ -112,28 +117,31 @@ namespace ERMAN.Controllers
             return StatusCode(200);
         }
 
+        [Authorize(Roles = "student")]
         [HttpPost("/api/logout", Name = "Logout")]
         public async void Logout()
         {
             if (HttpContext.User.Identity.IsAuthenticated) {
+                Console.WriteLine(string.Join("\t", HttpContext.User.Claims.ToList()));
+
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             }
         }
 
-        private bool AuthenticateUser(string email, string passwordHash)
+        private Nullable<int> AuthenticateUser(string email, string passwordHash)
         {
             // For demonstration purposes, authenticate a user
             // with a static email address. Ignore the password.
             // Assume that checking the database takes 500ms
-            var user = _dbContext.AuthenticationTable.Where(x => x.Username == email).First();
+            var user = _dbContext.AuthenticationTable.Where(x => x.Username == email).FirstOrDefault();
 
             if (user != null)
             {
                 bool verified = BCrypt.Net.BCrypt.Verify(passwordHash, user.Password);
-                return verified;
+                return user.Id;
             }
             else {
-                return false;
+                return null;
             }
         }
     }
