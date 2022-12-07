@@ -21,45 +21,5 @@ namespace ERMAN.Controllers
         {
             _context = context;
         }
-
-        [HttpGet(Name ="Login")]
-        public bool login( StudentUser studentUser, string Password)
-        {
-            if (StudentUserExistsByUsername(studentUser.Username))
-            {
-                return studentUser.Password == Password;
-
-            }
-            return false;
-        }
-
-        [HttpPut(Name = "StudentUserChange")]
-        public bool changePassword( string Password, StudentUser studentUser)
-        {
-            if( StudentUserExists(studentUser.Id))
-            {
-                try { 
-                    studentUser.Password = Password;
-                    _context.StudentUserTable.Update(studentUser);
-                    _context.SaveChangesAsync();
-                    return true;
-
-                }
-                catch {
-                    return false;
-                }
-
-            }
-            return false;
-        }
-
-        private bool StudentUserExists(int id)
-        {
-          return _context.StudentUserTable.Any(e => e.Id == id);
-        }
-        private bool StudentUserExistsByUsername(string Username)
-        {
-            return _context.StudentUserTable.Any(e => e.Username == Username);
-        }
     }
 }
