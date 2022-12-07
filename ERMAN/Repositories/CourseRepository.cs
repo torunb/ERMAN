@@ -22,7 +22,7 @@ namespace ERMAN.Repositories
             return context.Courses.Find(id);
         }
 
-        public void Insertourse(Course course)
+        public void InsertCourse(Course course)
         {
             context.Courses.Add(course);
         }

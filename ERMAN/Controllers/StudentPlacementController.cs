@@ -1,5 +1,6 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Models;
+using ERMAN.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ namespace ERMAN.Controllers
     public class StudentPlacementController : Controller
     {
         private readonly ErmanDbContext _dbContext;
+        private readonly StudentPlacementsRepository _studentPlacementsRepository;
         public StudentPlacementController(ErmanDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -92,6 +94,14 @@ namespace ERMAN.Controllers
         {
             StudentPlacement studentPlacement = _dbContext.StudentPlacements.Find(id);
             return studentPlacement;
+        }
+
+
+        [HttpGet("waitingList")]
+        public List<StudentPlacement> GetWaitingList() // may return null, don't give a false id as parameter
+        {
+            List<StudentPlacement> list = _studentPlacementsRepository.ToWaitingList().ToList();
+            return list;
         }
     }
 }

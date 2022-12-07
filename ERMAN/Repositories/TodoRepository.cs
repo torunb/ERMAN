@@ -17,7 +17,7 @@ namespace ERMAN.Repositories
             return context.Todos.ToList();
         }
 
-        public Todo GetTodoeByID(int id)
+        public Todo GetTodoByID(int id)
         {
             return context.Todos.Find(id);
         }
