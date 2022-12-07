@@ -18,6 +18,11 @@ namespace ERMAN.Models
         [Required(ErrorMessage = "Id must be provided")]
         public int CoordinatorId { get; set; }
 
+        public int CoordinatorUniversityId { get; set; }
+
+
+        public List<Message> Messages { get; set; } = null!;
+
         public DateTime InsertDate { get; set; } = DateTime.Now;
     }
 }

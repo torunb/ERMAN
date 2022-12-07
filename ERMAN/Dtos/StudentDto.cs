@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ERMAN.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ERMAN.Dtos
 {
@@ -18,6 +19,10 @@ namespace ERMAN.Dtos
         public int StudentId { get; set; }
 
         public bool IsRejected { get; set; }
+
+        public List<Course> Courses { get; set; } = null!;
+
+        public List<Message> Messages { get; set; } = null!;
     }
 
 }
