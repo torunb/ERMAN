@@ -45,15 +45,5 @@ namespace ERMAN.Repositories
         {
             _dbContext.SaveChanges();
         }
-
-        public void Delete(int id)
-        {
-            FAQItem toBeDeleted = _dbContext.FAQTable.Find(id);
-            if (toBeDeleted != null)
-            {
-                _dbContext.FAQTable.Remove(toBeDeleted);
-                _dbContext.SaveChanges();
-            }
-        }
     }
 }
