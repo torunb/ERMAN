@@ -1,5 +1,6 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Models;
+using ERMAN.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,26 +11,34 @@ namespace ERMAN.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly ErmanDbContext _dbContext;
-        public StudentController(ErmanDbContext dbContext)
+        private readonly IGeneralInterface<Student, StudentDto> _studentRepo;
+        public StudentController(IGeneralInterface<Student, StudentDto> studentRepo)
         {
-            _dbContext = dbContext;
+            _studentRepo = studentRepo;
         }
 
-        [HttpPost(Name ="StudentAPI")]
-        public Student Post(StudentDto student)
+        [HttpPost(Name = "StudentPost")]
+        public void Post(StudentDto faq)
         {
-            var studentNew = new Student
-            {
-                StudentEmailAddress = student.StudentEmailAddress,
-                StudentName = student.StudentName,
-                StudentId = student.StudentId,
-                IsRejected = student.IsRejected,
-            };
+            _studentRepo.Add(faq);
+        }
 
-            _dbContext.StudentTable.Add(studentNew);
-            _dbContext.SaveChanges();
-            return studentNew;
+        [HttpGet(Name = "StudentGet")]
+        public Student Get(int id)
+        {
+            return _studentRepo.Get(id);
+        }
+
+        [HttpDelete(Name = "StudentDelete")]
+        public Student Delete(int id)
+        {
+            return _studentRepo.Remove(id);
+        }
+
+        [HttpPut(Name = "StudentPut")]
+        public void Put()
+        {
+            _studentRepo.Update();
         }
 
     }

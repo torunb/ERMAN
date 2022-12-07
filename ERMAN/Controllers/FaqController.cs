@@ -16,46 +16,28 @@ namespace ERMAN.Controllers
             _faqRepo = faqRepo;
         }
 
-        [HttpPost(Name = "FAQAPI")]
+        [HttpPost(Name = "FaqPost")]
         public void Post(FAQItemDto faq)
         {
             _faqRepo.Add(faq);
         }
 
-        //[HttpPut]
-        //public void Put(FAQItem toBeUpdated)
-        //{
-        //    FAQItem faqUpdate = _faqRepo.FAQTable.Find(toBeUpdated.FAQItemId);
-        //    if (faqUpdate != null)
-        //    {
-        //        faqUpdate.FAQQuestion = toBeUpdated.FAQQuestion;
-        //        faqUpdate.FAQAnswer = toBeUpdated.FAQAnswer;
-        //        _faqRepo.FAQTable.Update(faqUpdate);
-        //        _faqRepo.SaveChanges();
-        //    }
-        //}
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //    FAQItem toBeDeleted = _faqRepo.FAQTable.Find(id);
-        //    if (toBeDeleted != null)
-        //    {
-        //        _faqRepo.FAQTable.Remove(toBeDeleted);
-        //        _faqRepo.SaveChanges();
-        //    }
-        //}
-        //[HttpGet]
-        //public List<FAQItem> Get()
-        //{
-        //    List<FAQItem> list = _faqRepo.FAQTable.ToList();
-        //    return list;
-        //}
-        //[HttpGet("{id}")]
-        //public FAQItem Get(int id) // may return null, don't give a false id as parameter
-        //{
-        //    FAQItem gettingFAQ = _faqRepo.FAQTable.Find(id);
-        //    return gettingFAQ;
-        //    //return (FAQItem)_faqRepo.FAQTable.ToList().Where(x => x.FAQItemId == id);
-        //}
+        [HttpGet(Name = "FaqGet")]
+        public FAQItem Get(int id)
+        {
+            return _faqRepo.Get(id);
+        }
+
+        [HttpDelete(Name = "FaqDelete")]
+        public FAQItem Delete(int id)
+        {
+            return _faqRepo.Remove(id);
+        }
+
+        [HttpPut(Name = "FaqPut")]
+        public void Put()
+        {
+            _faqRepo.Update();
+        }
     }
 }

@@ -46,15 +46,5 @@ namespace ERMAN.Repositories
         {
             _dbContext.SaveChanges();
         }
-
-        public void Delete(int id)
-        {
-            Instructor toBeDeleted = _dbContext.InstructorTable.Find(id);
-            if (toBeDeleted != null)
-            {
-                _dbContext.InstructorTable.Remove(toBeDeleted);
-                _dbContext.SaveChanges();
-            }
-        }
     }
 }

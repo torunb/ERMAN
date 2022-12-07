@@ -9,7 +9,5 @@
         T Get(int id);
 
         void Update();
-
-        void Delete(int id);
     }
 }
