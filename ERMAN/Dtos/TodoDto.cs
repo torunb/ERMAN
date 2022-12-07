@@ -12,6 +12,8 @@
 
         public string DueDate { get; set; } = null!;
 
+        public int UserId { get; set; }
+
         public bool Done { get; set; }
     }
 }
