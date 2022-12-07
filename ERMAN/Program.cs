@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ERMAN.Dtos;
 using ERMAN.Models;
+using ERMAN.Services;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -15,6 +17,8 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddControllers();
 
 builder.Services.AddTransient<IGeneralInterface<FAQItem, FAQItemDto>, FaqRepository>();
+
+builder.Services.AddTransient<IEmailServices, EmailService>();
 
 builder.Services.AddDbContext<ErmanDbContext>(options =>
 {
@@ -38,7 +42,6 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Student", policy => policy.RequireClaim(""));
 });
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
