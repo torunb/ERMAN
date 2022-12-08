@@ -44,9 +44,9 @@ namespace ERMAN.Controllers
                 // on the email address maria.rodriguez@contoso.com with 
                 // any password that passes model validation.
 
-                var userId = AuthenticateUser(loginData.email, loginData.password);
+                var user = AuthenticateUser(loginData.email, loginData.password);
 
-                if (userId == null)
+                if (user == null)
                 {
                     // user does not exists or wrong password
                     return StatusCode(400);
@@ -54,8 +54,8 @@ namespace ERMAN.Controllers
 
                 var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Role, "student"),
-                        new Claim(type: "userID", value: userId.ToString()) // this userID is never null here because if it is null then we early return above
+                        new Claim(ClaimTypes.Role, user.Type.ToString()),
+                        new Claim(type: "userID", value: user.Id.ToString()) // this userID is never null here because if it is null then we early return above
                     };
 
                 var claimsIdentity = new ClaimsIdentity(
@@ -117,6 +117,56 @@ namespace ERMAN.Controllers
             return StatusCode(200);
         }
 
+        [HttpPost("/api/register/coordinator", Name = "AuthRegisterCoordinator")]
+        public ActionResult<bool> RegisterCoordinator(RegisterRequest registerData)
+        {
+            var user = _dbContext.AuthenticationTable.Where(x => x.Username == registerData.email).FirstOrDefault();
+
+            if (user != null)
+            {
+                // there is already a user with that username            
+                return StatusCode(400);
+            }
+
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(registerData.password);
+
+            var newUser = new Authentication
+            {
+                Username = registerData.email,
+                Password = passwordHash,
+                Type = UserType.Coordinator,
+            };
+            _dbContext.AuthenticationTable.Add(newUser);
+            _dbContext.SaveChanges();
+
+            return StatusCode(200);
+        }
+
+        [HttpPost("/api/register/admin", Name = "AuthRegisterAdmin")]
+        public ActionResult<bool> RegisterAdmin(RegisterRequest registerData)
+        {
+            var user = _dbContext.AuthenticationTable.Where(x => x.Username == registerData.email).FirstOrDefault();
+
+            if (user != null)
+            {
+                // there is already a user with that username            
+                return StatusCode(400);
+            }
+
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(registerData.password);
+
+            var newUser = new Authentication
+            {
+                Username = registerData.email,
+                Password = passwordHash,
+                Type = UserType.Admin,
+            };
+            _dbContext.AuthenticationTable.Add(newUser);
+            _dbContext.SaveChanges();
+
+            return StatusCode(200);
+        }
+
         [Authorize(Roles = "student")]
         [HttpPost("/api/logout", Name = "Logout")]
         public async void Logout()
@@ -128,7 +178,7 @@ namespace ERMAN.Controllers
             }
         }
 
-        private Nullable<int> AuthenticateUser(string email, string passwordHash)
+        private Authentication? AuthenticateUser(string email, string passwordHash)
         {
             // For demonstration purposes, authenticate a user
             // with a static email address. Ignore the password.
@@ -138,7 +188,13 @@ namespace ERMAN.Controllers
             if (user != null)
             {
                 bool verified = BCrypt.Net.BCrypt.Verify(passwordHash, user.Password);
-                return user.Id;
+                if (verified)
+                {
+                    return user;
+                }
+                else {
+                    return null;
+                }
             }
             else {
                 return null;

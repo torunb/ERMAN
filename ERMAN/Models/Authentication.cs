@@ -24,4 +24,5 @@ public enum UserType
     Student,
     Instructor,
     Coordinator,
+    Admin,
 }
