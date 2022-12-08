@@ -19,11 +19,24 @@ namespace ERMAN.Repositories
         {
             var checklistNew = new Checklist
             {
-                UserId = checklist.UserId,
-                Text = checklist.Text,
                 Checked = checklist.Checked,
             };
             _dbContext.ChecklistTable.Add(checklistNew);
+            _dbContext.SaveChanges();
+        }
+        public void Check(int userId, int index)
+        {
+
+            Checklist toBeEdited = _dbContext.ChecklistTable.Where(x => x.UserId == userId).First();
+
+            if (toBeEdited == null || index > 16) return;
+
+            if (toBeEdited.Checked[index])
+                toBeEdited.Checked[index] = false;
+            else
+                toBeEdited.Checked[index] = true;
+
+            _dbContext.ChecklistTable.Update(toBeEdited);
             _dbContext.SaveChanges();
         }
 
@@ -46,7 +59,7 @@ namespace ERMAN.Repositories
 
         public IEnumerable<Checklist> GetAll( int userId)
         {
-            return _dbContext.ChecklistTable.Where(C => C.UserId == userId).ToList();
+            return _dbContext.ChecklistTable.Where(x => x.UserId == userId).ToList();
         }
 
         public void Update()

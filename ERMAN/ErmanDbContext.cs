@@ -28,8 +28,6 @@ namespace ERMAN
 
         public DbSet<Todo> Todos { get; set; }
 
-        public DbSet<Checklist> Checklists { get; set; }
-
         public DbSet<Todo> TodoTable { get; set; }
 
         public DbSet<Checklist> ChecklistTable { get; set; }

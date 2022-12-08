@@ -7,11 +7,12 @@ namespace ERMAN.Models
         [Key]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "User Id required.")]
         public int UserId { get; set; }
 
-        public string Text { get; set; } = null!;
 
-        public bool Checked { get; set; }
+        [Required(ErrorMessage = "checked required.")]
+        public bool[] Checked { get; set; }
 
     }
 }

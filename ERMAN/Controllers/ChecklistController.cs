@@ -29,6 +29,11 @@ namespace ERMAN.Controllers
             return _checklistRepo.Get(id);
         }
 
+        [HttpPut("/api/ChecklistCheck", Name = "ChecklistCheck")]
+        public void Check(int userId, int index)
+        {
+            _checklistRepo.Check(userId, index);
+        }
 
         [HttpGet("/api/ChecklistAll", Name = "ChecklistGetAll")]
         public IEnumerable<Checklist> Get()
