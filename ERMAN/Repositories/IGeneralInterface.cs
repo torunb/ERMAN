@@ -10,6 +10,6 @@
 
         //IEnumerable<T> GetAll();
 
-        void Update();
+        T Update(X entity);
     }
 }

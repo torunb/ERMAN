@@ -11,8 +11,8 @@ namespace ERMAN.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly IGeneralInterface<Student, StudentDto> _studentRepo;
-        public StudentController(IGeneralInterface<Student, StudentDto> studentRepo)
+        private readonly StudentRepository _studentRepo;
+        public StudentController(StudentRepository studentRepo)
         {
             _studentRepo = studentRepo;
         }
@@ -35,11 +35,11 @@ namespace ERMAN.Controllers
             return _studentRepo.Remove(id);
         }
 
-        [HttpPut(Name = "StudentPut")]
-        public void Put()
-        {
-            _studentRepo.Update();
-        }
+        //[HttpPut(Name = "StudentPut")]
+        //public void Put()
+        //{
+        //    _studentRepo.Update();
+        //}
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Models;
 using ERMAN.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,22 +11,23 @@ namespace ERMAN.Controllers
     [ApiController]
     public class FAQController : ControllerBase
     {
-        private readonly IGeneralInterface<FAQItem, FAQItemDto> _faqRepo;
-        public FAQController(IGeneralInterface<FAQItem, FAQItemDto> faqRepo)
+        private readonly FaqRepository _faqRepo;
+        public FAQController(FaqRepository faqRepo)
         {
             _faqRepo = faqRepo;
         }
 
         [HttpPost(Name = "FaqPost")]
+        [Authorize(Roles = "Coordinator")]
         public void Post(FAQItemDto faq)
         {
             _faqRepo.Add(faq);
         }
 
-        [HttpGet(Name = "FaqGet")]
-        public FAQItem Get(int id)
+        [HttpGet(Name = "FaqGetAll")]
+        public List<FAQItem> GetAll()
         {
-            return _faqRepo.Get(id);
+            return _faqRepo.GetAll();
         }
 
         [HttpDelete(Name = "FaqDelete")]
@@ -34,10 +36,10 @@ namespace ERMAN.Controllers
             return _faqRepo.Remove(id);
         }
 
-        [HttpPut(Name = "FaqPut")]
-        public void Put()
-        {
-            _faqRepo.Update();
-        }
+        //[HttpPut(Name = "FaqPut")]
+        //public void Put()
+        //{
+        //    _faqRepo.Update();
+        //}
     }
 }

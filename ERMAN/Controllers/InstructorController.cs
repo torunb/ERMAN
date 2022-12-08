@@ -34,10 +34,10 @@ namespace ERMAN.Controllers
             return _instrRepo.Remove(id);
         }
 
-        [HttpPut(Name = "InstructorPut")]
-        public void Put()
-        {
-            _instrRepo.Update();
-        }
+        //[HttpPut(Name = "InstructorPut")]
+        //public void Put()
+        //{
+        //    _instrRepo.Update();
+        //}
     }
 }

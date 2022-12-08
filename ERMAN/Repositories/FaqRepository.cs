@@ -3,7 +3,7 @@ using ERMAN.Models;
 
 namespace ERMAN.Repositories
 {
-    public class FaqRepository : IGeneralInterface<FAQItem, FAQItemDto>
+    public class FaqRepository
     {
         private readonly ErmanDbContext _dbContext;
 
@@ -39,6 +39,12 @@ namespace ERMAN.Repositories
         {
             FAQItem toBeFind = _dbContext.FAQTable.Find(id);
             return toBeFind;
+        }
+
+        public List<FAQItem> GetAll()
+        {
+            List<FAQItem> allFaqs = _dbContext.FAQTable.ToList();
+            return allFaqs;
         }
 
         public void Update()

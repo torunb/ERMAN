@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ERMAN.Repositories
 {
-    public class MessageRepository : IGeneralInterface<Message,MessageDto>
+    public class MessageRepository
     {
         private ErmanDbContext _dbContext;
 

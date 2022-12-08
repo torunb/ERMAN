@@ -3,7 +3,7 @@ using ERMAN.Models;
 
 namespace ERMAN.Repositories
 {
-    public class StudentRepository : IGeneralInterface<Student, StudentDto>
+    public class StudentRepository 
     {
         private readonly ErmanDbContext _dbContext;
 
@@ -43,9 +43,9 @@ namespace ERMAN.Repositories
             return toBeFind;
         }
 
-        public void Update()
-        {
-            _dbContext.SaveChanges();
-        }
+        //public Student Update(StudentDto student)
+        //{
+        //    //_dbContext.SaveChanges();
+        //}
     }
 }

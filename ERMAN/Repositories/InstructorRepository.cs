@@ -3,7 +3,7 @@ using ERMAN.Models;
 
 namespace ERMAN.Repositories
 {
-    public class InstructorRepository : IGeneralInterface<Instructor, InstructorDto>
+    public class InstructorRepository
     {
         private readonly ErmanDbContext _dbContext;
 

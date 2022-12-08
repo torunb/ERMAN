@@ -6,7 +6,7 @@ using ERMAN.Dtos;
 
 namespace ERMAN.Repositories
 {
-    public class ChecklistRepository : IGeneralInterface<Checklist, ChecklistDto>
+    public class ChecklistRepository
     {
         private readonly ErmanDbContext _dbContext;
 

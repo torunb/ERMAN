@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ERMAN.Repositories
 {
-    public class CourseRepository : IGeneralInterface<Course, CourseDto>
+    public class CourseRepository
     {
         private readonly ErmanDbContext _dbContext;
 

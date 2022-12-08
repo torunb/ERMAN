@@ -3,7 +3,7 @@ using ERMAN.Models;
 using Microsoft.EntityFrameworkCore;
 namespace ERMAN.Repositories
 {
-    public class CoordinatorRepository : IGeneralInterface<Coordinator,CoordinatorDto>
+    public class CoordinatorRepository
     {
         private ErmanDbContext _context;
 

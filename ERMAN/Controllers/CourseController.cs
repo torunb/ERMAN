@@ -38,7 +38,7 @@ namespace ERMAN.Controllers
         [HttpPut(Name = "CoursePut")]
         public void Put()
         {
-            _courseRepo.Update();
+            //_courseRepo.Update();
         }
     }
 }

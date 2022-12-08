@@ -22,6 +22,8 @@ namespace ERMAN.Models
 
         public bool IsRejected { get; set; }
 
+        public List<University> UniversityPrefence { get; set; }
+
         public List<Course> Courses { get; set; }
 
         public List<Message> Messages { get; set; }

@@ -11,7 +11,7 @@ namespace ERMAN.Controllers
     [ApiController]
     public class CoordinatorController : ControllerBase
     {
-        private readonly IGeneralInterface<Coordinator,CoordinatorDto> repository;
+        private readonly CoordinatorRepository repository;
 
         public CoordinatorController(CoordinatorRepository repository)
         {
