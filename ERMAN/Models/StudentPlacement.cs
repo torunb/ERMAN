@@ -10,7 +10,9 @@ namespace ERMAN.Models
         public long StudentId { get; set; }
         public string StudentFirstName { get; set; }
         public string StudentLastName { get; set; }
-
+        public string Faculty { get; set; }
+        public string Department { get; set; }
+        public string Degree { get; set; } 
         public double TranscriptGradeFromFour { get; set; }
         public double TranscriptGradeFromHundred { get; set; }
         public double TranscriptGradeContribution { get; set; }

@@ -1,79 +1,53 @@
-﻿using ERMAN.Models;
+﻿using ERMAN.Dtos;
+using ERMAN.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERMAN.Repositories
 {
-    public class MessageRepository : IDisposable
+    public class MessageRepository : IGeneralInterface<Message,MessageDto>
     {
-        private ErmanDbContext _context;
+        private ErmanDbContext _dbContext;
 
         public MessageRepository(ErmanDbContext _context)
         {
-            this._context = _context;
+            this._dbContext = _context;
         }
-
-        public IEnumerable<Message> GetMessages()
+        public void Add(MessageDto message)
         {
-            return _context.MessageTable.ToList();
-        }
-
-        public Message GetMessageByID(int messageId)
-        {
-            return _context.MessageTable.Find(messageId);
-        }
-
-        public void InsertMessage( Message message)
-        {
-            _context.MessageTable.Add(message);
-        }
-
-        public void DeleteMessage(int messageID)
-        {
-            Message message = _context.MessageTable.Find(messageID);
-            _context.MessageTable.Remove(message);
-        }
-
-        public void UpdateMessage(Message message)
-        {
-            _context.Entry(message).State = EntityState.Modified;
-        }
-
-        public void Save()
-        {
-            _context.SaveChanges();
-        }
-
-
-        private bool disposedValue;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
+            var messageNew = new Message
             {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects)
-                }
+                senderId = message.senderId,
+                receiverId = message.receiverId,
+                receiverType = message.receiverType,
+                messageText = message.messageText,
+            };
 
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
-                disposedValue = true;
-            }
+            _dbContext.MessageTable.Add(messageNew);
+            _dbContext.SaveChanges();
         }
 
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        // ~MessageRepository()
-        // {
-        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        //     Dispose(disposing: false);
-        // }
-
-        public void Dispose()
+        public Message Remove(int id)
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            Message toDelete = _dbContext.MessageTable.Find(id);
+            if (toDelete != null)
+            {
+                _dbContext.MessageTable.Remove(toDelete);
+                _dbContext.SaveChanges();
+            }
+            return toDelete;
         }
+
+        public Message Get(int id)
+        {
+            Message toFind = _dbContext.MessageTable.Find(id);
+            return toFind;
+        }
+
+        public void Update()
+        {
+            _dbContext.SaveChanges();
+        }
+
     }
 }
 

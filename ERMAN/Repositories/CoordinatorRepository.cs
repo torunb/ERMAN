@@ -1,72 +1,82 @@
-﻿using ERMAN.Models;
+﻿using ERMAN.Dtos;
+using ERMAN.Models;
 using Microsoft.EntityFrameworkCore;
 namespace ERMAN.Repositories
 {
-    public class CoordinatorRepository : IDisposable
+    public class CoordinatorRepository : IGeneralInterface<Coordinator,CoordinatorDto>
     {
         private ErmanDbContext _context;
-        
-        public IEnumerable<Coordinator> GetCoordinators()
-        {
-            return _context.CoordinatorTable.ToList();
-        }
-        public Coordinator GetCoordinatorByID(int coordinatorId)
-        {
-            return _context.CoordinatorTable.Find(coordinatorId);
-        }
-        public void InsertCoordinator(Coordinator coordinator)
-        {
-            _context.CoordinatorTable.Add(coordinator);
-        }
-        public void DeleteCoordinator(int coordinatorId)
-        {
-            Coordinator coordinator = _context.CoordinatorTable.Find(coordinatorId);
-            _context.CoordinatorTable.Remove(coordinator);
-        }
-
-        public void UpdateCoordinator(Coordinator coordinator)
-        {
-            _context.Entry(coordinator).State = EntityState.Modified;
-        }
-        public void Save()
-        {
-            _context.SaveChanges();
-        }
-
 
         public CoordinatorRepository(ErmanDbContext _context)
         {
             this._context = _context;
         }
 
-        private bool disposedValue;
-        protected virtual void Dispose(bool disposing)
+        public void Add(CoordinatorDto entity)
         {
-            if (!disposedValue)
+            var coordinatorNew = new Coordinator
             {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects)
-                }
+                CoordinatorId = entity.CoordinatorId,
+                CoordinatorEmailAddress = entity.CoordinatorEmailAddress,
+                CoordinatorName = entity.CoordinatorName,
+                CoordinatorUniversityId = entity.CoordinatorUniversityId,
+              
+            };
 
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
-                disposedValue = true;
-            }
+            _context.CoordinatorTable.Add(coordinatorNew);
+            _context.SaveChanges();
         }
 
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        // ~CoordinatorRepository()
-        // {
-        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        //     Dispose(disposing: false);
-        // }
-
-        public void Dispose()
+        public Coordinator Get(int id)
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            return _context.CoordinatorTable.Find(id);
+          
         }
+
+        public Coordinator Remove(int id)
+        {
+            Coordinator toDelete = _context.CoordinatorTable.Find(id);
+            if (toDelete != null)
+            {
+                _context.CoordinatorTable.Remove(toDelete);
+                _context.SaveChanges();
+            }
+            return toDelete;
+        }
+
+        public void Update()
+        {
+            _context.SaveChanges();
+        }
+
+        //public IEnumerable<Coordinator> GetCoordinators()
+        //{
+        //    return _context.CoordinatorTable.ToList();
+        //}
+        //public Coordinator GetCoordinatorByID(int coordinatorId)
+        //{
+        //    return _context.CoordinatorTable.Find(coordinatorId);
+        //}
+        //public void InsertCoordinator(Coordinator coordinator)
+        //{
+        //    _context.CoordinatorTable.Add(coordinator);
+        //}
+        //public void DeleteCoordinator(int coordinatorId)
+        //{
+        //    Coordinator coordinator = _context.CoordinatorTable.Find(coordinatorId);
+        //    _context.CoordinatorTable.Remove(coordinator);
+        //}
+
+        //public void UpdateCoordinator(Coordinator coordinator)
+        //{
+        //    _context.Entry(coordinator).State = EntityState.Modified;
+        //}
+        //public void Save()
+        //{
+        //    _context.SaveChanges();
+        //}
+
+
+
     }
 }

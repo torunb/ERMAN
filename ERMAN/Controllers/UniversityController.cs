@@ -1,5 +1,6 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Models;
+using ERMAN.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ERMAN.Controllers
@@ -8,25 +9,17 @@ namespace ERMAN.Controllers
     [ApiController]
     public class UniversityController : ControllerBase
     {
-        private readonly ErmanDbContext _dbContext;
+        private readonly IGeneralInterface<University, UniversityDto> repository;
 
-        public UniversityController(ErmanDbContext dbContext)
+        public UniversityController(IGeneralInterface<University, UniversityDto> repository)
         {
-            _dbContext = dbContext;
+            this.repository = repository;
         }
 
-        [HttpPost(Name = "UniversityAPI")]
-        public University Post(UniversityDto university)
+        [HttpPost("university/add", Name = "UniversityAPI")]
+        public void Post(UniversityDto university)
         {
-            var universityNew = new University
-            {
-                UniversityName = university.UniversityName,
-                UniversityCapacity = university.UniversityCapacity,
-            };
-            _dbContext.UniversityTable.Add(universityNew);
-            _dbContext.SaveChanges();
-
-            return universityNew;
+            repository.Add(university);
         }
     }
 }

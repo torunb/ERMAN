@@ -1,7 +1,9 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Models;
+using ERMAN.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ERMAN.Controllers
 {
@@ -9,25 +11,20 @@ namespace ERMAN.Controllers
     [ApiController]
     public class CoordinatorController : ControllerBase
     {
-        private readonly ErmanDbContext _dbContext;
+        private readonly IGeneralInterface<Coordinator,CoordinatorDto> repository;
 
-        public CoordinatorController(ErmanDbContext dbContext)
+        public CoordinatorController(CoordinatorRepository repository)
         {
-            _dbContext = dbContext;
+            this.repository = repository;
         }
 
-        [HttpPost(Name = "CoordinatorAPI")]
-        public Coordinator Post(CoordinatorDto coordinator)
+        [HttpPost("coordinator/add", Name = "CoordinatorAPI")]
+        public void Post(CoordinatorDto coordinator)
         {
-            var coordinatorNew = new Coordinator
-            {
-                CoordinatorId = coordinator.CoordinatorId,
-                CoordinatorEmailAddress = coordinator.CoordinatorEmailAddress,
-                CoordinatorName = coordinator.CoordinatorName,
-            };
-            _dbContext.CoordinatorTable.Add(coordinatorNew);
-            _dbContext.SaveChanges();
-            return coordinatorNew;
+            repository.Add(coordinator);
+            
         }
+
+
     }
 }

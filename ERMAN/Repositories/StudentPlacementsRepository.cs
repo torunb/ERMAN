@@ -1,74 +1,58 @@
-﻿using ERMAN.Models;
+﻿using ERMAN.Dtos;
+using ERMAN.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERMAN.Repositories
 {
-    public class StudentPlacementsRepository : IDisposable
+    public class StudentPlacementsRepository : IGeneralInterface<StudentPlacement, StudentPlacementDto>
     {
-        private ErmanDbContext context;
+        private ErmanDbContext _dbContext;
 
         public StudentPlacementsRepository(ErmanDbContext context)
         {
-            this.context = context;
+            this._dbContext = context;
         }
 
-        public IEnumerable<StudentPlacement> ToWaitingList()
+        public void Add(StudentPlacementDto placement)
         {
-            return context.StudentPlacements.ToList().Where(x => x.IsInWaitingList);
-        }
-
-        public IEnumerable<StudentPlacement> GetStudentPlacements()
-        {
-            return context.StudentPlacements.ToList();
-        }
-
-        public StudentPlacement GetStudentPlacementByID(int id)
-        {
-            return context.StudentPlacements.Find(id);
-        }
-
-        public void InsertStudentPlacement(StudentPlacement studentPlacement)
-        {
-            context.StudentPlacements.Add(studentPlacement);
-        }
-
-        public void DeleteStudentPlacement(int studentPlacementId)
-        {
-            StudentPlacement studentPlacement = context.StudentPlacements.Find(studentPlacementId);
-            context.StudentPlacements.Remove(studentPlacement);
-        }
-
-        public void UpdateStudentPlacement(StudentPlacement studentPlacement)
-        {
-            context.Entry(studentPlacement).State = EntityState.Modified;
-        }
-
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
-
-
-
-        private bool disposed = false;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
+            var placementNew = new StudentPlacement
             {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            disposed = true;
+                TotalPoints = placement.TotalPoints,
+                StudentId = placement.StudentId,
+                StudentFirstName = placement.StudentFirstName,
+                StudentLastName = placement.StudentLastName,
+                Degree = placement.Degree,
+                Faculty = placement.Faculty,
+                Department = placement.Department,
+                UniversityChoices = placement.UniversityChoices,
+                DurationPrefered = placement.DurationPrefered,
+                
+            };
+
+            _dbContext.StudentPlacements.Add(placementNew);
+            _dbContext.SaveChanges();
         }
 
-        public void Dispose()
+        public StudentPlacement Remove(int id)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            StudentPlacement toDelete = _dbContext.StudentPlacements.Find(id);
+            if (toDelete != null)
+            {
+                _dbContext.StudentPlacements.Remove(toDelete);
+                _dbContext.SaveChanges();
+            }
+            return toDelete;
+        }
+
+        public StudentPlacement Get(int id)
+        {
+            StudentPlacement toFind = _dbContext.StudentPlacements.Find(id);
+            return toFind;
+        }
+
+        public void Update()
+        {
+            _dbContext.SaveChanges();
         }
     }
 }
-

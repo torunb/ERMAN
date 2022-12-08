@@ -1,9 +1,10 @@
-﻿using ERMAN.Models;
+﻿using ERMAN.Dtos;
+using ERMAN.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERMAN.Repositories
 {
-    public class UniversityRepository : IDisposable
+    public class UniversityRepository : IGeneralInterface<University,UniversityDto>
     {
 
         private ErmanDbContext _context;
@@ -12,63 +13,39 @@ namespace ERMAN.Repositories
         {
             this._context = _context;
         }
-        public IEnumerable<University> GetUniversities()
+        public void Add(UniversityDto university)
         {
-            return _context.UniversityTable.ToList();
-        }
-        public University GetUniversityByID(int universityId)
-        {
-            return _context.UniversityTable.Find(universityId);
-        }
+            var uniNew = new University
+            {
+                UniversityCapacity = university.UniversityCapacity, 
+                UniversityName = university.UniversityName, 
+                InsertDate = DateTime.Now
+            };
 
-        public void InsertUniversity(University university)
-        {
-            _context.UniversityTable.Add(university);
-        }
-
-        public void DeleteUniversity(int universityId)
-        {
-            _context.UniversityTable.Remove(_context.UniversityTable.Find(universityId));
-        }
-        public void UpdateUniversity(University university)
-        {
-            _context.Entry(university).State = EntityState.Modified;
-        }
-        public void Save()
-        {
+            _context.UniversityTable.Add(uniNew);
             _context.SaveChanges();
         }
 
-
-        private bool disposedValue;
-
-        protected virtual void Dispose(bool disposing)
+        public University Remove(int id)
         {
-            if (!disposedValue)
+            University toDelete = _context.UniversityTable.Find(id);
+            if (toDelete != null)
             {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects)
-                }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
-                disposedValue = true;
+                _context.UniversityTable.Remove(toDelete);
+                _context.SaveChanges();
             }
+            return toDelete;
         }
 
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        // ~UniversityRepository()
-        // {
-        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        //     Dispose(disposing: false);
-        // }
-
-        public void Dispose()
+        public University Get(int id)
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            return _context.UniversityTable.Find(id);
+
+        }
+
+        public void Update()
+        {
+            _context.SaveChanges();
         }
     }
 
