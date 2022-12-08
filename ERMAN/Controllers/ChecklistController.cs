@@ -23,14 +23,14 @@ namespace ERMAN.Controllers
         }
 
 
-        [HttpGet(Name = "ChecklistGet")]
+        [HttpGet("/api/Checklist", Name = "ChecklistGet")]
         public Checklist Get(int id)
         {
             return _checklistRepo.Get(id);
         }
 
 
-        [HttpGet(Name = "ChecklistGetAll")]
+        [HttpGet("/api/ChecklistAll", Name = "ChecklistGetAll")]
         public IEnumerable<Checklist> Get()
         {
 

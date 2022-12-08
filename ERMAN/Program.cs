@@ -8,6 +8,8 @@ using ERMAN.Dtos;
 using ERMAN.Models;
 using ERMAN.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -17,13 +19,9 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddControllers();
 
 builder.Services.AddTransient<IGeneralInterface<FAQItem, FAQItemDto>, FaqRepository>();
-
 builder.Services.AddTransient<IEmailServices, EmailService>();
-
 builder.Services.AddTransient<ErmanApplicationService>();
-
 builder.Services.AddTransient<MessagingService>();
-
 builder.Services.AddTransient<TodoRepository>();
 
 builder.Services.AddDbContext<ErmanDbContext>(options =>
@@ -70,10 +68,28 @@ var cookiePolicyOptions = new CookiePolicyOptions
 app.UseCookiePolicy(cookiePolicyOptions);
 app.UseCors("allowLocalhost");
 
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseWebSockets();
+
+app.Use(async (context, next) =>
+{
+    var userIdClaim = context.User.Claims.FirstOrDefault((claim => claim.Type == "userID"));
+    if (userIdClaim != null) {
+        var userId = Convert.ToInt32(userIdClaim.Value);
+        context.Items["userID"] = userId;
+    }
+    var userTypeClaim = context.User.Claims.FirstOrDefault((claim => claim.Type == ClaimTypes.Role));
+    if (userTypeClaim != null) {
+        var userType = userTypeClaim.Value;
+        context.Items["userType"] =  userType;
+    }
+
+    // Call the next delegate/middleware in the pipeline.
+    await next(context);
+});
 
 app.MapControllers();
 
