@@ -38,6 +38,8 @@ namespace ERMAN
 
         public DbSet<Message> MessageTable { get; set; }
 
+        public DbSet<User> UserTable { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
