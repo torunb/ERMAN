@@ -20,8 +20,7 @@ namespace ERMAN.Models
 
         public int CoordinatorUniversityId { get; set; }
 
-
-        public List<Message> Messages { get; set; } = null!;
+        public List<Message> Messages { get; set; }
 
         public DateTime InsertDate { get; set; } = DateTime.Now;
     }

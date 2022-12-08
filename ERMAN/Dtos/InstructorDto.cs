@@ -12,7 +12,7 @@ namespace ERMAN.Dtos
         [Required]
         public string InstructorName { get; set; } = null!;
 
-        public List<Course> Courses { get; set; } = null!;
+        public List<Course> Courses { get; set; }
 
         public int InstructorId { get; set; }
     }

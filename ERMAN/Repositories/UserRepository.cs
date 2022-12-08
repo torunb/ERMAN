@@ -28,6 +28,42 @@ namespace ERMAN.Repositories
                 Program = user.Program,
             };
 
+            if(user.UserType == "student")
+            {
+                var studentNew = new Student
+                {
+                    StudentEmailAddress = user.Email,
+                    StudentName = user.FirstName + " " + user.LastName,
+                    StudentId = user.BilkentId,
+                
+                };
+                _dbContext.StudentTable.Add(studentNew);
+                _dbContext.SaveChanges();
+            }
+            else if(user.UserType == "instructor")
+            {
+                var instructorNew = new Instructor
+                {
+                    InstructorEmailAddress = user.Email,
+                    InstructorId = user.BilkentId,
+                    InstructorName = user.FirstName + " " + user.LastName,
+
+                };
+                _dbContext.InstructorTable.Add(instructorNew);
+                _dbContext.SaveChanges();
+            }
+            else if(user.UserType == "coordinator")
+            {
+                var coordinatorNew = new Coordinator
+                {
+                    CoordinatorEmailAddress = user.Email,
+                    CoordinatorId = user.BilkentId,
+                    CoordinatorName = user.FirstName + " " + user.LastName
+                };
+                _dbContext.CoordinatorTable.Add(coordinatorNew);
+                _dbContext.SaveChanges();
+            }
+
             _dbContext.UserTable.Add(userNew);
             _dbContext.SaveChanges();
         }

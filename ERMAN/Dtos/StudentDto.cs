@@ -10,7 +10,6 @@ namespace ERMAN.Dtos
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Please enter valid e-mail address")]
         public string StudentEmailAddress { get; set; } = null!;
 
-
         [Required]
         [StringLength(100)]
         public string StudentName { get; set; } = null!;
@@ -20,7 +19,7 @@ namespace ERMAN.Dtos
 
         public bool IsRejected { get; set; }
 
-        public List<Course> Courses { get; set; } = null!;
+        public List<Course> Courses { get; set; }
     }
 
 }

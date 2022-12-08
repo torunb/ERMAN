@@ -20,12 +20,11 @@ namespace ERMAN.Models
         [Required]
         public int StudentId { get; set; }
 
-
         public bool IsRejected { get; set; }
 
-        public List<Course> Courses { get; set; } = null!;
+        public List<Course> Courses { get; set; }
 
-        public List<Message> Messages { get; set; } = null!;
+        public List<Message> Messages { get; set; }
 
         public DateTime InsertDate { get; set; } = DateTime.Now;
     }
