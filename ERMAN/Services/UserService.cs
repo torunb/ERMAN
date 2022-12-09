@@ -89,6 +89,11 @@ namespace ERMAN.Services
             return toBeFind;
         }
 
+        public List<User> GetAll()
+        {
+            return _dbContext.UserTable.ToList();
+        }
+
         public void Update()
         {
             _dbContext.SaveChanges();
