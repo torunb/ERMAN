@@ -16,8 +16,8 @@ namespace ERMAN.Repositories
         {
             var studentNew = new Student
             {
-                StudentEmailAddress = student.StudentEmailAddress,
-                StudentName = student.StudentName,
+                Email = student.StudentEmailAddress,
+                Name = student.StudentName,
                 StudentId = student.StudentId,
                 IsRejected = student.IsRejected,
             };

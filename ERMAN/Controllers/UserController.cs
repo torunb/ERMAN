@@ -16,10 +16,10 @@ namespace ERMAN.Controllers
             _userService = userService;
         }
 
-        [HttpGet(Name = "UserGetAll")]
-        public List<User> Get()
-        {
-            return _userService.GetAll();
-        }
+        //[HttpGet(Name = "UserGetAll")]
+        //public List<User> Get()
+        //{
+        //    return _userService.GetAll();
+        //}
     }
 }

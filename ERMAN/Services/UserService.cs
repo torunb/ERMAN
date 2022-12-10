@@ -22,20 +22,6 @@ namespace ERMAN.Services
 
         public void Add(UserDto user)
         {
-            var userNew = new User
-            {
-                UserType = user.UserType,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                BilkentId = user.BilkentId,
-                Department = user.Department,
-                Faculty = user.Faculty,
-                University = user.University,
-                DurationPreffered = user.DurationPreffered,
-                Program = user.Program,
-            };
-
             if (user.UserType == UserType.Student)
             {
                 var studentNew = new StudentDto
@@ -67,36 +53,22 @@ namespace ERMAN.Services
                 };
                 _coordinatorRepository.Add(coordinatorNew);
             }
-
-            _dbContext.UserTable.Add(userNew);
-            _dbContext.SaveChanges();
         }
 
-        public User Remove(int id)
-        {
-            User toBeDeleted = _dbContext.UserTable.Find(id);
-            if (toBeDeleted != null)
-            {
-                _dbContext.UserTable.Remove(toBeDeleted);
-                _dbContext.SaveChanges();
-            }
-            return toBeDeleted;
-        }
+        //public User Remove(int id)
+        //{
+        //}
 
-        public User Get(int id)
-        {
-            User toBeFind = _dbContext.UserTable.Find(id);
-            return toBeFind;
-        }
+        //public User Get(int id)
+        //{
+        //}
 
-        public List<User> GetAll()
-        {
-            return _dbContext.UserTable.ToList();
-        }
+        //public List<User> GetAll()
+        //{
+        //}
 
-        public void Update()
-        {
-            _dbContext.SaveChanges();
-        }
+        //public void Update()
+        //{
+        //}
     }
 }

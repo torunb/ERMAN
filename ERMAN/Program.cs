@@ -18,17 +18,24 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddControllers();
 
-//builder.Services.AddTransient<IGeneralInterface<FAQItem, FAQItemDto>, FaqRepository>();
-builder.Services.AddTransient<IEmailServices, EmailService>();
-builder.Services.AddTransient<ErmanApplicationService>();
-builder.Services.AddTransient<MessagingService>();
-builder.Services.AddTransient<TodoRepository>();
-builder.Services.AddTransient<FaqRepository>();
-
 builder.Services.AddDbContext<ErmanDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("ErmanDb"));
 });
+
+//builder.Services.AddTransient<IGeneralInterface<FAQItem, FAQItemDto>, FaqRepository>();
+builder.Services.AddTransient<IEmailServices, EmailService>();
+builder.Services.AddTransient<ErmanApplicationService>();
+builder.Services.AddTransient<TodoRepository>();
+builder.Services.AddTransient<FaqRepository>();
+
+builder.Services.AddTransient<StudentRepository>();
+builder.Services.AddTransient<CoordinatorRepository>();
+builder.Services.AddTransient<InstructorRepository>();
+
+builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<MessagingService>();
+
 
 builder.Services.AddCors(options =>
 {

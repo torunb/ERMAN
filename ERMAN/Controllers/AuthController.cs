@@ -18,9 +18,10 @@ namespace ERMAN.Controllers
         private readonly ErmanDbContext _dbContext;
         private readonly UserService _userService;
 
-        public AuthController(ErmanDbContext dbContext)
+        public AuthController(ErmanDbContext dbContext, UserService userService)
         {
             _dbContext = dbContext;
+            _userService = userService;
         }
 
         public class LoginRequest
@@ -32,7 +33,7 @@ namespace ERMAN.Controllers
         public class StudentRegisterRequest
         {
             public string email { get; set; }
-            public int bilkentId { get; set; }
+            public int bilkentID { get; set; }
             public string password { get; set; }
         }
 
@@ -127,7 +128,7 @@ namespace ERMAN.Controllers
             var newUserDto = new UserDto {
                 UserType = UserType.Student,
                 Email = registerData.email,
-                BilkentId = registerData.bilkentId,
+                BilkentId = registerData.bilkentID,
             };
             _userService.Add(newUserDto);
 
