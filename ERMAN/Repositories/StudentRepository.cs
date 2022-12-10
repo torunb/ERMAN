@@ -16,10 +16,12 @@ namespace ERMAN.Repositories
         {
             var studentNew = new Student
             {
-                Email = student.StudentEmailAddress,
-                Name = student.StudentName,
+                Email = student.Email,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
                 StudentId = student.StudentId,
                 IsRejected = student.IsRejected,
+                AuthId = student.AuthId,
             };
 
             _dbContext.StudentTable.Add(studentNew);
@@ -37,10 +39,10 @@ namespace ERMAN.Repositories
             return toBeDeleted;
         }
 
-        public Student Get(int id)
+        public Student Get(int authId)
         {
-            Student toBeFind= _dbContext.StudentTable.Find(id);
-            return toBeFind;
+            Student student = _dbContext.StudentTable.Where(x => x.AuthId == authId).FirstOrDefault();
+            return student;
         }
 
         //public Student Update(StudentDto student)

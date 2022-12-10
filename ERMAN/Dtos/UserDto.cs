@@ -3,6 +3,7 @@
     public class UserDto
     {
         public UserType UserType { get; set; }
+        public int AuthId { get; set; }
 
         public string Email { get; set; } = null!;
 

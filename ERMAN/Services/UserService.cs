@@ -26,9 +26,11 @@ namespace ERMAN.Services
             {
                 var studentNew = new StudentDto
                 {
-                    StudentEmailAddress = user.Email,
-                    StudentName = user.FirstName + " " + user.LastName,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
                     StudentId = user.BilkentId,
+                    AuthId = user.AuthId,
                 };
                 _studentRepository.Add(studentNew);
             }
@@ -59,9 +61,34 @@ namespace ERMAN.Services
         //{
         //}
 
-        //public User Get(int id)
-        //{
-        //}
+        public UserInfoDTO Get(int authId)
+        {
+            Student student = _studentRepository.Get(authId);
+
+            if (student != null) {
+                Console.WriteLine("student");
+                var userInfo = new UserInfoDTO
+                {
+                    userType = UserType.Student,
+                    email = student.Email,
+                    firstName = student.FirstName,
+                    lastName = student.LastName,
+                    bilkentID = student.StudentId.ToString(),
+                    department = student.Department,
+                    faculty = student.Faculty,
+                    applicationStatus = student.ApplicationStatus,
+                    university = student.University != null ? student.University.UniversityName : null,
+                    durationPreffered = student.DurationPreffered != null ? student.DurationPreffered : null,
+                    program = student.Program != null ? student.Program : null,
+                };
+
+                Console.WriteLine(userInfo.email);
+                return userInfo;
+            }
+
+            Console.WriteLine("returning null");
+            return null;
+        }
 
         //public List<User> GetAll()
         //{
@@ -71,4 +98,9 @@ namespace ERMAN.Services
         //{
         //}
     }
+}
+
+public class UserInfo
+{
+
 }

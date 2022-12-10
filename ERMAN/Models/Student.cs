@@ -13,7 +13,18 @@ namespace ERMAN.Models
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Please enter valid e-mail address")]
         public string Email { get; set; } = null!;
 
-        public string? Name { get; set; }
+        public int AuthId { get; set; }
+
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+
+        public string? Department { get; set; }
+
+        public string? Faculty { get; set; }
+
+        public string? ApplicationStatus { get; set; } // TODO make this an enum
+
+        public University? University { get; set; }
 
         [Required]
         public int StudentId { get; set; }

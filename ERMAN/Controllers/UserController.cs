@@ -1,7 +1,10 @@
 ﻿using ERMAN.Models;
+using ERMAN.Dtos;
 using ERMAN.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace ERMAN.Controllers
 {
@@ -14,6 +17,16 @@ namespace ERMAN.Controllers
         public UserController(UserService userService)
         {
             _userService = userService;
+        }
+
+        [HttpGet("/api/user-info", Name = "UserGetInfo")]
+        [Authorize]
+        public UserInfoDTO Get()
+        {
+            var userId = (int) HttpContext.Items["userID"];
+            var userInfo = _userService.Get(userId);
+
+            return userInfo;
         }
 
         //[HttpGet(Name = "UserGetAll")]

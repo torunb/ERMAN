@@ -126,6 +126,7 @@ namespace ERMAN.Controllers
             _dbContext.SaveChanges();
 
             var newUserDto = new UserDto {
+                AuthId = newUser.Id,
                 UserType = UserType.Student,
                 Email = registerData.email,
                 BilkentId = registerData.bilkentID,
