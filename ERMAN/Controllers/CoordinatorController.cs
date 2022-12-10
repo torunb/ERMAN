@@ -16,15 +16,6 @@ namespace ERMAN.Controllers
         public CoordinatorController(CoordinatorRepository repository)
         {
             this.repository = repository;
-        }
-
-        [HttpPost("coordinator/add", Name = "CoordinatorAPI")]
-        public void Post(CoordinatorDto coordinator)
-        {
-            repository.Add(coordinator);
-            
-        }
-
-
+        }   
     }
 }

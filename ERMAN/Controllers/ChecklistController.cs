@@ -16,13 +16,6 @@ namespace ERMAN.Controllers
             _checklistRepo = checklistRepo;
         }
 
-        [HttpPost(Name = "ChecklistPost")]
-        public void Post(ChecklistDto checklist)
-        {
-            _checklistRepo.Add(checklist);
-        }
-
-
         [HttpGet("/api/Checklist", Name = "ChecklistGet")]
         public Checklist Get(int id)
         {
@@ -30,29 +23,17 @@ namespace ERMAN.Controllers
         }
 
         [HttpPut("/api/ChecklistCheck", Name = "ChecklistCheck")]
-        public void Check(int userId, int index)
+        public void Check(int index)
         {
+            var userId = (int) HttpContext.Items["userID"];
             _checklistRepo.Check(userId, index);
         }
 
         [HttpGet("/api/ChecklistAll", Name = "ChecklistGetAll")]
         public IEnumerable<Checklist> Get()
         {
-
-            var userId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault((claim => claim.Type == "userID")).Value);
+            var userId = (int) HttpContext.Items["userID"];
             return _checklistRepo.GetAll(userId);
-        }
-
-        [HttpDelete(Name = "ChecklistDelete")]
-        public Checklist Delete(int id)
-        {
-            return _checklistRepo.Remove(id);
-        }
-
-        [HttpPut(Name = "ChecklistPut")]
-        public void Put()
-        {
-            _checklistRepo.Update();
         }
     }
 }
