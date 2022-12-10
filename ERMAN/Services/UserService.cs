@@ -36,7 +36,7 @@ namespace ERMAN.Services
                 Program = user.Program,
             };
 
-            if (user.UserType == "student")
+            if (user.UserType == UserType.Student)
             {
                 var studentNew = new StudentDto
                 {
@@ -46,7 +46,7 @@ namespace ERMAN.Services
                 };
                 _studentRepository.Add(studentNew);
             }
-            else if (user.UserType == "instructor")
+            else if (user.UserType == UserType.Instructor)
             {
                 var instructorNew = new InstructorDto
                 {
@@ -57,7 +57,7 @@ namespace ERMAN.Services
                 };
                 _instructorRepository.Add(instructorNew);
             }
-            else if (user.UserType == "coordinator")
+            else if (user.UserType == UserType.Coordinator)
             {
                 var coordinatorNew = new CoordinatorDto
                 {

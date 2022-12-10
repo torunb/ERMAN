@@ -2,7 +2,7 @@
 {
     public class UserDto
     {
-        public string UserType { get; set; } = null!;
+        public UserType UserType { get; set; }
 
         public string Email { get; set; } = null!;
 

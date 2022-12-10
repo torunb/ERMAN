@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using ERMAN.Services;
 
 namespace ERMAN.Controllers
 {
@@ -15,6 +16,7 @@ namespace ERMAN.Controllers
     public class AuthController : Controller
     {
         private readonly ErmanDbContext _dbContext;
+        private readonly UserService _userService;
 
         public AuthController(ErmanDbContext dbContext)
         {
@@ -27,10 +29,19 @@ namespace ERMAN.Controllers
             public string password { get; set; }
         }
 
+        public class StudentRegisterRequest
+        {
+            public string email { get; set; }
+            public int bilkentId { get; set; }
+            public string password { get; set; }
+        }
+
+
         public class RegisterRequest
         {
             public string email { get; set; }
             public string password { get; set; }
+            public UserType userType { get; set; }
         }
 
         [HttpPost("/api/login", Name = "AuthLogin")]
@@ -92,7 +103,7 @@ namespace ERMAN.Controllers
         }
 
         [HttpPost("/api/register", Name = "AuthRegister")]
-        public ActionResult<bool> Register(RegisterRequest registerData)
+        public ActionResult<bool> Register(StudentRegisterRequest registerData)
         {
             var user = _dbContext.AuthenticationTable.Where(x => x.Username == registerData.email).FirstOrDefault();
 
@@ -113,61 +124,18 @@ namespace ERMAN.Controllers
             _dbContext.AuthenticationTable.Add(newUser);
             _dbContext.SaveChanges();
 
-            return StatusCode(200);
-        }
-
-        [HttpPost("/api/register/exchange-office", Name = "AuthRegisterExchangeOffice")]
-        public ActionResult<bool> RegisterExchangeOffice(RegisterRequest registerData)
-        {
-            var user = _dbContext.AuthenticationTable.Where(x => x.Username == registerData.email).FirstOrDefault();
-
-            if (user != null)
-            {
-                // there is already a user with that username            
-                return StatusCode(400);
-            }
-
-            var passwordHash = BCrypt.Net.BCrypt.HashPassword(registerData.password);
-
-            var newUser = new Authentication
-            {
-                Username = registerData.email,
-                Password = passwordHash,
-                Type = UserType.ExchangeOffice,
+            var newUserDto = new UserDto {
+                UserType = UserType.Student,
+                Email = registerData.email,
+                BilkentId = registerData.bilkentId,
             };
-            _dbContext.AuthenticationTable.Add(newUser);
-            _dbContext.SaveChanges();
-
-            return StatusCode(200);
-        }
-
-        [HttpPost("/api/register/coordinator", Name = "AuthRegisterCoordinator")]
-        public ActionResult<bool> RegisterCoordinator(RegisterRequest registerData)
-        {
-            var user = _dbContext.AuthenticationTable.Where(x => x.Username == registerData.email).FirstOrDefault();
-
-            if (user != null)
-            {
-                // there is already a user with that username            
-                return StatusCode(400);
-            }
-
-            var passwordHash = BCrypt.Net.BCrypt.HashPassword(registerData.password);
-
-            var newUser = new Authentication
-            {
-                Username = registerData.email,
-                Password = passwordHash,
-                Type = UserType.Coordinator,
-            };
-            _dbContext.AuthenticationTable.Add(newUser);
-            _dbContext.SaveChanges();
+            _userService.Add(newUserDto);
 
             return StatusCode(200);
         }
 
         [HttpPost("/api/register/admin", Name = "AuthRegisterAdmin")]
-        public ActionResult<bool> RegisterAdmin(RegisterRequest registerData)
+        public ActionResult<bool> RegisterNonStudent(RegisterRequest registerData)
         {
             var user = _dbContext.AuthenticationTable.Where(x => x.Username == registerData.email).FirstOrDefault();
 
@@ -183,7 +151,7 @@ namespace ERMAN.Controllers
             {
                 Username = registerData.email,
                 Password = passwordHash,
-                Type = UserType.Admin,
+                Type = registerData.userType,
             };
             _dbContext.AuthenticationTable.Add(newUser);
             _dbContext.SaveChanges();
