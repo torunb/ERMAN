@@ -29,6 +29,13 @@ namespace ERMAN.Controllers
             return _studentRepo.Get(id);
         }
 
+        [HttpGet("/api/Student/all", Name = "StudentGetAll")]
+        public List<Student> GetAll()
+        {
+            return _studentRepo.GetAll();
+        }
+
+
         [HttpDelete(Name = "StudentDelete")]
         public Student Delete(int id)
         {
