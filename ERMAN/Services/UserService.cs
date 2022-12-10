@@ -90,6 +90,33 @@ namespace ERMAN.Services
             return null;
         }
 
+        public List<UserInfoDTO> GetAll()
+        {
+            List<Student> students = _studentRepository.GetAll();
+            List<UserInfoDTO> result = new List<UserInfoDTO>();
+
+            foreach (Student student in students)
+            {
+                var userInfo = new UserInfoDTO
+                {
+                    userType = UserType.Student,
+                    email = student.Email,
+                    firstName = student.FirstName,
+                    lastName = student.LastName,
+                    bilkentID = student.StudentId.ToString(),
+                    department = student.Department,
+                    faculty = student.Faculty,
+                    applicationStatus = student.ApplicationStatus,
+                    university = student.University != null ? student.University.UniversityName : null,
+                    durationPreffered = student.DurationPreffered != null ? student.DurationPreffered : null,
+                    program = student.Program != null ? student.Program : null,
+                };
+                result.Add(userInfo);
+            }
+            
+            return result;
+        }
+
         //public List<User> GetAll()
         //{
         //}

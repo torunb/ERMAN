@@ -29,6 +29,14 @@ namespace ERMAN.Controllers
             return userInfo;
         }
 
+        [HttpGet("/api/user-info/all", Name = "UserGetInfo")]
+        [Authorize]
+        public List<UserInfoDTO> GetAll()
+        {
+            var usersInfo = _userService.GetAll();
+            return usersInfo;
+        }
+
         //[HttpGet(Name = "UserGetAll")]
         //public List<User> Get()
         //{
