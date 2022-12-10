@@ -10,13 +10,15 @@ namespace ERMAN.Services
         private readonly StudentRepository _studentRepository;
         private readonly InstructorRepository _instructorRepository;
         private readonly CoordinatorRepository _coordinatorRepository;
+        private readonly ChecklistRepository _checklistRepository;
         private readonly ErmanDbContext _dbContext;
 
-        public UserService(StudentRepository studentRepository, InstructorRepository instructorRepository, CoordinatorRepository coordinatorRepository, ErmanDbContext dbContext)
+        public UserService(ChecklistRepository checklistRepository, StudentRepository studentRepository, InstructorRepository instructorRepository, CoordinatorRepository coordinatorRepository, ErmanDbContext dbContext)
         {
             _studentRepository = studentRepository;
             _instructorRepository = instructorRepository;
             _coordinatorRepository = coordinatorRepository;
+            _checklistRepository = checklistRepository;
             _dbContext = dbContext;
         }
 
@@ -33,6 +35,7 @@ namespace ERMAN.Services
                     AuthId = user.AuthId,
                 };
                 _studentRepository.Add(studentNew);
+                _checklistRepository.AddEmpty(user.AuthId);
             }
             else if (user.UserType == UserType.Instructor)
             {

@@ -24,6 +24,18 @@ namespace ERMAN.Repositories
             _dbContext.ChecklistTable.Add(checklistNew);
             _dbContext.SaveChanges();
         }
+
+        public void AddEmpty(int userId)
+        {
+            var checklistNew = new Checklist
+            {
+                Checked = new bool[17],
+                UserId = userId
+            };
+            _dbContext.ChecklistTable.Add(checklistNew);
+            _dbContext.SaveChanges();
+        }
+
         public void Check(int userId, int index)
         {
 

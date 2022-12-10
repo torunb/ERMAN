@@ -22,7 +22,6 @@ namespace ERMAN.Controllers
             _courseRepo.Add(course);
         }
 
-
         [HttpGet(Name = "CourseGet")]
         public Course Get(int id)
         {
