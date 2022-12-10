@@ -31,7 +31,6 @@ namespace ERMAN.Controllers
         {
             public string email { get; set; }
             public string password { get; set; }
-            public string role { get; set; }
         }
 
         [HttpPost("/api/login", Name = "AuthLogin")]
@@ -110,6 +109,31 @@ namespace ERMAN.Controllers
                 Username = registerData.email,
                 Password = passwordHash,
                 Type = UserType.Student,
+            };
+            _dbContext.AuthenticationTable.Add(newUser);
+            _dbContext.SaveChanges();
+
+            return StatusCode(200);
+        }
+
+        [HttpPost("/api/register/exchange-office", Name = "AuthRegisterExchangeOffice")]
+        public ActionResult<bool> RegisterExchangeOffice(RegisterRequest registerData)
+        {
+            var user = _dbContext.AuthenticationTable.Where(x => x.Username == registerData.email).FirstOrDefault();
+
+            if (user != null)
+            {
+                // there is already a user with that username            
+                return StatusCode(400);
+            }
+
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(registerData.password);
+
+            var newUser = new Authentication
+            {
+                Username = registerData.email,
+                Password = passwordHash,
+                Type = UserType.ExchangeOffice,
             };
             _dbContext.AuthenticationTable.Add(newUser);
             _dbContext.SaveChanges();

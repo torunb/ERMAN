@@ -22,7 +22,7 @@ namespace ERMAN.Controllers
         [Authorize(Roles = "student")]
         public IEnumerable<Todo> Get()
         {
-            var userId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault((claim => claim.Type == "userID")).Value);
+            var userId = (int) HttpContext.Items["userID"];
             return _todoRepo.GetAll(userId);
         }
 

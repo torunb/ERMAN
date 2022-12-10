@@ -25,4 +25,5 @@ public enum UserType
     Instructor,
     Coordinator,
     Admin,
+    ExchangeOffice,
 }
