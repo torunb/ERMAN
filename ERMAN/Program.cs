@@ -24,7 +24,6 @@ builder.Services.AddTransient<ErmanApplicationService>();
 builder.Services.AddTransient<MessagingService>();
 builder.Services.AddTransient<TodoRepository>();
 builder.Services.AddTransient<FaqRepository>();
-builder.Services.AddTransient<UserRepository>();
 
 builder.Services.AddDbContext<ErmanDbContext>(options =>
 {
