@@ -72,7 +72,7 @@ namespace ERMAN.Services
                 Console.WriteLine("student");
                 var userInfo = new UserInfoDTO
                 {
-                    userType = UserType.Student,
+                    userType = UserType.Student.ToString().ToLower(),
                     email = student.Email,
                     firstName = student.FirstName,
                     lastName = student.LastName,
@@ -81,8 +81,8 @@ namespace ERMAN.Services
                     faculty = student.Faculty,
                     applicationStatus = student.ApplicationStatus,
                     university = student.University != null ? student.University.UniversityName : null,
-                    durationPreffered = student.DurationPreffered != null ? student.DurationPreffered : null,
-                    program = student.Program != null ? student.Program : null,
+                    durationPreffered = student.DurationPreffered != null ? student.DurationPreffered.ToString() : null,
+                    program = student.Program != null ? student.Program.ToString() : null,
                 };
 
                 Console.WriteLine(userInfo.email);
@@ -102,17 +102,17 @@ namespace ERMAN.Services
             {
                 var userInfo = new UserInfoDTO
                 {
-                    userType = UserType.Student,
+                    userType = UserType.Student.ToString().ToLower(),
                     email = student.Email,
                     firstName = student.FirstName,
                     lastName = student.LastName,
-                    bilkentID = student.StudentId.ToString(),
+                    bilkentID = student.StudentId.ToString().ToLower(),
                     department = student.Department,
                     faculty = student.Faculty,
                     applicationStatus = student.ApplicationStatus,
-                    university = student.University != null ? student.University.UniversityName : null,
-                    durationPreffered = student.DurationPreffered != null ? student.DurationPreffered : null,
-                    program = student.Program != null ? student.Program : null,
+                    university = student.University != null ? student.University.UniversityName.ToString().ToLower() : null,
+                    durationPreffered = student.DurationPreffered != null ? student.DurationPreffered.ToString().ToLower() : null,
+                    program = student.Program != null ? student.Program.ToString().ToLower() : null,
                 };
                 result.Add(userInfo);
             }

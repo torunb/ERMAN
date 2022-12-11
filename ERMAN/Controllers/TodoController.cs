@@ -19,7 +19,7 @@ namespace ERMAN.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "student")]
+        [Authorize(Roles = "Student")]
         public IEnumerable<Todo> Get()
         {
             var userId = (int) HttpContext.Items["userID"];
@@ -27,7 +27,7 @@ namespace ERMAN.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "student")]
+        [Authorize(Roles = "Student")]
         public void Post(TodoDto todo)
         {
             var userId = HttpContext.Items["userID"];
