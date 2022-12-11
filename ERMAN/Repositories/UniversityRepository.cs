@@ -19,7 +19,6 @@ namespace ERMAN.Repositories
             {
                 UniversityCapacity = university.UniversityCapacity, 
                 UniversityName = university.UniversityName, 
-                InsertDate = DateTime.Now
             };
 
             _context.UniversityTable.Add(uniNew);
@@ -40,7 +39,6 @@ namespace ERMAN.Repositories
         public University Get(int id)
         {
             return _context.UniversityTable.Find(id);
-
         }
 
         public void Update()

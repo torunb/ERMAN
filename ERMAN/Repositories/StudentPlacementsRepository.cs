@@ -10,7 +10,7 @@ namespace ERMAN.Repositories
 
         public StudentPlacementsRepository(ErmanDbContext context)
         {
-            this._dbContext = context;
+            _dbContext = context;
         }
 
         public void Add(StudentPlacementDto placement)

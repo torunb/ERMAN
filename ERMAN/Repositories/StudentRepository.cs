@@ -50,10 +50,5 @@ namespace ERMAN.Repositories
             List<Student> student = _dbContext.StudentTable.ToList();
             return student;
         }
-
-        //public Student Update(StudentDto student)
-        //{
-        //    //_dbContext.SaveChanges();
-        //}
     }
 }

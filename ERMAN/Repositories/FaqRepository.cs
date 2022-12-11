@@ -12,12 +12,12 @@ namespace ERMAN.Repositories
             _dbContext = dbContext;
         }
 
-        public void Add(FAQItemDto student)
+        public void Add(FAQItemDto faq)
         {
             var faqNew = new FAQItem
             {
-                FAQAnswer = student.FAQAnswer,
-                FAQQuestion = student.FAQQuestion,
+                FAQAnswer = faq.FAQAnswer,
+                FAQQuestion = faq.FAQQuestion,
             };
 
             _dbContext.FAQTable.Add(faqNew);
