@@ -19,6 +19,10 @@ namespace ERMAN.Repositories
             {
                 InstructorId = course.InstructorId,
                 CourseName = course.CourseName,
+                CourseDescription = course.CourseDescription,
+                IsForeignUniversity = course.IsForeignUniversity,
+                IsElectiveCourse = course.IsElectiveCourse,
+                IsMustCourse = course.IsMustCourse,
                 CourseType = course.CourseType,
                 CourseCredit = course.CourseCredit,
                 UniversityId = course.UniversityId,
