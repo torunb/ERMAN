@@ -16,41 +16,41 @@ namespace ERMAN.Controllers
             _courseMappedRepo = courseMappeRepo;
         }
 
-        [HttpPost(Name = "CoursePost")]
+        [HttpPost(Name = "CourseManagerPost")]
         public void Post(CourseMappedDto courseMapped)
         {
             _courseMappedRepo.Add(courseMapped);
         }
 
-        [HttpGet(Name = "CourseGet")]
+        [HttpGet("/api/CourseManager", Name = "CourseManagerGet")]
         public CourseMapped Get(int id)
         {
             return _courseMappedRepo.Get(id);
         }
-        [HttpGet(Name = "CourseGetAll")]
+        [HttpGet("/api/CourseManager/All",Name = "CourseManagerGetAll")]
         public IEnumerable<CourseMapped> GetAll()
         {
             return _courseMappedRepo.GetAll();
         }
 
-        [HttpGet(Name = "CourseGetApproved")]
+        [HttpGet("/api/CourseManager/Approved", Name = "CourseManagerGetApproved")]
         public IEnumerable<CourseMapped> GetApproved()
         {
             return _courseMappedRepo.GetApproved();
         }
-        [HttpGet(Name = "CourseGetRejected")]
+        [HttpGet("/api/CourseManager/Rejected", Name = "CourseManagerGetRejected")]
         public IEnumerable<CourseMapped> GetRejected(int id)
         {
             return _courseMappedRepo.GetRejected();
         }
 
-        [HttpDelete(Name = "CourseDelete")]
+        [HttpDelete(Name = "CourseManagerDelete")]
         public void Delete(int id)
         {
             _courseMappedRepo.Remove(id);
         }
 
-        [HttpPut(Name = "CoursePut")]
+        [HttpPut(Name = "CourseManagerPut")]
         public void Put()
         {
             //_courseRepo.Update();
