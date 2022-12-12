@@ -11,45 +11,21 @@ namespace ERMAN.Controllers
     [ApiController]
     public class StudentPlacementController : Controller
     {
-        private readonly IGeneralInterface<StudentPlacement,StudentPlacementDto> repository;
-        public StudentPlacementController(IGeneralInterface<StudentPlacement,StudentPlacementDto> repository)
+        private readonly IGeneralInterface<Student,StudentDto> repository;
+        public StudentPlacementController(IGeneralInterface<Student,StudentDto> repository)
         {
             this.repository = repository;
         }
 
         [HttpPost(Name = "StudentPlacementsAPI")]
-        public void Post(StudentPlacementDto studentPlacement)
+        public void Post(Student student)
         {
-            repository.Add(studentPlacement);
+            int rankDetermined = 0;
+            student.Ranking = rankDetermined;
+            repository.Add(student);
+
         }
 
-        //[HttpPut]
-        //public void Put(StudentPlacement toBeUpdated)
-        //{
-        //    StudentPlacement studentPlacement = _dbContext.StudentPlacements.Find(toBeUpdated.PlacementId);
-        //    if (studentPlacement != null)
-        //    {
-        //        studentPlacement.StudentId = studentPlacement.StudentId;
-        //        studentPlacement.StudentFirstName = studentPlacement.StudentFirstName;
-        //        studentPlacement.StudentLastName = studentPlacement.StudentLastName;
-        //        studentPlacement.TranscriptGradeFromFour = studentPlacement.TranscriptGradeFromFour;
-        //        studentPlacement.TranscriptGradeFromHundred = studentPlacement.TranscriptGradeFromFour;
-        //        studentPlacement.TranscriptGradeContribution = studentPlacement.TranscriptGradeContribution;
-        //        studentPlacement.ErasmusApplicationWithGradesBehindSeUe = studentPlacement.ErasmusApplicationWithGradesBehindSeUe;
-        //        studentPlacement.UESECount = studentPlacement.UESECount;
-        //        studentPlacement.UECGPA = studentPlacement.UECGPA;
-        //        studentPlacement.Eng101 = studentPlacement.Eng101;
-        //        studentPlacement.Eng102 = studentPlacement.Eng102;
-        //        studentPlacement.LanguagePoints = studentPlacement.LanguagePoints;
-        //        studentPlacement.TranscriptPoints = studentPlacement.TranscriptPoints;
-        //        studentPlacement.TotalPoints = studentPlacement.TotalPoints;
-        //        studentPlacement.DurationPrefered = studentPlacement.DurationPrefered;
-        //        studentPlacement.UniversityChoices = studentPlacement.UniversityChoices;
-        //        studentPlacement.IsInWaitingList = studentPlacement.IsInWaitingList;
-        //        _dbContext.StudentPlacements.Update(studentPlacement);
-        //        _dbContext.SaveChanges();
-        //    }
-        //}
 
         [HttpDelete("{id}")]
         public void Delete(int id)

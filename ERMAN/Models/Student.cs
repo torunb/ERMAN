@@ -22,6 +22,8 @@ namespace ERMAN.Models
 
         public string? Faculty { get; set; }
 
+        public int Ranking { get; set; } = null!;
+
         public string? ApplicationStatus { get; set; } // TODO make this an enum
 
         public University? University { get; set; }
