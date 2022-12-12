@@ -16,6 +16,14 @@ namespace ERMAN.Repositories
         {
             var studentNew = new Student
             {
+                TotalPoints = student.TotalPoints,
+                StudentFirstName = student.FirstName,
+                StudentLastName = student.LastName,
+                Degree = student.Degree,
+                Faculty = student.Faculty,
+                Department = student.Department,
+                UniversityChoices = student.UniversityChoices,
+                DurationPrefered = student.DurationPrefered,
                 Email = student.Email,
                 FirstName = student.FirstName,
                 LastName = student.LastName,
