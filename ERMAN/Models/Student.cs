@@ -17,6 +17,7 @@ namespace ERMAN.Models
         public int AuthId { get; set; }
 
         public string? FirstName { get; set; }
+
         public string? LastName { get; set; }
 
         public string? Department { get; set; }
@@ -32,7 +33,7 @@ namespace ERMAN.Models
         [Required]
         public int StudentId { get; set; }
 
-        public bool? IsRejected { get; set; }
+        public bool IsRejected { get; set; }
 
         public DurationPreffered? DurationPreffered { get; set; }
 

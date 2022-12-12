@@ -41,5 +41,11 @@ namespace ERMAN.Dtos
         public List<University> UniversityPreference { get; set; } = new List<University>();
 
         public DurationPreffered? DurationPreffered { get; set; }
+
+        public University? University { get; set; }
+
+        public string? ApplicationStatus { get; set; }
+
+        public AppliedProgram? Program { get; set; }
     }
 }
