@@ -20,7 +20,7 @@ namespace ERMAN.Controllers
         }
 
         [Route("/ws")]
-        [Authorize(Roles = "student")]
+        [Authorize(Roles = "Student, Coordinator")]
         public async Task Get()
         {
             if (HttpContext.WebSockets.IsWebSocketRequest)
@@ -55,6 +55,8 @@ namespace ERMAN.Controllers
                 new ArraySegment<byte>(buffer), CancellationToken.None);
 
             var connectionMessage = JsonConvert.DeserializeObject<ConnectionRequest>(receiveResult.ToJson());
+            Console.WriteLine("got conn message for ws");
+            Console.WriteLine("userId is: " + userId.ToString());
 
             while (!receiveResult.CloseStatus.HasValue)
             {
@@ -64,7 +66,7 @@ namespace ERMAN.Controllers
                 var messageRequest = JsonConvert.DeserializeObject<MessageRequest>(receiveResult.ToJson());
                 // if messageRequest is null frontend sent malformed json, handle that case
 
-                _messagingService.sendMessage(Convert.ToInt32(userId), messageRequest.to, messageRequest.message);
+                await _messagingService.sendMessage(Convert.ToInt32(userId), messageRequest.to, messageRequest.message);
             }
         }
     }
