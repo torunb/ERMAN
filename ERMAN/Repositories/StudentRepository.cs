@@ -45,6 +45,14 @@ namespace ERMAN.Repositories
             }
             return toBeDeleted;
         }
+        public void DeleteAll()
+        {
+            for (int i = 0; i < GetAll().Count; i++)
+            {
+                _dbContext.Remove(GetAll()[i]);
+            }
+   
+        }
 
         public Student Get(int authId)
         {
