@@ -17,13 +17,15 @@ namespace ERMAN.Controllers
             _repository = repository;
         }
 
-        [HttpPost(Name = "StudentPlacementsAPI")]
-        public void Post(StudentDto student)
+        [HttpPost("/studentplacement", Name = "StudentPlacementsAPI")]
+        public void Post(List<StudentDto> studentList)
         {
-            int rankDetermined = 0;
-            student.Ranking = rankDetermined;
-            _repository.Add(student);
-
+            studentList.Sort((x, y) =>x.TotalPoints.CompareTo(y.TotalPoints));
+            for(int i = 0; i < studentList.Count; i++)
+            {
+                studentList[i].Ranking = i + 1;
+                _repository.Add(studentList[i]);
+            }
         }
 
 
