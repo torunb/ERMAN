@@ -19,7 +19,7 @@ namespace ERMAN.Services
             }
         }
 
-        public void register(NotificationListener listener, int userId) {
+        public void registerListener(NotificationListener listener, int userId) {
             listeners[userId] = listener;
         }
     }

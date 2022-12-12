@@ -49,7 +49,7 @@ namespace ERMAN.Controllers
         private async Task Echo(WebSocket webSocket, int userId)
         {
             var listener = new NotificationListener(webSocket);
-            _messagingService.register(listener, userId);
+            _messagingService.registerListener(listener, userId);
             var buffer = new byte[1024 * 4];
             var receiveResult = await webSocket.ReceiveAsync(
                 new ArraySegment<byte>(buffer), CancellationToken.None);

@@ -92,6 +92,7 @@ namespace ERMAN.Controllers
             }
         }
 
+        [HttpPost("/deleteOneStudent", Name = "deleteOneStudent")]
         public void DeleteOneStudent(StudentDto deleteStu)
         {
             var toDelete = _context.StudentTable.FirstOrDefault(s => s.StudentId == deleteStu.StudentId);

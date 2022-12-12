@@ -67,6 +67,7 @@ namespace ERMAN.Services
         public UserInfoDTO Get(int authId)
         {
             Student student = _studentRepository.Get(authId);
+            Coordinator coordinator = _coordinatorRepository.Get(authId);
 
             if (student != null) {
                 Console.WriteLine("student");
@@ -83,6 +84,21 @@ namespace ERMAN.Services
                     university = student.University != null ? student.University.UniversityName : null,
                     durationPreffered = student.DurationPreffered != null ? student.DurationPreffered.ToString() : null,
                     program = student.Program != null ? student.Program.ToString() : null,
+                };
+
+                Console.WriteLine(userInfo.email);
+                return userInfo;
+            }
+            else if (coordinator != null)
+            {
+                var userInfo = new UserInfoDTO
+                {
+                    userType = UserType.Coordinator.ToString().ToLower(),
+                    email = coordinator.CoordinatorEmailAddress,
+                    firstName = "Can",
+                    lastName = "Alkan",
+                    department = "Computer Science",
+                    faculty = "Engineering",
                 };
 
                 Console.WriteLine(userInfo.email);
