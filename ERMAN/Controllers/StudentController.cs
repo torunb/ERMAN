@@ -18,9 +18,9 @@ namespace ERMAN.Controllers
         }
 
         [HttpPost(Name = "StudentPost")]
-        public void Post(StudentDto faq)
+        public void Post(StudentDto student)
         {
-            _studentRepo.Add(faq);
+            _studentRepo.Add(student);
         }
 
         [HttpGet(Name = "StudentGet")]

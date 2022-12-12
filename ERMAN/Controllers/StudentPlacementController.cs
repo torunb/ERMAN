@@ -11,18 +11,18 @@ namespace ERMAN.Controllers
     [ApiController]
     public class StudentPlacementController : Controller
     {
-        private readonly IGeneralInterface<Student,StudentDto> repository;
-        public StudentPlacementController(IGeneralInterface<Student,StudentDto> repository)
+        private readonly StudentRepository _repository;
+        public StudentPlacementController(StudentRepository repository)
         {
-            this.repository = repository;
+            _repository = repository;
         }
 
         [HttpPost(Name = "StudentPlacementsAPI")]
-        public void Post(Student student)
+        public void Post(StudentDto student)
         {
             int rankDetermined = 0;
             student.Ranking = rankDetermined;
-            repository.Add(student);
+            _repository.Add(student);
 
         }
 
@@ -30,28 +30,7 @@ namespace ERMAN.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            repository.Remove(id);
+            _repository.Remove(id);
         }
-
-        //[HttpGet]
-        //public List<StudentPlacement> Get()
-        //{
-        //    List<StudentPlacement> list = _dbContext.StudentPlacements.ToList();
-        //    return list;
-        //}
-
-        [HttpGet("{id}")]
-        public StudentPlacement Get(int id) // may return null, don't give a false id as parameter
-        {
-            return repository.Get(id);
-        }
-
-
-        //[HttpGet("waitingList")]
-        //public List<StudentPlacement> GetWaitingList() // may return null, don't give a false id as parameter
-        //{
-        //    List<StudentPlacement> list = _studentPlacementsRepository.ToWaitingList().ToList();
-        //    return list;
-        //}
     }
 }

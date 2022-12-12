@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ERMAN.Dtos;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace ERMAN.Models
@@ -22,7 +23,7 @@ namespace ERMAN.Models
 
         public string? Faculty { get; set; }
 
-        public int Ranking { get; set; } = null!;
+        public int Ranking { get; set; } = 0!;
 
         public string? ApplicationStatus { get; set; } // TODO make this an enum
 
@@ -37,13 +38,18 @@ namespace ERMAN.Models
 
         public AppliedProgram? Program { get; set; }
 
-        public List<University> UniversityPrefence { get; set; } = new List<University>();
+        public List<University> UniversityPreference { get; set; } = new List<University>();
 
         public List<Course> Courses { get; set; } = new List<Course>();
 
         public List<Message> Messages { get; set; } = new List<Message>();
 
         public DateTime InsertDate { get; set; } = DateTime.Now;
+
+        public double TotalPoints { get; set; }
+
+        public string? Degree { get; set; }
+
     }
 }
 

@@ -14,7 +14,6 @@ namespace ERMAN
         public DbSet<Student> StudentTable { get; set; }
 
         public DbSet<FAQItem> FAQTable { get; set; }
-        public DbSet<StudentPlacement> StudentPlacements { get; set; }
 
         public DbSet<Instructor> InstructorTable { get; set; }
         

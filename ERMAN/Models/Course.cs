@@ -28,7 +28,5 @@ namespace ERMAN.Models
 
         [Required(ErrorMessage = "Course code must be provided")]
         public string CourseCode { get; set; } = null!;
-
-        public DateTime InsertDate { get; set; } = DateTime.Now;
     }
 }

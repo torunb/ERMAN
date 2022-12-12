@@ -27,6 +27,19 @@ namespace ERMAN.Dtos
         public int AuthId { get; set; }
 
         public List<Course> Courses { get; set; }
-    }
 
+        public int Ranking { get; set; } = 0!;
+
+        public string? Degree { get; set; }
+
+        public string? Faculty { get; set; }
+
+        public double TotalPoints { get; set; }
+
+        public string? Department { get; set; }
+
+        public List<University> UniversityPreference { get; set; } = new List<University>();
+
+        public DurationPreffered? DurationPreffered { get; set; }
+    }
 }
