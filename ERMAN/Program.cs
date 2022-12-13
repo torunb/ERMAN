@@ -30,6 +30,7 @@ builder.Services.AddTransient<TodoRepository>();
 builder.Services.AddTransient<FaqRepository>();
 builder.Services.AddTransient<ChecklistRepository>();
 
+builder.Services.AddTransient<UniversityRepository>();
 builder.Services.AddTransient<StudentRepository>();
 builder.Services.AddTransient<CoordinatorRepository>();
 builder.Services.AddTransient<InstructorRepository>();
