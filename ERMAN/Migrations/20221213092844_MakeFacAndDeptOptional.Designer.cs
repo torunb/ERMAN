@@ -3,6 +3,7 @@ using System;
 using ERMAN;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERMAN.Migrations
 {
     [DbContext(typeof(ErmanDbContext))]
-    partial class ErmanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221213092844_MakeFacAndDeptOptional")]
+    partial class MakeFacAndDeptOptional
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +82,7 @@ namespace ERMAN.Migrations
                     b.Property<int>("AuthId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("CoordinatorUniversityId")
+                    b.Property<int>("CoordinatorUniversityId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Department")
@@ -93,13 +96,17 @@ namespace ERMAN.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 

@@ -52,9 +52,10 @@ namespace ERMAN.Services
             {
                 var coordinatorNew = new CoordinatorDto
                 {
-                    CoordinatorEmailAddress = user.Email,
-                    CoordinatorId = user.BilkentId,
-                    CoordinatorName = user.FirstName + " " + user.LastName
+                    Email = user.Email,
+                    AuthId = user.AuthId,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
                 };
                 _coordinatorRepository.Add(coordinatorNew);
             }
@@ -94,7 +95,7 @@ namespace ERMAN.Services
                 var userInfo = new UserInfoDTO
                 {
                     userType = UserType.Coordinator.ToString().ToLower(),
-                    email = coordinator.CoordinatorEmailAddress,
+                    email = coordinator.Email,
                     firstName = "Can",
                     lastName = "Alkan",
                     department = "Computer Science",
@@ -112,6 +113,7 @@ namespace ERMAN.Services
         public List<UserInfoDTO> GetAll()
         {
             List<Student> students = _studentRepository.GetAll();
+            List<Coordinator> coordinators = _coordinatorRepository.GetAll();
             List<UserInfoDTO> result = new List<UserInfoDTO>();
 
             foreach (Student student in students)
@@ -132,7 +134,21 @@ namespace ERMAN.Services
                 };
                 result.Add(userInfo);
             }
-            
+
+            foreach (Coordinator coordinator in coordinators)
+            {
+                var userInfo = new UserInfoDTO
+                {
+                    userType = UserType.Coordinator.ToString().ToLower(),
+                    email = coordinator.Email,
+                    firstName = coordinator.FirstName,
+                    lastName = coordinator.LastName,
+                    department = coordinator.Department,
+                    faculty = coordinator.Faculty,
+                };
+                result.Add(userInfo);
+            }
+
             return result;
         }
 

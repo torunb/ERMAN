@@ -16,11 +16,10 @@ namespace ERMAN.Repositories
         {
             var coordinatorNew = new Coordinator
             {
-                CoordinatorId = entity.CoordinatorId,
-                CoordinatorEmailAddress = entity.CoordinatorEmailAddress,
-                CoordinatorName = entity.CoordinatorName,
+                Email = entity.Email,
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
                 CoordinatorUniversityId = entity.CoordinatorUniversityId,
-              
             };
 
             _context.CoordinatorTable.Add(coordinatorNew);
@@ -31,6 +30,12 @@ namespace ERMAN.Repositories
         {
             return _context.CoordinatorTable.Find(id);
           
+        }
+
+        public List<Coordinator> GetAll()
+        {
+            return _context.CoordinatorTable.ToList();
+
         }
 
         public Coordinator Remove(int id)
