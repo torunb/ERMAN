@@ -63,9 +63,9 @@ namespace ERMAN.Repositories
             return toBeDeleted;
         }
 
-        public Checklist Get(int id)
+        public Checklist Get(int authId)
         {
-            Checklist toBeFind = _dbContext.ChecklistTable.Find(id);
+            Checklist toBeFind = _dbContext.ChecklistTable.Where(x => x.UserId == authId).First();
             return toBeFind;
         }
 

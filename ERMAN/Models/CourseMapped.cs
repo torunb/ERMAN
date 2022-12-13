@@ -7,7 +7,7 @@ namespace ERMAN.Models
         [Key]
         public int Id { get; set; }
 
-        public bool ApprovedStatus { get; set; }
+        public ApprovedStatus ApprovedStatus { get; set; }
 
         [Required(ErrorMessage = "Bilkent university courses be provided")]
         public Course BilkentCourse { get; set; } = null!;
@@ -21,4 +21,10 @@ namespace ERMAN.Models
         [Required(ErrorMessage = "Student id must be provided")]
         public int StudentId { get; set; }
     }
+}
+
+public enum ApprovedStatus {
+    Approved,
+    Rejected,
+    Pending
 }

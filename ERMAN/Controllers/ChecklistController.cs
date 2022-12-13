@@ -17,9 +17,10 @@ namespace ERMAN.Controllers
         }
 
         [HttpGet("/api/Checklist", Name = "ChecklistGet")]
-        public Checklist Get(int id)
+        public Checklist Get()
         {
-            return _checklistRepo.Get(id);
+            var userId = (int) HttpContext.Items["userID"];
+            return _checklistRepo.Get(userId);
         }
 
         [HttpPut("/api/ChecklistCheck", Name = "ChecklistCheck")]
@@ -29,11 +30,11 @@ namespace ERMAN.Controllers
             _checklistRepo.Check(userId, index);
         }
 
-        [HttpGet("/api/ChecklistAll", Name = "ChecklistGetAll")]
-        public IEnumerable<Checklist> Get()
-        {
-            var userId = (int) HttpContext.Items["userID"];
-            return _checklistRepo.GetAll(userId);
-        }
+        //[HttpGet("/api/ChecklistAll", Name = "ChecklistGetAll")]
+        //public Checklist Get()
+        //{
+        //    var userId = (int) HttpContext.Items["userID"];
+        //    return _checklistRepo.GetAll(userId);
+        //}
     }
 }

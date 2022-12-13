@@ -12,7 +12,7 @@ namespace ERMAN.Repositories
             _dbContext = dbContext;
         }
 
-        public void Add(FAQItemDto faq)
+        public FAQItem Add(FAQItemDto faq)
         {
             var faqNew = new FAQItem
             {
@@ -22,6 +22,8 @@ namespace ERMAN.Repositories
 
             _dbContext.FAQTable.Add(faqNew);
             _dbContext.SaveChanges();
+
+            return faqNew;
         }
 
         public FAQItem Remove(int id)

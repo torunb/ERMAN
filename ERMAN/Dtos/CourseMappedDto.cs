@@ -13,6 +13,8 @@ namespace ERMAN.Dtos
         [Required(ErrorMessage = "Host university courses must be provided")]
         public Course[] HostCourses { get; set; } = null!;
 
+        public ApprovedStatus ApprovedStatus { get; set; } 
+
         [Required(ErrorMessage = "Department that evaluates must be provided")]
         public string Department { get; set; }
 

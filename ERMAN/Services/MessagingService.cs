@@ -14,7 +14,7 @@ namespace ERMAN.Services
         }
 
         public async Task sendMessage(int from, int to, String message) {
-            if (this.listeners[to] != null) {
+            if (this.listeners.ContainsKey(to) && this.listeners[to] != null) {
                 await this.listeners[to].notify(from.ToString(), message);
             }
         }

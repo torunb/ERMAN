@@ -19,9 +19,9 @@ namespace ERMAN.Controllers
 
         [HttpPost(Name = "FaqPost")]
         [Authorize(Roles = "Coordinator")]
-        public void Post(FAQItemDto faq)
+        public FAQItem Post(FAQItemDto faq)
         {
-            _faqRepo.Add(faq);
+            return _faqRepo.Add(faq);
         }
 
         [HttpGet(Name = "FaqGetAll")]
