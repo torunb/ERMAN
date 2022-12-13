@@ -14,7 +14,7 @@ namespace ERMAN.Services
         }
 
         public async Task sendMessage(int from, int to, String message) {
-            if (this.listeners.ContainsKey(to)) {
+            if (this.listeners[to] != null) {
                 await this.listeners[to].notify(from.ToString(), message);
             }
         }
@@ -24,8 +24,8 @@ namespace ERMAN.Services
         }
     }
     public class WSMessage {
-        String from;
-        String message;
+        public String from { get; set; }
+        public String message { get; set; }
 
         public WSMessage(String from, String message) {
             this.from = from;
@@ -49,11 +49,13 @@ namespace ERMAN.Services
             var encoded = Encoding.UTF8.GetBytes(serialized);
             var buffer = new ArraySegment<Byte>(encoded, 0, encoded.Length);
 
-            await this.websocket.SendAsync(
-                buffer,
-                WebSocketMessageType.Text,
-                true,
-                CancellationToken.None);
+            if (websocket != null && this.websocket.State == WebSocketState.Open) {
+                await this.websocket.SendAsync(
+                    buffer,
+                    WebSocketMessageType.Text,
+                    true,
+                    CancellationToken.None);
+            }
         }
     }
 }

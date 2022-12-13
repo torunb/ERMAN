@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NuGet.Protocol;
+using System.Collections.Generic;
 using System.Net.WebSockets;
+using System.Text;
 
 namespace ERMAN.Controllers
 {
@@ -58,15 +60,27 @@ namespace ERMAN.Controllers
             Console.WriteLine("got conn message for ws");
             Console.WriteLine("userId is: " + userId.ToString());
 
-            while (!receiveResult.CloseStatus.HasValue)
+            while (webSocket.State == WebSocketState.Open)
             {
                 receiveResult = await webSocket.ReceiveAsync(
                     new ArraySegment<byte>(buffer), CancellationToken.None);
 
-                var messageRequest = JsonConvert.DeserializeObject<MessageRequest>(receiveResult.ToJson());
+                string jsonStr = Encoding.UTF8.GetString(buffer);
+
+                Console.WriteLine(jsonStr);
+                var messageRequest = JsonConvert.DeserializeObject<MessageRequest>(jsonStr);
+                Console.WriteLine("msg: " + messageRequest.message + "to " + messageRequest.to);
                 // if messageRequest is null frontend sent malformed json, handle that case
 
-                await _messagingService.sendMessage(Convert.ToInt32(userId), messageRequest.to, messageRequest.message);
+                foreach (KeyValuePair<int, NotificationListener> kvp in _messagingService.listeners)
+                {
+                    //textBox3.Text += ("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+                    Console.WriteLine(string.Format("Key = {0}, Value = {1}", kvp.Key, kvp.Value));
+                }
+
+                Console.WriteLine("to: " + messageRequest.to + " from: " + userId);
+
+                await _messagingService.sendMessage(userId, messageRequest.to, messageRequest.message);
             }
         }
     }
