@@ -63,12 +63,12 @@ namespace ERMAN.Repositories
 
         public IEnumerable<CourseMapped> GetApproved()
         {
-            return _dbContext.CourseMappedTable.Where(x => x.ApprovedStatus).ToList();
+            return _dbContext.CourseMappedTable.Where(x => x.ApprovedStatus == ApprovedStatus.Approved).ToList();
         }
 
         public IEnumerable<CourseMapped> GetRejected()
         {
-            return _dbContext.CourseMappedTable.Where(x => !x.ApprovedStatus).ToList();
+            return _dbContext.CourseMappedTable.Where(x => x.ApprovedStatus == ApprovedStatus.Rejected).ToList();
         }
 
         public IEnumerable<CourseMapped> GetAll( int studentId) // get the courseMapped of student

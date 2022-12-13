@@ -5,7 +5,6 @@ namespace ERMAN.Dtos
 {
     public class CourseMappedDto
     {
-        public bool ApprovedStatus { get; set; }
 
         [Required(ErrorMessage = "Bilkent university courses be provided")]
         public Course BilkentCourse { get; set; } = null!;

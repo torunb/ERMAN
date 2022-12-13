@@ -9,10 +9,9 @@ namespace ERMAN.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
         [StringLength(360)]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Please enter valid e-mail address")]
-        public string Email { get; set; } = null!;
+        public string? Email { get; set; } = null!;
 
         public int AuthId { get; set; }
 
@@ -35,7 +34,7 @@ namespace ERMAN.Models
 
         public bool IsRejected { get; set; }
 
-        public DurationPreffered? DurationPreffered { get; set; }
+        public string? DurationPreffered { get; set; }
 
         public AppliedProgram? Program { get; set; }
 
@@ -50,13 +49,7 @@ namespace ERMAN.Models
         public double TotalPoints { get; set; }
 
         public string? Degree { get; set; }
-
     }
-}
-
-public enum DurationPreffered {
-    Fall,
-    Spring
 }
 
 public enum AppliedProgram

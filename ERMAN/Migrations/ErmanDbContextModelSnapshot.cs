@@ -173,8 +173,8 @@ namespace ERMAN.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("ApprovedStatus")
-                        .HasColumnType("boolean");
+                    b.Property<int>("ApprovedStatus")
+                        .HasColumnType("integer");
 
                     b.Property<int>("BilkentCourseId")
                         .HasColumnType("integer");
@@ -307,11 +307,10 @@ namespace ERMAN.Migrations
                     b.Property<string>("Department")
                         .HasColumnType("text");
 
-                    b.Property<int?>("DurationPreffered")
-                        .HasColumnType("integer");
+                    b.Property<string>("DurationPreffered")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(360)
                         .HasColumnType("character varying(360)");
 

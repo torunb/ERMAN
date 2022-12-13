@@ -30,7 +30,6 @@ namespace ERMAN.Controllers
                 studentList[i].Ranking = i + 1;
                 for (int j = 0; j < studentList[i].UniversityPreference.Count; j++)
                 {
-
                     var university = _context.UniversityTable.FirstOrDefault(s => (s.UniversityName == studentList[i].UniversityPreference[j].UniversityName));
                     if(university.UniversityCapacity > 0)
                     {

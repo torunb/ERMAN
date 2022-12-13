@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERMAN.Migrations
 {
     [DbContext(typeof(ErmanDbContext))]
-    [Migration("20221206194043_FaqTableDropped")]
-    partial class FaqTableDropped
+    [Migration("20221213181410_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,9 +59,16 @@ namespace ERMAN.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<bool[]>("Checked")
+                        .IsRequired()
+                        .HasColumnType("boolean[]");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Checklists");
+                    b.ToTable("ChecklistTable");
                 });
 
             modelBuilder.Entity("ERMAN.Models.Coordinator", b =>
@@ -72,20 +79,30 @@ namespace ERMAN.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CoordinatorEmailAddress")
+                    b.Property<int>("AuthId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CoordinatorUniversityId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Department")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("CoordinatorId")
-                        .HasColumnType("integer");
+                    b.Property<string>("Faculty")
+                        .HasColumnType("text");
 
-                    b.Property<string>("CoordinatorName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -107,6 +124,13 @@ namespace ERMAN.Migrations
                     b.Property<float>("CourseCredit")
                         .HasColumnType("real");
 
+                    b.Property<string>("CourseDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("CourseMappedId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("CourseName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -115,10 +139,19 @@ namespace ERMAN.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("InsertDate")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<int>("InstructorId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsElectiveCourse")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsForeignUniversity")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsMustCourse")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("StudentId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UniversityId")
@@ -126,7 +159,41 @@ namespace ERMAN.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CourseMappedId");
+
+                    b.HasIndex("InstructorId");
+
+                    b.HasIndex("StudentId");
+
                     b.ToTable("Course");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.CourseMapped", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ApprovedStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("BilkentCourseId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BilkentCourseId");
+
+                    b.ToTable("CourseMappedTable");
                 });
 
             modelBuilder.Entity("ERMAN.Models.FAQItem", b =>
@@ -185,6 +252,15 @@ namespace ERMAN.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CoordinatorId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("InstructorId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("StudentId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("messageText")
                         .IsRequired()
                         .HasColumnType("text");
@@ -205,6 +281,12 @@ namespace ERMAN.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CoordinatorId");
+
+                    b.HasIndex("InstructorId");
+
+                    b.HasIndex("StudentId");
+
                     b.ToTable("MessageTable");
                 });
 
@@ -216,126 +298,60 @@ namespace ERMAN.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationStatus")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AuthId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Degree")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Department")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DurationPreffered")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(360)
+                        .HasColumnType("character varying(360)");
+
+                    b.Property<string>("Faculty")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsRejected")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("StudentEmailAddress")
-                        .IsRequired()
-                        .HasMaxLength(360)
-                        .HasColumnType("character varying(360)");
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("Program")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Ranking")
+                        .HasColumnType("integer");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("StudentName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StudentTable");
-                });
-
-            modelBuilder.Entity("ERMAN.Models.StudentPlacement", b =>
-                {
-                    b.Property<int>("PlacementId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PlacementId"));
-
-                    b.Property<string>("DurationPrefered")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Eng101")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Eng102")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<double>("ErasmusApplicationWithGradesBehindSeUe")
-                        .HasColumnType("double precision");
-
-                    b.Property<bool>("IsInWaitingList")
-                        .HasColumnType("boolean");
-
-                    b.Property<double>("LanguagePoints")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("StudentFirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<long>("StudentId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("StudentLastName")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<double>("TotalPoints")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("TranscriptGradeContribution")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("TranscriptGradeFromFour")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("TranscriptGradeFromHundred")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("TranscriptPoints")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("UECGPA")
-                        .HasColumnType("double precision");
-
-                    b.Property<int>("UESECount")
+                    b.Property<int?>("UniversityId")
                         .HasColumnType("integer");
-
-                    b.Property<string[]>("UniversityChoices")
-                        .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.HasKey("PlacementId");
-
-                    b.ToTable("StudentPlacements");
-                });
-
-            modelBuilder.Entity("ERMAN.Models.StudentUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("character varying(80)");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("UniversityId");
 
-                    b.ToTable("StudentUserTable");
+                    b.ToTable("StudentTable");
                 });
 
             modelBuilder.Entity("ERMAN.Models.Todo", b =>
@@ -356,9 +372,6 @@ namespace ERMAN.Migrations
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<bool>("Starred")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("text");
@@ -366,6 +379,9 @@ namespace ERMAN.Migrations
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("UserType")
                         .IsRequired()
@@ -387,6 +403,9 @@ namespace ERMAN.Migrations
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<int?>("StudentId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("UniversityCapacity")
                         .HasColumnType("integer");
 
@@ -396,18 +415,94 @@ namespace ERMAN.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("StudentId");
+
                     b.ToTable("UniversityTable");
                 });
 
-            modelBuilder.Entity("ERMAN.Models.StudentUser", b =>
+            modelBuilder.Entity("ERMAN.Models.Course", b =>
                 {
-                    b.HasOne("ERMAN.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
+                    b.HasOne("ERMAN.Models.CourseMapped", null)
+                        .WithMany("HostCourses")
+                        .HasForeignKey("CourseMappedId");
+
+                    b.HasOne("ERMAN.Models.Instructor", null)
+                        .WithMany("Courses")
+                        .HasForeignKey("InstructorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Student");
+                    b.HasOne("ERMAN.Models.Student", null)
+                        .WithMany("Courses")
+                        .HasForeignKey("StudentId");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.CourseMapped", b =>
+                {
+                    b.HasOne("ERMAN.Models.Course", "BilkentCourse")
+                        .WithMany()
+                        .HasForeignKey("BilkentCourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BilkentCourse");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.Message", b =>
+                {
+                    b.HasOne("ERMAN.Models.Coordinator", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("CoordinatorId");
+
+                    b.HasOne("ERMAN.Models.Instructor", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("InstructorId");
+
+                    b.HasOne("ERMAN.Models.Student", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("StudentId");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.Student", b =>
+                {
+                    b.HasOne("ERMAN.Models.University", "University")
+                        .WithMany()
+                        .HasForeignKey("UniversityId");
+
+                    b.Navigation("University");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.University", b =>
+                {
+                    b.HasOne("ERMAN.Models.Student", null)
+                        .WithMany("UniversityPreference")
+                        .HasForeignKey("StudentId");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.Coordinator", b =>
+                {
+                    b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.CourseMapped", b =>
+                {
+                    b.Navigation("HostCourses");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.Instructor", b =>
+                {
+                    b.Navigation("Courses");
+
+                    b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.Student", b =>
+                {
+                    b.Navigation("Courses");
+
+                    b.Navigation("Messages");
+
+                    b.Navigation("UniversityPreference");
                 });
 #pragma warning restore 612, 618
         }
