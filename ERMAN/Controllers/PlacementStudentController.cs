@@ -27,7 +27,7 @@ namespace ERMAN.Controllers
             studentList.Sort((x, y) => Convert.ToDouble(x.TotalPoints).CompareTo(Convert.ToDouble(y.TotalPoints)));
             for(int i = 0; i < studentList.Count; i++)
             {
-                studentList[studentList.Count - 1] = studentList[i];
+                studentList[studentList.Count - i - 1] = studentList[i];
             }
             for (int i = 0; i < studentList.Count; i++)
             {
@@ -55,7 +55,11 @@ namespace ERMAN.Controllers
             List<PlacementStudent> newStudentList = _placeRepo.GetAll();
             _placeRepo.DeleteAll();
             newStudentList.Sort((x, y) => Convert.ToDouble(x.TotalPoints).CompareTo(Convert.ToDouble(y.TotalPoints)));
-            for(int i = 0; i < newStudentList.Count; i++)
+            for (int i = 0; i < newStudentList.Count; i++)
+            {
+                newStudentList[newStudentList.Count - i - 1] = newStudentList[i];
+            }
+            for (int i = 0; i < newStudentList.Count; i++)
             {
                 newStudentList[i].Ranking = i + 1;
                 var student = new PlacementStudentDto
