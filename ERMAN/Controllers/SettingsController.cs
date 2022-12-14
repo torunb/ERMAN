@@ -24,11 +24,11 @@ namespace ERMAN.Controllers
         }
     
         [Authorize(Roles ="Student")]
-        [HttpPost("/api/settings/drop", Name = "DropProgram")]
+        [HttpPost("/api/settings/cancel", Name = "DropProgram")]
         public void dropProgram()
         {
-            var userId = HttpContext.Items["userId"];
-            var toDelete = _context.PlacementStudentTable.FirstOrDefault(s => s.StudentId == userId);
+            var userId = (int)HttpContext.Items["userId"];
+            var toDelete = _context.PlacementStudentTable.FirstOrDefault(s => Convert.ToInt32(s.StudentId) == userId);
             if (toDelete.University != null)
             {
                 List<PlacementStudent> studentList = _context.PlacementStudentTable.Where(s => (s.Ranking > toDelete.Ranking && s.University == null)).ToList();
@@ -56,11 +56,11 @@ namespace ERMAN.Controllers
         }
 
         [Authorize(Roles ="Student")]
-        [HttpPost("/api/settings/chnageFirstName", Name = "ChangeFirstName")]
+        [HttpPost("/api/settings/changeFirstName", Name = "ChangeFirstName")]
         public void changeFirstName(String name)
         {
-            var userId = HttpContext.Items["userId"];
-            var Student = _context.PlacementStudentTable.FirstOrDefault(s => s.StudentId == userId);
+            var userId = (int) HttpContext.Items["userId"];
+            var Student = _context.PlacementStudentTable.FirstOrDefault(s => Convert.ToInt32(s.StudentId) == userId);
             Student.FirstName = name;
             _context.SaveChanges();
         }
