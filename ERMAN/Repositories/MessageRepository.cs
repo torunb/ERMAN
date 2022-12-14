@@ -18,7 +18,6 @@ namespace ERMAN.Repositories
             {
                 senderId = message.senderId,
                 receiverId = message.receiverId,
-                receiverType = message.receiverType,
                 messageText = message.messageText,
             };
 
@@ -41,6 +40,12 @@ namespace ERMAN.Repositories
         {
             Message toFind = _dbContext.MessageTable.Find(id);
             return toFind;
+        }
+
+        public List<Message> GetUserMessages(int authId)
+        {
+            List<Message> messages = _dbContext.MessageTable.Where(message => message.senderId == authId || message.receiverId == authId).ToList();
+            return messages;
         }
 
         public void Update()

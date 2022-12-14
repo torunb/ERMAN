@@ -1,4 +1,6 @@
 ﻿using ERMAN.Services;
+using ERMAN.Models;
+using ERMAN.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -16,9 +18,20 @@ namespace ERMAN.Controllers
     public class MessagingController : ControllerBase
     {
         private MessagingService _messagingService;
+        private MessageRepository _messageRepository;
 
-        public MessagingController(MessagingService messagingService) {
+        public MessagingController(MessagingService messagingService, MessageRepository messageRepository)
+        {
             _messagingService = messagingService;
+            _messageRepository = messageRepository; 
+        }
+
+        [Route("api/Messages")]
+        [Authorize(Roles = "Student, Coordinator")]
+        public List<Message> GetUserMessages()
+        {
+            var userId = (int)HttpContext.Items["userID"];
+            var messages = _messageRepository.GetUserMessages(userId);
         }
 
         [Route("/ws")]

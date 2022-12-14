@@ -9,18 +9,10 @@ namespace ERMAN.Models
 
         public string messageText { get; set; }
 
-        public string senderType { get; set; }
-
-
         [Required]
         public int senderId { get; set; }
 
-        public string receiverType { get; set; }
-
         [Required]
         public int receiverId { get; set; }
-
-  
-        
     }
 }
