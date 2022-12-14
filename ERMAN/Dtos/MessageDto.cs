@@ -7,6 +7,7 @@ namespace ERMAN.Dtos
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public string messageText { get; set; }
 
         [Required]

@@ -1,5 +1,5 @@
 ﻿using ERMAN.Services;
-using ERMAN.Models;
+using ERMAN.Dtos;
 using ERMAN.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -80,19 +80,15 @@ namespace ERMAN.Controllers
 
                 string jsonStr = Encoding.UTF8.GetString(buffer);
 
-                Console.WriteLine(jsonStr);
                 var messageRequest = JsonConvert.DeserializeObject<MessageRequest>(jsonStr);
-                Console.WriteLine("msg: " + messageRequest.message + "to " + messageRequest.to);
-                // if messageRequest is null frontend sent malformed json, handle that case
 
-                foreach (KeyValuePair<int, NotificationListener> kvp in _messagingService.listeners)
+                var msgEntity = new MessageDto
                 {
-                    //textBox3.Text += ("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
-                    Console.WriteLine(string.Format("Key = {0}, Value = {1}", kvp.Key, kvp.Value));
-                }
-
-                Console.WriteLine("to: " + messageRequest.to + " from: " + userId);
-
+                    messageText = messageRequest.message,
+                    receiverId = messageRequest.to,
+                    senderId = userId,
+                };
+                _messageRepository.Add(msgEntity);
                 await _messagingService.sendMessage(userId, messageRequest.to, messageRequest.message);
             }
         }
