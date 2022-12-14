@@ -25,6 +25,7 @@ namespace ERMAN.Repositories
                 TotalPoints = placedStu.TotalPoints,
                 DurationPreferred = placedStu.DurationPreferred,
                 PreferredUniversity = placedStu.PreferredUniversity,
+                Ranking = placedStu.Ranking,
             };
             _dbContext.PlacementStudentTable.Add(newStu);
             _dbContext.SaveChanges();
@@ -56,10 +57,8 @@ namespace ERMAN.Repositories
 
         public void DeleteAll()
         {
-            for(int i = 0; i < _dbContext.PlacementStudentTable.Count(); i++)
-            {
-                _dbContext.Remove(GetAll()[i]);
-            }
+            _dbContext.PlacementStudentTable.RemoveRange(_dbContext.PlacementStudentTable);
+            _dbContext.SaveChanges();
         }
     }
 }
