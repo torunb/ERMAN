@@ -32,9 +32,10 @@ namespace ERMAN
         public DbSet<Checklist> ChecklistTable { get; set; }
 
         public DbSet<Course> CourseTable { get; set; }
+
         public DbSet<CourseMapped> CourseMappedTable { get; set; }
 
-
+        public DbSet<PlacementStudent> PlacementStudentTable { get; set; }
 
         public DbSet<Message> MessageTable { get; set; }
 
