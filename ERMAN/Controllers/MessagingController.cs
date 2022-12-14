@@ -32,6 +32,7 @@ namespace ERMAN.Controllers
         {
             var userId = (int)HttpContext.Items["userID"];
             var messages = _messageRepository.GetUserMessages(userId);
+            return messages;
         }
 
         [Route("/ws")]
@@ -59,7 +60,6 @@ namespace ERMAN.Controllers
             public String message;
             public int to; // id of the user to send to
         }
-
 
         private async Task Echo(WebSocket webSocket, int userId)
         {
