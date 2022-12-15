@@ -28,7 +28,7 @@ namespace ERMAN.Controllers
         public void dropProgram()
         {
             var userId = (int)HttpContext.Items["userId"];
-            var toDelete = _context.PlacementStudentTable.FirstOrDefault(s => Convert.ToInt32(s.StudentId) == userId);
+            var toDelete = _context.PlacementStudentTable.FirstOrDefault(s => Convert.ToInt32(s.Id) == userId);
             if (toDelete.University != null)
             {
                 List<PlacementStudent> studentList = _context.PlacementStudentTable.Where(s => (s.Ranking > toDelete.Ranking && s.University == null)).ToList();
@@ -40,7 +40,7 @@ namespace ERMAN.Controllers
                     {
                         if (university.UniversityName == toDelete.University.UniversityName)
                         {
-                            var StudentToChange = _context.PlacementStudentTable.FirstOrDefault(s => s.StudentId == studentList[i].StudentId);
+                            var StudentToChange = _context.PlacementStudentTable.FirstOrDefault(s => s.Id == studentList[i].Id);
                             StudentToChange.University = toDelete.University;
                             studentFound = true;
                             _context.SaveChanges();
@@ -60,10 +60,10 @@ namespace ERMAN.Controllers
         public void changeFirstName(Student student)
         {
             var userId = (int) HttpContext.Items["userId"];
-            var StudentPlacement = _context.PlacementStudentTable.FirstOrDefault(s => Convert.ToInt32(s.StudentId) == userId);
+            var StudentPlacement = _context.PlacementStudentTable.FirstOrDefault(s => Convert.ToInt32(s.Id) == userId);
             StudentPlacement.FirstName = student.FirstName;
             StudentPlacement.LastName = student.LastName;
-            var Student = _context.StudentTable.FirstOrDefault(s => Convert.ToInt32(s.StudentId) == userId);
+            var Student = _context.StudentTable.FirstOrDefault(s => Convert.ToInt32(s.Id) == userId);
             Student.Email = student.Email;
             Student.FirstName = student.FirstName;
             Student.LastName = student.LastName;
