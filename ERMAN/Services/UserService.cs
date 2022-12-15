@@ -86,6 +86,8 @@ namespace ERMAN.Services
                     university = student.University != null ? student.University.UniversityName : null,
                     durationPreffered = student.DurationPreffered != null ? student.DurationPreffered.ToString() : null,
                     program = student.Program != null ? student.Program.ToString() : null,
+                    coordinatorID = student.CoordinatorId,
+                    coordinatorName = student.CoordinatorName,
                 };
 
                 Console.WriteLine(userInfo.email);

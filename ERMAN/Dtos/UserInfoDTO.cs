@@ -5,6 +5,10 @@
         public string userType { get; set; }
         public string email { get; set; } = null!;
         public int authId { get; set; }
+
+        public int? coordinatorID { get; set; }
+
+        public string? coordinatorName { get; set; }
         public string? firstName { get; set; }
         public string? lastName { get; set; }
         public string? bilkentID { get; set; }
