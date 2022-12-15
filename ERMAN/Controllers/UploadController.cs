@@ -9,10 +9,10 @@ namespace ERMAN.Controllers
     public class UploadController : Controller
     {
         [HttpPost, DisableRequestSizeLimit]
-        [Authorize(Roles = "Student, Coordinator")]
+        [Authorize(Roles = "Student")]
         public async Task<IActionResult> Upload(IFormFile file)
         {
-            var userId = ((int)HttpContext.Items["userId"]).ToString();
+            var userId = ((int)HttpContext.Items["userID"]).ToString();
             string path = "";
             try
             {
@@ -48,12 +48,11 @@ namespace ERMAN.Controllers
         [Authorize(Roles = "Student, Coordinator")]
         public IActionResult Download(DownloadRequest req)
         {
-            var userId = ((int)HttpContext.Items["userId"]).ToString();
+            var userId = ((int)HttpContext.Items["userID"]).ToString();
 
-            string path = "";
             try
-            {    
-                path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles/" + userId + "/" + req.fileName));
+            {
+                string path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles/" + userId + "/" + req.fileName));
                 if (System.IO.File.Exists(path))
                 {
                     var fileContent = System.IO.File.ReadAllBytes(path);
@@ -67,28 +66,37 @@ namespace ERMAN.Controllers
             }
         }
 
+        public class FilesResponse {
+            public List<string> names { get; set; }
+        }
 
-        //[HttpPost("/api/Upload/view", Name = "DownloadFile")]
-        //[Authorize(Roles = "Student, Coordinator")]
-        //public IActionResult Download(DownloadRequest req)
-        //{
-        //    var userId = ((int)HttpContext.Items["userId"]).ToString();
 
-        //    string path = "";
-        //    try
-        //    {
-        //        path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles/" + userId + "/" + req.fileName));
-        //        if (System.IO.File.Exists(path))
-        //        {
-        //            var fileContent = System.IO.File.ReadAllBytes(path);
-        //            return File(fileContent, "application/pdf");
-        //        }
-        //        return StatusCode(404);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("File Copy Failed", ex);
-        //    }
-        //}
+        [HttpPost("/api/Upload/view", Name = "ViewFiles")]
+        [Authorize(Roles = "Student, Coordinator")]
+        public List<string> GetUploadedFiles()
+        {
+            var userId = ((int)HttpContext.Items["userID"]).ToString();
+            var fileNames = new List<string>();
+
+            try
+            {
+                string path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles/" + userId));
+                if (System.IO.Directory.Exists(path))
+                {
+                    var directory = new DirectoryInfo(path);
+                    var files = directory.GetFiles();       
+                    foreach (var file in files)
+                    {
+                        fileNames.Add(file.Name);
+                    }
+                }
+
+                return fileNames;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("File Copy Failed", ex);
+            }
+        }
     }
 }

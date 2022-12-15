@@ -106,12 +106,12 @@ namespace ERMAN.Controllers
         [HttpPost("/api/register", Name = "AuthRegister")]
         public ActionResult<bool> Register(StudentRegisterRequest registerData)
         {
-            var student = _dbContext.PlacementStudentTable.Where(student => student.StudentId == (registerData.bilkentID).ToString()).FirstOrDefault();
+            //var student = _dbContext.PlacementStudentTable.Where(student => student.StudentId == (registerData.bilkentID).ToString()).FirstOrDefault();
 
-            if (student == null) {
-                // no student with that ID is in the excel data
-                return StatusCode(404);
-            }
+            //if (student == null) {
+            //    // no student with that ID is in the excel data
+            //    return StatusCode(404);
+            //}
 
             var user = _dbContext.AuthenticationTable.Where(x => x.Username == registerData.email).FirstOrDefault();
 
@@ -137,8 +137,8 @@ namespace ERMAN.Controllers
                 UserType = UserType.Student,
                 Email = registerData.email,
                 BilkentId = registerData.bilkentID,
-                FirstName = student.FirstName,
-                LastName = student.LastName,
+                //FirstName = student.FirstName,
+                //LastName = student.LastName,
             };
             _userService.Add(newUserDto);
 

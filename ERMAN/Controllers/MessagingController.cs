@@ -85,14 +85,19 @@ namespace ERMAN.Controllers
 
                 var messageRequest = JsonConvert.DeserializeObject<MessageRequest>(jsonStr);
 
-                var msgEntity = new MessageDto
-                {
-                    messageText = messageRequest.message,
-                    receiverId = messageRequest.to,
-                    senderId = userId,
-                };
-                _messageRepository.Add(msgEntity);
-                await _messagingService.sendMessage(userId, messageRequest.to, messageRequest.message);
+                Console.WriteLine("message: " + messageRequest.message);
+                Console.WriteLine("to: " + messageRequest.to);
+
+                if (messageRequest != null && messageRequest.message != null && messageRequest.message != "") {
+                    var msgEntity = new MessageDto
+                    {
+                        messageText = messageRequest.message,
+                        receiverId = messageRequest.to,
+                        senderId = userId,
+                    };
+                    _messageRepository.Add(msgEntity);
+                    await _messagingService.sendMessage(userId, messageRequest.to, messageRequest.message);
+                }
             }
         }
     }
