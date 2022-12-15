@@ -15,7 +15,7 @@ namespace ERMAN.Controllers
     // Because this is a websocket controller it needs to be ignored
     // otherwise Swagger will complain about not knowning which HTTP verb
     // Get() below corresponds to
-    [ApiExplorerSettings(IgnoreApi = true)]
+    //[ApiExplorerSettings(IgnoreApi = true)]
     public class MessagingController : ControllerBase
     {
         private MessagingService _messagingService;
@@ -29,6 +29,7 @@ namespace ERMAN.Controllers
 
         [Route("api/Messages")]
         [Authorize(Roles = "Student, Coordinator")]
+        [HttpGet]
         public List<Message> GetUserMessages()
         {
             var userId = (int)HttpContext.Items["userID"];
@@ -36,6 +37,7 @@ namespace ERMAN.Controllers
             return messages;
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Route("/ws")]
         [Authorize(Roles = "Student, Coordinator")]
         public async Task Get()
