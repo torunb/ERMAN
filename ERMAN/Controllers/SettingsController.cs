@@ -56,12 +56,18 @@ namespace ERMAN.Controllers
         }
 
         [Authorize(Roles ="Student")]
-        [HttpPost("/api/settings/changeFirstName", Name = "ChangeFirstName")]
-        public void changeFirstName(String name)
+        [HttpPost("/api/settings/changeProperties", Name = "ChangeProperties")]
+        public void changeFirstName(Student student)
         {
             var userId = (int) HttpContext.Items["userId"];
-            var Student = _context.PlacementStudentTable.FirstOrDefault(s => Convert.ToInt32(s.StudentId) == userId);
-            Student.FirstName = name;
+            var StudentPlacement = _context.PlacementStudentTable.FirstOrDefault(s => Convert.ToInt32(s.StudentId) == userId);
+            StudentPlacement.FirstName = student.FirstName;
+            StudentPlacement.LastName = student.LastName;
+            var Student = _context.StudentTable.FirstOrDefault(s => Convert.ToInt32(s.StudentId) == userId);
+            Student.Email = student.Email;
+            Student.FirstName = student.FirstName;
+            Student.LastName = student.LastName;
+            Student.Faculty = student.Faculty;
             _context.SaveChanges();
         }
     }
