@@ -15,6 +15,8 @@ namespace ERMAN.Models
 
         public int AuthId { get; set; }
 
+        public int? CoordinatorId { get; set; }
+
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
@@ -25,7 +27,7 @@ namespace ERMAN.Models
 
         public int Ranking { get; set; } = 0!;
 
-        public string? ApplicationStatus { get; set; } // TODO make this an enum
+        public string? ApplicationStatus { get; set; }
 
         public University? University { get; set; }
 
