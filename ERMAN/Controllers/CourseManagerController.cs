@@ -38,6 +38,14 @@ namespace ERMAN.Controllers
         {
             return _courseMappedRepo.GetApproved();
         }
+
+        [HttpGet("/api/CourseManager/Selected", Name = "CourseManagerGetSelected")]
+        public IEnumerable<CourseMapped> GetSelected()
+        {
+            var authId = (int)HttpContext.Items["userID"];
+            return _courseMappedRepo.GetSelected(authId);
+        }
+
         [HttpGet("/api/CourseManager/Rejected", Name = "CourseManagerGetRejected")]
         public IEnumerable<CourseMapped> GetRejected(int id)
         {
