@@ -16,7 +16,7 @@ namespace ERMAN.Controllers
             _context = context;
         }
 
-        [HttpPost("/studentplacement", Name = "StudentPlacementAPI")]
+        [HttpPost("/api/ErasmnusOffice/StudentPlacement", Name = "ErasmusOfficeAPI")]
         public void Post(List<PlacementStudentDto> studentList)
         {
             studentList.Sort((x, y) => Convert.ToDouble(x.TotalPoints).CompareTo(Convert.ToDouble(y.TotalPoints)));

@@ -25,13 +25,13 @@ namespace ERMAN.Controllers
         public void Post(List<PlacementStudentDto> studentList)
         {
             studentList.Sort((x, y) => Convert.ToDouble(x.TotalPoints).CompareTo(Convert.ToDouble(y.TotalPoints)));
-            for(int i = 0; i < studentList.Count / 2; i++)
+            for (int i = 0; i < studentList.Count / 2; i++)
             {
                 PlacementStudentDto student = studentList[i];
                 studentList[i] = studentList[studentList.Count - i - 1];
                 studentList[studentList.Count - i - 1] = student;
             }
-            for(int i = 0; i < studentList.Count; i++)
+            for (int i = 0; i < studentList.Count; i++)
             {
                 studentList[i].Ranking = i + 1;
             }
