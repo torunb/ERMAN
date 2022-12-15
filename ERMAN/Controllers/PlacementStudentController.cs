@@ -49,7 +49,7 @@ namespace ERMAN.Controllers
                         break;
                     }
                 }
-                Console.WriteLine(studentList[i].Ranking);
+                //Console.WriteLine(studentList[i].Ranking);
                 _placeRepo.Add(studentList[i]);
             }
         }
@@ -61,9 +61,11 @@ namespace ERMAN.Controllers
             List<PlacementStudent> newStudentList = _placeRepo.GetAll();
             _placeRepo.DeleteAll();
             newStudentList.Sort((x, y) => Convert.ToDouble(x.TotalPoints).CompareTo(Convert.ToDouble(y.TotalPoints)));
-            for (int i = 0; i < newStudentList.Count; i++)
+            for (int i = 0; i < newStudentList.Count / 2; i++)
             {
-                newStudentList[newStudentList.Count - i - 1] = newStudentList[i];
+                PlacementStudent student = newStudentList[i];
+                newStudentList[i] = newStudentList[newStudentList.Count - i - 1];
+                newStudentList[newStudentList.Count - i - 1] = student;
             }
             for (int i = 0; i < newStudentList.Count; i++)
             {
