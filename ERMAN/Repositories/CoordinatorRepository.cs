@@ -20,16 +20,17 @@ namespace ERMAN.Repositories
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
                 CoordinatorUniversityId = entity.CoordinatorUniversityId,
+                AuthId = entity.AuthId,
             };
 
             _context.CoordinatorTable.Add(coordinatorNew);
             _context.SaveChanges();
         }
 
-        public Coordinator Get(int id)
+        public Coordinator Get(int authId)
         {
-            return _context.CoordinatorTable.Find(id);
-          
+            Coordinator coord = _context.CoordinatorTable.Where(x => x.AuthId == authId).FirstOrDefault();
+            return coord;
         }
 
         public List<Coordinator> GetAll()

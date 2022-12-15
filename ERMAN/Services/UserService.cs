@@ -69,6 +69,7 @@ namespace ERMAN.Services
         {
             Student student = _studentRepository.Get(authId);
             Coordinator coordinator = _coordinatorRepository.Get(authId);
+            Console.WriteLine("authid: " + authId.ToString());
 
             if (student != null) {
                 Console.WriteLine("student");
@@ -96,10 +97,10 @@ namespace ERMAN.Services
                 {
                     userType = UserType.Coordinator.ToString().ToLower(),
                     email = coordinator.Email,
-                    firstName = "Can",
-                    lastName = "Alkan",
-                    department = "Computer Science",
-                    faculty = "Engineering",
+                    firstName = coordinator.FirstName,
+                    lastName = coordinator.LastName,
+                    department = coordinator.Department,
+                    faculty = coordinator.Faculty,
                 };
 
                 Console.WriteLine(userInfo.email);

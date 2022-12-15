@@ -158,6 +158,7 @@ namespace ERMAN.Controllers
             _dbContext.AuthenticationTable.Add(newUser);
             _dbContext.SaveChanges();
 
+           
             var newUserDto = new UserDto
             {
                 AuthId = newUser.Id,
@@ -165,6 +166,7 @@ namespace ERMAN.Controllers
                 Email = registerData.email,
             };
             _userService.Add(newUserDto);
+
 
             return StatusCode(200);
         }

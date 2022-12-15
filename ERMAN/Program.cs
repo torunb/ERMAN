@@ -29,6 +29,7 @@ builder.Services.AddTransient<ErmanApplicationService>();
 builder.Services.AddTransient<TodoRepository>();
 builder.Services.AddTransient<FaqRepository>();
 builder.Services.AddTransient<ChecklistRepository>();
+builder.Services.AddTransient<MessageRepository>();
 
 builder.Services.AddTransient<UniversityRepository>();
 builder.Services.AddTransient<StudentRepository>();
