@@ -9,9 +9,9 @@ namespace ERMAN.Controllers
     [ApiController]
     public class UniversityController : ControllerBase
     {
-        private readonly IGeneralInterface<University, UniversityDto> repository;
+        private readonly UniversityRepository repository;
 
-        public UniversityController(IGeneralInterface<University, UniversityDto> repository)
+        public UniversityController(UniversityRepository repository)
         {
             this.repository = repository;
         }
