@@ -24,6 +24,8 @@ namespace ERMAN.Dtos
 
         public List<Course>? Courses { get; set; }
 
+        public List<CourseMapped>? SelectedCourses { get; set; }
+
         public int Ranking { get; set; } = 0!;
 
         public string? Degree { get; set; }

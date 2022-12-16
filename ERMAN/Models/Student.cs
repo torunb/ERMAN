@@ -46,6 +46,8 @@ namespace ERMAN.Models
 
         public List<Course> Courses { get; set; } = new List<Course>();
 
+        public List<CourseMapped> SelectedCourses { get; set; } = new List<CourseMapped>();
+
         public List<Message> Messages { get; set; } = new List<Message>();
 
         public DateTime InsertDate { get; set; } = DateTime.Now;

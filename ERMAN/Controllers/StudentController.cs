@@ -23,6 +23,19 @@ namespace ERMAN.Controllers
             _studentRepo.Add(student);
         }
 
+        [HttpPut("/api/Student/addCourses", Name = "StudentAddSelecetedCourses")]
+        public void PutCourses(int id, List<CourseMapped> courses)
+        {
+            _studentRepo.UpdateStudentSelectedCourses( id,  courses);
+        }
+
+        [HttpPut("/api/Student/approveStatus", Name = "StudentApproveCourseStatus")]
+        public void SetSelectedCourseAs(int id, int mappedId, ApprovedStatus approvedStatus)
+        {
+            _studentRepo.Get(id).SelectedCourses.FirstOrDefault(x => x.Id == mappedId).ApprovedStatus = approvedStatus;
+            _studentRepo.Update();
+        }
+
         [HttpGet(Name = "StudentGet")]
         public Student Get(int id)
         {
@@ -35,6 +48,11 @@ namespace ERMAN.Controllers
             return _studentRepo.GetAll();
         }
 
+        [HttpGet("/api/Student/SelectedCourses", Name = "StudentGetSelecetedCourses")]
+        public List<CourseMapped> getCourses( int id)
+        {
+            return _studentRepo.Get(id).SelectedCourses;
+        }
 
         [HttpDelete(Name = "StudentDelete")]
         public Student Delete(int id)

@@ -31,11 +31,23 @@ namespace ERMAN.Repositories
                 AuthId = student.AuthId,
                 University = student.University,
                 ApplicationStatus = student.ApplicationStatus,
+                SelectedCourses = student.SelectedCourses,
                 Program = student.Program
             };
 
             _dbContext.StudentTable.Add(studentNew);
             _dbContext.SaveChanges();
+        }
+        public Student UpdateStudentSelectedCourses(int id, List<CourseMapped> courses)
+        {
+            Student studentToUpdate = _dbContext.StudentTable.Find(id);
+            if (studentToUpdate != null)
+            {
+                studentToUpdate.SelectedCourses = courses;
+                _dbContext.StudentTable.Update(studentToUpdate);
+                _dbContext.SaveChanges();
+            }
+            return studentToUpdate;
         }
 
         public Student Remove(int id)
@@ -67,6 +79,11 @@ namespace ERMAN.Repositories
         {
             List<Student> student = _dbContext.StudentTable.ToList();
             return student;
+        }
+
+        public void Update()
+        {
+            _dbContext.SaveChanges();
         }
     }
 }
