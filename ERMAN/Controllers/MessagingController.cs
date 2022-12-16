@@ -24,17 +24,27 @@ namespace ERMAN.Controllers
         public MessagingController(MessagingService messagingService, MessageRepository messageRepository)
         {
             _messagingService = messagingService;
-            _messageRepository = messageRepository; 
+            _messageRepository = messageRepository;
+        }
+
+        public class AllMessages {
+            public string userId { get; set; }
+            public List<Message> messages { get; set; }
         }
 
         [Route("api/Messages")]
         [Authorize(Roles = "Student, Coordinator")]
         [HttpGet]
-        public List<Message> GetUserMessages()
+        public AllMessages GetUserMessages()
         {
             var userId = (int)HttpContext.Items["userID"];
             var messages = _messageRepository.GetUserMessages(userId);
-            return messages;
+            var result = new AllMessages {
+                userId = userId.ToString(),
+                messages = messages
+            };
+
+            return result;
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
