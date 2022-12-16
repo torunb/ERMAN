@@ -123,6 +123,7 @@ namespace ERMAN.Services
             {
                 var userInfo = new UserInfoDTO
                 {
+                    authId = student.AuthId,
                     userType = UserType.Student.ToString().ToLower(),
                     email = student.Email,
                     firstName = student.FirstName,
@@ -142,6 +143,7 @@ namespace ERMAN.Services
             {
                 var userInfo = new UserInfoDTO
                 {
+                    authId = coordinator.AuthId,
                     userType = UserType.Coordinator.ToString().ToLower(),
                     email = coordinator.Email,
                     firstName = coordinator.FirstName,
