@@ -10,7 +10,7 @@ namespace ERMAN.Dtos
         public Course BilkentCourse { get; set; } = null!;
 
         [Required(ErrorMessage = "Host university courses must be provided")]
-        public Course[] HostCourses { get; set; } = null!;
+        public List<Course> HostCourses { get; set; } = null!;
 
         public ApprovedStatus ApprovedStatus { get; set; } 
 

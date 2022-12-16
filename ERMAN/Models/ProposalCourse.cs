@@ -12,5 +12,8 @@ namespace ERMAN.Models
         public CourseMapped? Course { get; set; }
 
         public string? StudentId { get; set; }
+
+        [Required]
+        public int AuthId { get; set; }
     }
 }

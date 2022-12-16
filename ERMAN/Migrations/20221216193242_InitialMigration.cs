@@ -83,12 +83,27 @@ namespace ERMAN.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     InstructorEmailAddress = table.Column<string>(type: "text", nullable: false),
                     InstructorName = table.Column<string>(type: "text", nullable: false),
-                    InstructorId = table.Column<int>(type: "integer", nullable: false),
+                    InstructorId = table.Column<int>(type: "integer", nullable: true),
                     InsertDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_InstructorTable", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NotificationTable",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Text = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    Read = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotificationTable", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -116,7 +131,7 @@ namespace ERMAN.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    InstructorId = table.Column<int>(type: "integer", nullable: false),
+                    AInstructorId = table.Column<int>(type: "integer", nullable: true),
                     CourseName = table.Column<string>(type: "text", nullable: false),
                     CourseDescription = table.Column<string>(type: "text", nullable: false),
                     IsForeignUniversity = table.Column<bool>(type: "boolean", nullable: false),
@@ -127,6 +142,7 @@ namespace ERMAN.Migrations
                     UniversityId = table.Column<int>(type: "integer", nullable: false),
                     CourseCode = table.Column<string>(type: "text", nullable: false),
                     CourseMappedId = table.Column<int>(type: "integer", nullable: true),
+                    InstructorId = table.Column<int>(type: "integer", nullable: true),
                     StudentId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
@@ -136,8 +152,7 @@ namespace ERMAN.Migrations
                         name: "FK_Course_InstructorTable_InstructorId",
                         column: x => x.InstructorId,
                         principalTable: "InstructorTable",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -163,15 +178,33 @@ namespace ERMAN.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProposalCourseTable",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Intensions = table.Column<string>(type: "text", nullable: true),
+                    CourseId = table.Column<int>(type: "integer", nullable: true),
+                    StudentId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProposalCourseTable", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProposalCourseTable_CourseMappedTable_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "CourseMappedTable",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MessageTable",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     messageText = table.Column<string>(type: "text", nullable: false),
-                    senderType = table.Column<string>(type: "text", nullable: false),
                     senderId = table.Column<int>(type: "integer", nullable: false),
-                    receiverType = table.Column<string>(type: "text", nullable: false),
                     receiverId = table.Column<int>(type: "integer", nullable: false),
                     CoordinatorId = table.Column<int>(type: "integer", nullable: true),
                     InstructorId = table.Column<int>(type: "integer", nullable: true),
@@ -193,6 +226,28 @@ namespace ERMAN.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PlacementStudentTable",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FirstName = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
+                    StudentId = table.Column<string>(type: "text", nullable: true),
+                    Faculty = table.Column<string>(type: "text", nullable: true),
+                    Department = table.Column<string>(type: "text", nullable: true),
+                    Degree = table.Column<string>(type: "text", nullable: true),
+                    TotalPoints = table.Column<string>(type: "text", nullable: true),
+                    DurationPreferred = table.Column<string>(type: "text", nullable: true),
+                    Ranking = table.Column<int>(type: "integer", nullable: true),
+                    UniversityId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlacementStudentTable", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "StudentTable",
                 columns: table => new
                 {
@@ -200,6 +255,8 @@ namespace ERMAN.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Email = table.Column<string>(type: "character varying(360)", maxLength: 360, nullable: true),
                     AuthId = table.Column<int>(type: "integer", nullable: false),
+                    CoordinatorId = table.Column<int>(type: "integer", nullable: true),
+                    CoordinatorName = table.Column<string>(type: "text", nullable: true),
                     FirstName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
                     Department = table.Column<string>(type: "text", nullable: true),
@@ -229,11 +286,17 @@ namespace ERMAN.Migrations
                     UniversityName = table.Column<string>(type: "text", nullable: false),
                     UniversityCapacity = table.Column<int>(type: "integer", nullable: false),
                     InsertDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    PlacementStudentId = table.Column<int>(type: "integer", nullable: true),
                     StudentId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UniversityTable", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UniversityTable_PlacementStudentTable_PlacementStudentId",
+                        column: x => x.PlacementStudentId,
+                        principalTable: "PlacementStudentTable",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UniversityTable_StudentTable_StudentId",
                         column: x => x.StudentId,
@@ -262,6 +325,11 @@ namespace ERMAN.Migrations
                 column: "BilkentCourseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CourseMappedTable_StudentId",
+                table: "CourseMappedTable",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MessageTable_CoordinatorId",
                 table: "MessageTable",
                 column: "CoordinatorId");
@@ -277,9 +345,24 @@ namespace ERMAN.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PlacementStudentTable_UniversityId",
+                table: "PlacementStudentTable",
+                column: "UniversityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProposalCourseTable_CourseId",
+                table: "ProposalCourseTable",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_StudentTable_UniversityId",
                 table: "StudentTable",
                 column: "UniversityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UniversityTable_PlacementStudentId",
+                table: "UniversityTable",
+                column: "PlacementStudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UniversityTable_StudentId",
@@ -301,10 +384,25 @@ namespace ERMAN.Migrations
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_CourseMappedTable_StudentTable_StudentId",
+                table: "CourseMappedTable",
+                column: "StudentId",
+                principalTable: "StudentTable",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_MessageTable_StudentTable_StudentId",
                 table: "MessageTable",
                 column: "StudentId",
                 principalTable: "StudentTable",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_PlacementStudentTable_UniversityTable_UniversityId",
+                table: "PlacementStudentTable",
+                column: "UniversityId",
+                principalTable: "UniversityTable",
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
@@ -326,6 +424,10 @@ namespace ERMAN.Migrations
                 name: "FK_UniversityTable_StudentTable_StudentId",
                 table: "UniversityTable");
 
+            migrationBuilder.DropForeignKey(
+                name: "FK_PlacementStudentTable_UniversityTable_UniversityId",
+                table: "PlacementStudentTable");
+
             migrationBuilder.DropTable(
                 name: "AuthenticationTable");
 
@@ -337,6 +439,12 @@ namespace ERMAN.Migrations
 
             migrationBuilder.DropTable(
                 name: "MessageTable");
+
+            migrationBuilder.DropTable(
+                name: "NotificationTable");
+
+            migrationBuilder.DropTable(
+                name: "ProposalCourseTable");
 
             migrationBuilder.DropTable(
                 name: "Todo");
@@ -358,6 +466,9 @@ namespace ERMAN.Migrations
 
             migrationBuilder.DropTable(
                 name: "UniversityTable");
+
+            migrationBuilder.DropTable(
+                name: "PlacementStudentTable");
         }
     }
 }

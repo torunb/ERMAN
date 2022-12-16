@@ -13,7 +13,7 @@ namespace ERMAN.Models
         public Course BilkentCourse { get; set; } = null!;
 
         [Required(ErrorMessage = "Host university courses must be provided")]
-        public Course[] HostCourses { get; set; } = null!;
+        public List<Course> HostCourses { get; set; } = null!;
 
         [Required(ErrorMessage = "Department that evaluates must be provided")]
         public string Department { get; set; } = null!;

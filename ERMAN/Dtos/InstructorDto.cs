@@ -14,6 +14,6 @@ namespace ERMAN.Dtos
 
         public List<Course> Courses { get; set; }
 
-        public int InstructorId { get; set; }
+        public int? InstructorId { get; set; }
     }
 }

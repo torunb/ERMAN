@@ -14,8 +14,7 @@ namespace ERMAN.Models
         [Required]
         public string InstructorName { get; set; } = null!;
 
-        [Required(ErrorMessage = "Id must be provided")]
-        public int InstructorId { get; set; }
+        public int? InstructorId { get; set; }
 
         public List<Course> Courses { get; set; }
 

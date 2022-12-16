@@ -1,4 +1,5 @@
 ﻿using ERMAN.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ERMAN.Dtos
 {
@@ -9,5 +10,7 @@ namespace ERMAN.Dtos
         public CourseMapped? Course { get; set; }
 
         public string? StudentId { get; set; }
+
+        public int AuthId { get; set; }
     }
 }

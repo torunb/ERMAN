@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERMAN.Migrations
 {
     [DbContext(typeof(ErmanDbContext))]
-    [Migration("20221215105331_AddCoordinatorInfoToStudent")]
-    partial class AddCoordinatorInfoToStudent
+    [Migration("20221216194032_CourseProposalAuthIdAdded")]
+    partial class CourseProposalAuthIdAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,6 +117,9 @@ namespace ERMAN.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AInstructorId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("CourseCode")
                         .IsRequired()
                         .HasColumnType("text");
@@ -139,7 +142,7 @@ namespace ERMAN.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("InstructorId")
+                    b.Property<int?>("InstructorId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsElectiveCourse")
@@ -193,6 +196,8 @@ namespace ERMAN.Migrations
 
                     b.HasIndex("BilkentCourseId");
 
+                    b.HasIndex("StudentId");
+
                     b.ToTable("CourseMappedTable");
                 });
 
@@ -232,7 +237,7 @@ namespace ERMAN.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("InstructorId")
+                    b.Property<int?>("InstructorId")
                         .HasColumnType("integer");
 
                     b.Property<string>("InstructorName")
@@ -282,6 +287,30 @@ namespace ERMAN.Migrations
                     b.ToTable("MessageTable");
                 });
 
+            modelBuilder.Entity("ERMAN.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Read")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NotificationTable");
+                });
+
             modelBuilder.Entity("ERMAN.Models.PlacementStudent", b =>
                 {
                     b.Property<int>("Id")
@@ -327,6 +356,33 @@ namespace ERMAN.Migrations
                     b.ToTable("PlacementStudentTable");
                 });
 
+            modelBuilder.Entity("ERMAN.Models.ProposalCourse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Intensions")
+                        .HasColumnType("text");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("ProposalCourseTable");
+                });
+
             modelBuilder.Entity("ERMAN.Models.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -343,6 +399,9 @@ namespace ERMAN.Migrations
 
                     b.Property<int?>("CoordinatorId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("CoordinatorName")
+                        .HasColumnType("text");
 
                     b.Property<string>("Degree")
                         .HasColumnType("text");
@@ -473,9 +532,7 @@ namespace ERMAN.Migrations
 
                     b.HasOne("ERMAN.Models.Instructor", null)
                         .WithMany("Courses")
-                        .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("InstructorId");
 
                     b.HasOne("ERMAN.Models.Student", null)
                         .WithMany("Courses")
@@ -487,6 +544,12 @@ namespace ERMAN.Migrations
                     b.HasOne("ERMAN.Models.Course", "BilkentCourse")
                         .WithMany()
                         .HasForeignKey("BilkentCourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ERMAN.Models.Student", null)
+                        .WithMany("SelectedCourses")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -515,6 +578,15 @@ namespace ERMAN.Migrations
                         .HasForeignKey("UniversityId");
 
                     b.Navigation("University");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.ProposalCourse", b =>
+                {
+                    b.HasOne("ERMAN.Models.CourseMapped", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId");
+
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("ERMAN.Models.Student", b =>
@@ -564,6 +636,8 @@ namespace ERMAN.Migrations
                     b.Navigation("Courses");
 
                     b.Navigation("Messages");
+
+                    b.Navigation("SelectedCourses");
 
                     b.Navigation("UniversityPreference");
                 });

@@ -8,7 +8,7 @@ namespace ERMAN.Models
         [Key]
         public int Id { get; set; }
 
-        public int InstructorId { get; set; }
+        public int? AInstructorId { get; set; }
 
         [Required(ErrorMessage = "Course name must be provided")]
         public string CourseName { get; set; } = null!;
