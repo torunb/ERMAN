@@ -39,6 +39,8 @@ namespace ERMAN
 
         public DbSet<Message> MessageTable { get; set; }
 
+        public DbSet<ProposalCourse> ProposalCourseTable { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
