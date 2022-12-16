@@ -25,8 +25,8 @@ namespace ERMAN.Models
 
         public int? Ranking { get; set; }
 
-        public University? University { get; set; }
+        public int? UniversityId { get; set; }
 
-        public List<University> PreferredUniversity { get; set; } = new List<University>();
+        public List<string> PreferredUniversity { get; set; } = new List<string>();
     }
 }

@@ -34,10 +34,10 @@ namespace ERMAN.Controllers
             {
                 for (int j = 0; j < studentList[i].PreferredUniversity.Count; j++)
                 {
-                    var university = _context.UniversityTable.FirstOrDefault(s => (s.UniversityName == studentList[i].PreferredUniversity[j].UniversityName));
+                    var university = _context.UniversityTable.FirstOrDefault(s => (s.UniversityName == studentList[i].PreferredUniversity[j]));
                     if (university.UniversityCapacity > 0)
                     {
-                        studentList[i].University = university;
+                        studentList[i].UniversityId = university.Id;
                         university.UniversityCapacity--;
                         //_context.UniversityTable.
                         _context.SaveChanges();

@@ -29,19 +29,20 @@ namespace ERMAN.Controllers
         {
             var userId = (int)HttpContext.Items["userId"];
             var toDelete = _context.PlacementStudentTable.FirstOrDefault(s => Convert.ToInt32(s.Id) == userId);
-            if (toDelete.University != null)
+            if (toDelete.UniversityId != 0)
             {
-                List<PlacementStudent> studentList = _context.PlacementStudentTable.Where(s => (s.Ranking > toDelete.Ranking && s.University == null)).ToList();
+                List<PlacementStudent> studentList = _context.PlacementStudentTable.Where(s => (s.Ranking > toDelete.Ranking && s.UniversityId == 0)).ToList();
                 bool studentFound = false;
 
                 for (int i = 0; i < studentList.Count || !studentFound; i++)
                 {
-                    foreach (University university in studentList[i].PreferredUniversity)
+                    foreach (string UniversityName in studentList[i].PreferredUniversity)
                     {
-                        if (university.UniversityName == toDelete.University.UniversityName)
+                        var university = _context.UniversityTable.FirstOrDefault(s => (s.Id == toDelete.UniversityId));
+                        if (UniversityName == university.UniversityName)
                         {
                             var StudentToChange = _context.PlacementStudentTable.FirstOrDefault(s => s.Id == studentList[i].Id);
-                            StudentToChange.University = toDelete.University;
+                            StudentToChange.UniversityId = toDelete.UniversityId;
                             studentFound = true;
                             _context.SaveChanges();
                         }
@@ -49,7 +50,7 @@ namespace ERMAN.Controllers
                 }
             }
             toDelete.Ranking = -1;
-            toDelete.University = null;
+            toDelete.UniversityId = 0;
             toDelete.TotalPoints = "0";
             _context.SaveChanges();
 

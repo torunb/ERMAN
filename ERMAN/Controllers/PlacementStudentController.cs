@@ -39,13 +39,12 @@ namespace ERMAN.Controllers
             {
                 for (int j = 0; j < studentList[i].PreferredUniversity.Count; j++)
                 {
-                    var university = _context.UniversityTable.FirstOrDefault(s => (s.UniversityName == studentList[i].PreferredUniversity[j].UniversityName));
+                    var university = _context.UniversityTable.FirstOrDefault(s => (s.UniversityName == studentList[i].PreferredUniversity[j]));
                     if (university.UniversityCapacity > 0)
                     {
-                        studentList[i].University = university;
+                        studentList[i].UniversityId = university.Id;
                         university.UniversityCapacity--;
                         //_context.UniversityTable.
-                        _context.SaveChanges();
                         break;
                     }
                 }
@@ -80,16 +79,16 @@ namespace ERMAN.Controllers
                     Degree = newStudentList[i].Degree,
                     TotalPoints = newStudentList[i].TotalPoints,
                     DurationPreferred = newStudentList[i].DurationPreferred,
-                    University = newStudentList[i].University,
+                    UniversityId = newStudentList[i].UniversityId,
                     PreferredUniversity = newStudentList[i].PreferredUniversity
                 };
 
                 for (int j = 0; j < newStudentList[i].PreferredUniversity.Count; j++)
                 {
-                    var university = _context.UniversityTable.FirstOrDefault(s => (s.UniversityName == newStudentList[i].PreferredUniversity[j].UniversityName));
+                    var university = _context.UniversityTable.FirstOrDefault(s => (s.UniversityName == newStudentList[i].PreferredUniversity[j]));
                     if (university.UniversityCapacity > 0)
                     {
-                        newStudentList[i].University = university;
+                        newStudentList[i].UniversityId = university.Id;
                         university.UniversityCapacity--;
                         //_context.UniversityTable.
                         _context.SaveChanges();
@@ -104,19 +103,20 @@ namespace ERMAN.Controllers
         public void DeleteOneStudent(PlacementStudentDto deleteStu)
         {
             var toDelete = _context.PlacementStudentTable.FirstOrDefault(s => s.StudentId == deleteStu.StudentId);
-            if (toDelete.University != null)
+            if (toDelete.UniversityId != 0)
             {
-                List<PlacementStudent> studentList = _context.PlacementStudentTable.Where(s => (s.Ranking > toDelete.Ranking && s.University == null)).ToList();
+                List<PlacementStudent> studentList = _context.PlacementStudentTable.Where(s => (s.Ranking > toDelete.Ranking && s.UniversityId == 0)).ToList();
                 bool studentFound = false;
 
                 for (int i = 0; i < studentList.Count || !studentFound; i++)
                 {
-                    foreach (University university in studentList[i].PreferredUniversity)
+                    foreach (string UniversityName in studentList[i].PreferredUniversity)
                     {
-                        if (university.UniversityName == toDelete.University.UniversityName)
+                        var university = _context.UniversityTable.FirstOrDefault(s => (s.Id == toDelete.UniversityId));
+                        if (UniversityName == university.UniversityName)
                         {
-                            var StudentToChange = _context.PlacementStudentTable.FirstOrDefault(s => s.StudentId == studentList[i].StudentId);
-                            StudentToChange.University = toDelete.University;
+                            var StudentToChange = _context.PlacementStudentTable.FirstOrDefault(s => s.Id == studentList[i].Id);
+                            StudentToChange.UniversityId = toDelete.UniversityId;
                             studentFound = true;
                             _context.SaveChanges();
                         }
@@ -124,7 +124,7 @@ namespace ERMAN.Controllers
                 }
             }
             toDelete.Ranking = -1;
-            toDelete.University = null;
+            toDelete.UniversityId = 0;
             toDelete.TotalPoints = "0";
             _context.SaveChanges();
         }
