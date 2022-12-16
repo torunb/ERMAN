@@ -3,6 +3,7 @@ using System;
 using ERMAN;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERMAN.Migrations
 {
     [DbContext(typeof(ErmanDbContext))]
-    partial class ErmanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221216162619_CourseProposalTableAdded")]
+    partial class CourseProposalTableAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -281,30 +284,6 @@ namespace ERMAN.Migrations
                     b.ToTable("MessageTable");
                 });
 
-            modelBuilder.Entity("ERMAN.Models.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Read")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NotificationTable");
-                });
-
             modelBuilder.Entity("ERMAN.Models.PlacementStudent", b =>
                 {
                     b.Property<int>("Id")
@@ -348,6 +327,30 @@ namespace ERMAN.Migrations
                     b.HasIndex("UniversityId");
 
                     b.ToTable("PlacementStudentTable");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.ProposalCourse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Intensions")
+                        .HasColumnType("text");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("ProposalCourseTable");
                 });
 
             modelBuilder.Entity("ERMAN.Models.Student", b =>
@@ -547,6 +550,15 @@ namespace ERMAN.Migrations
                         .HasForeignKey("UniversityId");
 
                     b.Navigation("University");
+                });
+
+            modelBuilder.Entity("ERMAN.Models.ProposalCourse", b =>
+                {
+                    b.HasOne("ERMAN.Models.CourseMapped", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId");
+
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("ERMAN.Models.Student", b =>
