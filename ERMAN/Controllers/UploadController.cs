@@ -10,22 +10,25 @@ namespace ERMAN.Controllers
     {
         [HttpPost, DisableRequestSizeLimit]
         [Authorize(Roles = "Student")]
-        public async Task<IActionResult> Upload(IFormFile file)
+        public async Task<IActionResult> Upload(IFormCollection formData, IFormFile pdfFile)
         {
             var userId = ((int)HttpContext.Items["userID"]).ToString();
+
+            string formType = formData["formType"];
+
             string path = "";
             try
             {
-                if (file.Length > 0)
+                if (pdfFile.Length > 0)
                 {
                     path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles/" + userId));
                     if (!Directory.Exists(path))
                     {
                         Directory.CreateDirectory(path);
                     }
-                    using (var fileStream = new FileStream(Path.Combine(path, file.FileName), FileMode.Create))
+                    using (var fileStream = new FileStream(Path.Combine(path, formType + ".pdf"), FileMode.Create))
                     {
-                        await file.CopyToAsync(fileStream);
+                        await pdfFile.CopyToAsync(fileStream);
                     }
                     return StatusCode(201);
                 }
