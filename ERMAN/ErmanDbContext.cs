@@ -40,6 +40,8 @@ namespace ERMAN
         public DbSet<Message> MessageTable { get; set; }
 
         public DbSet<ProposalCourse> ProposalCourseTable { get; set; }
+        
+        public DbSet<Notification> NotificationTable { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
