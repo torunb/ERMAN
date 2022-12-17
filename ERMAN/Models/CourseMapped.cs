@@ -10,10 +10,10 @@ namespace ERMAN.Models
         public ApprovedStatus ApprovedStatus { get; set; }
 
         [Required(ErrorMessage = "Bilkent university courses be provided")]
-        public Course BilkentCourse { get; set; } = null!;
+        public virtual Course BilkentCourse { get; set; } = null!;
 
         [Required(ErrorMessage = "Host university courses must be provided")]
-        public List<Course> HostCourses { get; set; } = null!;
+        public virtual List<Course> HostCourses { get; set; } = null!;
 
         [Required(ErrorMessage = "Department that evaluates must be provided")]
         public string Department { get; set; } = null!;

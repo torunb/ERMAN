@@ -9,7 +9,7 @@ namespace ERMAN.Models
 
         public string? Intensions { get; set; }
 
-        public CourseMapped? Course { get; set; }
+        public virtual CourseMapped? Course { get; set; }
 
         public string? StudentId { get; set; }
 

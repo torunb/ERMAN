@@ -24,9 +24,10 @@ namespace ERMAN.Controllers
         }
 
         [HttpPut("/api/Student/addCourses", Name = "StudentAddSelecetedCourses")]
-        public void PutCourses(int id, List<CourseMapped> courses)
+        public void PutCourses(List<CourseMapped> courses)
         {
-            _studentRepo.UpdateStudentSelectedCourses( id,  courses);
+            var userId = (int)HttpContext.Items["userID"];
+            _studentRepo.UpdateStudentSelectedCourses(userId, courses);
         }
 
         [HttpPut("/api/Student/approveStatus", Name = "StudentApproveCourseStatus")]
@@ -57,9 +58,10 @@ namespace ERMAN.Controllers
         }
 
         [HttpGet("/api/Student/SelectedCourses", Name = "StudentGetSelecetedCourses")]
-        public List<CourseMapped> getCourses( int id)
+        public List<CourseMapped> getSelectedCourses()
         {
-            return _studentRepo.Get(id).SelectedCourses;
+            var userId = (int)HttpContext.Items["userID"];
+            return _studentRepo.GetStudentWithCourses(userId).SelectedCourses;
         }
 
         [HttpDelete(Name = "StudentDelete")]

@@ -31,7 +31,7 @@ namespace ERMAN.Models
 
         public string? ApplicationStatus { get; set; }
 
-        public University? University { get; set; }
+        public virtual University? University { get; set; }
 
         [Required]
         public int StudentId { get; set; }
@@ -42,13 +42,13 @@ namespace ERMAN.Models
 
         public AppliedProgram? Program { get; set; }
 
-        public List<University> UniversityPreference { get; set; } = new List<University>();
+        public virtual List<University> UniversityPreference { get; set; } = new List<University>();
 
-        public List<Course> Courses { get; set; } = new List<Course>();
+        public virtual List<Course> Courses { get; set; } = new List<Course>();
 
-        public List<CourseMapped> SelectedCourses { get; set; } = new List<CourseMapped>();
+        public virtual List<CourseMapped> SelectedCourses { get; set; } = new List<CourseMapped>();
 
-        public List<Message> Messages { get; set; } = new List<Message>();
+        public virtual List<Message> Messages { get; set; } = new List<Message>();
 
         public DateTime InsertDate { get; set; } = DateTime.Now;
 

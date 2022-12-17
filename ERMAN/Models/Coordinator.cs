@@ -23,7 +23,7 @@ namespace ERMAN.Models
         public string? Faculty { get; set; }
         public string? Department { get; set; }
 
-        public List<Message> Messages { get; set; }
+        public virtual List<Message> Messages { get; set; }
 
         public DateTime InsertDate { get; set; } = DateTime.Now;
     }

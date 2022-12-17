@@ -16,9 +16,9 @@ namespace ERMAN.Models
 
         public int? InstructorId { get; set; }
 
-        public List<Course> Courses { get; set; }
+        public virtual List<Course> Courses { get; set; }
 
-        public List<Message> Messages { get; set; }
+        public virtual List<Message> Messages { get; set; }
 
         public DateTime InsertDate { get; set; } = DateTime.Now;
     }

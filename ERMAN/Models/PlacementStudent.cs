@@ -27,6 +27,6 @@ namespace ERMAN.Models
 
         public int? UniversityId { get; set; }
 
-        public List<string> PreferredUniversity { get; set; } = new List<string>();
+        public virtual List<string> PreferredUniversity { get; set; } = new List<string>();
     }
 }

@@ -36,6 +36,7 @@ namespace ERMAN.Controllers
         [HttpGet("/api/CourseManager/Approved", Name = "CourseManagerGetApproved")]
         public IEnumerable<CourseMapped> GetApproved()
         {
+            
             return _courseMappedRepo.GetApproved();
         }
 

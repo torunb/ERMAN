@@ -20,7 +20,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ErmanDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ErmanDb"));
+    options.UseLazyLoadingProxies().UseNpgsql(builder.Configuration.GetConnectionString("ErmanDb"));
 });
 
 //builder.Services.AddTransient<IGeneralInterface<FAQItem, FAQItemDto>, FaqRepository>();
@@ -30,6 +30,7 @@ builder.Services.AddTransient<TodoRepository>();
 builder.Services.AddTransient<FaqRepository>();
 builder.Services.AddTransient<ChecklistRepository>();
 builder.Services.AddTransient<MessageRepository>();
+builder.Services.AddTransient<CourseMappedRepository>();
 
 builder.Services.AddTransient<UniversityRepository>();
 builder.Services.AddTransient<StudentRepository>();

@@ -1,5 +1,6 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ERMAN.Repositories
 {
@@ -38,9 +39,9 @@ namespace ERMAN.Repositories
             _dbContext.StudentTable.Add(studentNew);
             _dbContext.SaveChanges();
         }
-        public Student UpdateStudentSelectedCourses(int id, List<CourseMapped> courses)
+        public Student UpdateStudentSelectedCourses(int authId, List<CourseMapped> courses)
         {
-            Student studentToUpdate = _dbContext.StudentTable.Find(id);
+            Student studentToUpdate = _dbContext.StudentTable.Where(student => student.AuthId == authId).FirstOrDefault();
             if (studentToUpdate != null)
             {
                 studentToUpdate.SelectedCourses = courses;
@@ -50,10 +51,10 @@ namespace ERMAN.Repositories
             return studentToUpdate;
         }
 
-        public Student Remove(int id)
+        public Student Remove(int authId)
         {
-            Student toBeDeleted = _dbContext.StudentTable.Find(id);
-            if(toBeDeleted != null)
+            Student toBeDeleted = _dbContext.StudentTable.Where(student => student.AuthId == authId).FirstOrDefault();
+            if (toBeDeleted != null)
             {
                 _dbContext.StudentTable.Remove(toBeDeleted);
                 _dbContext.SaveChanges();
@@ -72,6 +73,13 @@ namespace ERMAN.Repositories
         public Student Get(int authId)
         {
             Student student = _dbContext.StudentTable.Where(x => x.AuthId == authId).FirstOrDefault();
+            return student;
+        }
+
+        public Student GetStudentWithCourses(int authId)
+        {
+
+            Student student = _dbContext.StudentTable.Include(student => student.SelectedCourses).Where(x => x.AuthId == authId).FirstOrDefault();
             return student;
         }
 
