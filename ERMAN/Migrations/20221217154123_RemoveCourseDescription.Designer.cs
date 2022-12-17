@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ERMAN;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERMAN.Migrations
 {
     [DbContext(typeof(ErmanDbContext))]
-    partial class ErmanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221217154123_RemoveCourseDescription")]
+    partial class RemoveCourseDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,6 +183,10 @@ namespace ERMAN.Migrations
 
                     b.Property<int>("BilkentCourseId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int?>("StudentId")
                         .HasColumnType("integer");

@@ -15,8 +15,6 @@ namespace ERMAN.Models
         [Required(ErrorMessage = "Host university courses must be provided")]
         public virtual List<Course> HostCourses { get; set; } = null!;
 
-        [Required(ErrorMessage = "Department that evaluates must be provided")]
-        public string Department { get; set; } = null!;
     }
 }
 

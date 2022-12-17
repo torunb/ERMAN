@@ -22,7 +22,6 @@ namespace ERMAN.Repositories
                 ApprovedStatus = courseMapped.ApprovedStatus,
                 BilkentCourse = courseMapped.BilkentCourse,
                 HostCourses = courseMapped.HostCourses,
-                Department = courseMapped.Department,
             };
             _dbContext.CourseMappedTable.Add(courseMappedNew);
             _dbContext.SaveChanges();

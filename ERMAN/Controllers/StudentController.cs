@@ -38,10 +38,11 @@ namespace ERMAN.Controllers
         }
 
         [HttpPut("/api/Student/removeCourse", Name = "StudentRemoveCourse")]
-        public void RemoveSelectedCourse(int id, int mappedId)
+        public void RemoveSelectedCourse(int mappedId)
         {
-            CourseMapped course = _studentRepo.Get(id).SelectedCourses.FirstOrDefault(x => x.Id == mappedId);
-            _studentRepo.Get(id).SelectedCourses.Remove(course);
+            var userId = (int)HttpContext.Items["userID"];
+            CourseMapped course = _studentRepo.Get(userId).SelectedCourses.FirstOrDefault(x => x.Id == mappedId);
+            _studentRepo.Get(userId).SelectedCourses.Remove(course);
             _studentRepo.Update();
         }
 

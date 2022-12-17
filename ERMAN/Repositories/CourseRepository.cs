@@ -18,7 +18,6 @@ namespace ERMAN.Repositories
             var courseNew = new Course
             {
                 CourseName = course.CourseName,
-                CourseDescription = course.CourseDescription,
                 IsForeignUniversity = course.IsForeignUniversity,
                 IsElectiveCourse = course.IsElectiveCourse,
                 IsMustCourse = course.IsMustCourse,
