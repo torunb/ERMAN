@@ -17,9 +17,6 @@ namespace ERMAN.Models
 
         [Required(ErrorMessage = "Department that evaluates must be provided")]
         public string Department { get; set; } = null!;
-
-        [Required(ErrorMessage = "Student id must be provided")]
-        public int StudentId { get; set; }
     }
 }
 

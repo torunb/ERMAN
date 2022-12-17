@@ -23,7 +23,6 @@ namespace ERMAN.Repositories
                 BilkentCourse = courseMapped.BilkentCourse,
                 HostCourses = courseMapped.HostCourses,
                 Department = courseMapped.Department,
-                StudentId = courseMapped.StudentId,
             };
             _dbContext.CourseMappedTable.Add(courseMappedNew);
             _dbContext.SaveChanges();
@@ -66,19 +65,14 @@ namespace ERMAN.Repositories
             return _dbContext.CourseMappedTable.Where(x => x.ApprovedStatus == ApprovedStatus.Approved).ToList();
         }
 
-        public IEnumerable<CourseMapped> GetSelected(int authId)
-        {
-            return _dbContext.CourseMappedTable.Where(x => x.StudentId == authId).ToList();
-        }
-
         public IEnumerable<CourseMapped> GetRejected()
         {
             return _dbContext.CourseMappedTable.Where(x => x.ApprovedStatus == ApprovedStatus.Rejected).ToList();
         }
 
-        public IEnumerable<CourseMapped> GetAll( int studentId) // get the courseMapped of student
+        public IEnumerable<CourseMapped> GetPending()
         {
-            return _dbContext.CourseMappedTable.Where(x => x.StudentId == studentId).ToList();
+            return _dbContext.CourseMappedTable.Where(x => x.ApprovedStatus == ApprovedStatus.Pending).ToList();
         }
 
         public void Update()
