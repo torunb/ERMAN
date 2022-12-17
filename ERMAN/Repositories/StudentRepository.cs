@@ -51,6 +51,26 @@ namespace ERMAN.Repositories
             return studentToUpdate;
         }
 
+        // does this work?
+        public CourseMapped GetCourseMapped( int courseMapId)
+        {
+            return _dbContext.StudentTable.Select( student => student.SelectedCourses.FirstOrDefault(courseMapped => courseMapped.Id == courseMapId)).FirstOrDefault();
+        }
+
+        public List<CourseMapped> GetAllCourses()
+        {
+            List<CourseMapped> result = new List<CourseMapped>();
+            List<List<CourseMapped>> studentCourses = _dbContext.StudentTable.Select(student => student.SelectedCourses).ToList();
+            foreach ( List<CourseMapped> courses in studentCourses)
+            {
+                foreach (CourseMapped courseMapped in courses)
+                {
+                    result.Add(courseMapped);
+                }
+            }
+            return result;
+        }
+
         public Student Remove(int authId)
         {
             Student toBeDeleted = _dbContext.StudentTable.Where(student => student.AuthId == authId).FirstOrDefault();

@@ -59,9 +59,13 @@ namespace ERMAN.Repositories
             return _dbContext.CourseMappedTable.ToList();
         }
 
-        public IEnumerable<CourseMapped> GetApproved()
+        public IEnumerable<CourseMapped> GetCoordinatorApproved()
         {
-            return _dbContext.CourseMappedTable.Include(courseMapped => courseMapped.BilkentCourse).Include(courseMapped => courseMapped.HostCourses).Where(x => x.ApprovedStatus == ApprovedStatus.Approved).ToList();
+            return _dbContext.CourseMappedTable.Include(courseMapped => courseMapped.BilkentCourse).Include(courseMapped => courseMapped.HostCourses).Where(x => x.ApprovedStatus == ApprovedStatus.CoordinatorApproved).ToList();
+        }
+        public IEnumerable<CourseMapped> GetInstructorApproved()
+        {
+            return _dbContext.CourseMappedTable.Include(courseMapped => courseMapped.BilkentCourse).Include(courseMapped => courseMapped.HostCourses).Where(x => x.ApprovedStatus == ApprovedStatus.InstructorApproved).ToList();
         }
 
         public IEnumerable<CourseMapped> GetRejected()

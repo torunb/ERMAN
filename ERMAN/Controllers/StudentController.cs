@@ -47,7 +47,11 @@ namespace ERMAN.Controllers
             {
                 notificationText = "Your course approval was rejected.";
             }
-            else if (approvedStatus == ApprovedStatus.Approved)
+            else if (approvedStatus == ApprovedStatus.CoordinatorApproved)
+            {
+                notificationText = "Your course approval was approved by the coordinator, waiting for instructor approval!";
+            }
+            else if (approvedStatus == ApprovedStatus.InstructorApproved)
             {
                 notificationText = "Your course approval was approved!";
             }

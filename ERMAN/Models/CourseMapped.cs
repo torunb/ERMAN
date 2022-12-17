@@ -18,8 +18,10 @@ namespace ERMAN.Models
     }
 }
 
-public enum ApprovedStatus {
-    Approved,
-    Rejected,
-    Pending
+public enum ApprovedStatus
+{
+    Pending,
+    CoordinatorApproved,
+    InstructorApproved,
+    Rejected
 }

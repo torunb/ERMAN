@@ -12,10 +12,42 @@ namespace ERMAN.Controllers
     public class CoordinatorController : ControllerBase
     {
         private readonly CoordinatorRepository repository;
+        private readonly StudentRepository _studentRepo;
 
-        public CoordinatorController(CoordinatorRepository repository)
+        public CoordinatorController(CoordinatorRepository repository, StudentRepository studentRepository)
         {
             this.repository = repository;
-        }   
+            _studentRepo = studentRepository;
+        }
+
+        [HttpDelete(Name = "CoordinatorCourseApproveReject")]
+        public void ApproveRejectCourseMapped(int courseMappedId, bool approve)
+        {
+            if (approve)
+            {
+                CourseMapped mapped = _studentRepo.GetCourseMapped(courseMappedId);
+                if ( mapped.BilkentCourse.IsMustCourse)
+                {
+                    mapped.ApprovedStatus = ApprovedStatus.CoordinatorApproved;
+                }
+                else // it is an approved elective course
+                {
+                    mapped.ApprovedStatus = ApprovedStatus.InstructorApproved;
+                }
+            }
+            else // reject
+            {
+                _studentRepo.GetCourseMapped(courseMappedId).ApprovedStatus = ApprovedStatus.Rejected;
+            }
+
+        }
+
+        [HttpDelete(Name = "CoordinatorCoursePendingGet")]
+        public List<CourseMapped> GetPendingCourseMapped()
+        {
+            return _studentRepo.GetAllCourses().Where(courseMapped => courseMapped.ApprovedStatus == ApprovedStatus.Pending).ToList();
+        }
+
+
     }
 }

@@ -37,9 +37,16 @@ namespace ERMAN.Controllers
         public IEnumerable<CourseMapped> GetApproved()
         {
             
-            return _courseMappedRepo.GetApproved();
+            return _courseMappedRepo.GetCoordinatorApproved();
         }
 
+        [HttpGet("/api/CourseManager/InstructorApproved", Name = "CourseManagerGetInstructorApproved")]
+        public IEnumerable<CourseMapped> GetInstructorApproved()
+        {
+            return _courseMappedRepo.GetInstructorApproved();
+        }
+
+        // coordinator approves electives, not insttucor
         /*
         [HttpGet("/api/CourseManager/Selected", Name = "CourseManagerGetSelected")]
         public IEnumerable<CourseMapped> GetSelected()
