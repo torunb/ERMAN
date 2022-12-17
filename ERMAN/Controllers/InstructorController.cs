@@ -24,7 +24,7 @@ namespace ERMAN.Controllers
             _instrRepo.Add(faq);
         }
 
-        [HttpDelete(Name = "InstructorCourseApproveReject")]
+        [HttpDelete("/api/Instructor/ApproveOrReject", Name = "InstructorCourseApproveReject")]
         public void ApproveRejectCourseMapped(int courseMappedId, bool approve)
         {
             if (approve)
@@ -37,7 +37,7 @@ namespace ERMAN.Controllers
             }
 
         }
-        [HttpDelete(Name = "InstructorCoursePendingGet")]
+        [HttpDelete("api/Coordinator/GetPendingCourseMapped", Name = "InstructorCoursePendingGet")]
         public List<CourseMapped> GetPendingCourseMapped()
         {
             return _studentRepo.GetAllCourses().Where(courseMapped => courseMapped.ApprovedStatus == ApprovedStatus.CoordinatorApproved).ToList();
