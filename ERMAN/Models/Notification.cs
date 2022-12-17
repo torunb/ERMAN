@@ -11,7 +11,7 @@ namespace ERMAN.Models
             public string Text { get; set; } = null!;
 
             [Required]
-            public string UserId { get; set; } = null!;
+            public int UserId { get; set; }
 
             [Required]
             public bool Read { get; set; } = false;

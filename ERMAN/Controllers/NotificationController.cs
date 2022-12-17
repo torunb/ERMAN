@@ -21,5 +21,14 @@ namespace ERMAN.Controllers
         {
             return _notificationRepo.GetAll();
         }
+
+        [HttpPost(Name = "SetNotificationAsRead")]
+        [Authorize(Roles = "Student, Coordinator")]
+        public void SetAsRead(List<int> notificationIds)
+        {
+            foreach (var notificationId in notificationIds) {
+                _notificationRepo.SetAsRead(notificationId);
+            }
+        }
     }
 }

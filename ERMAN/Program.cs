@@ -31,6 +31,7 @@ builder.Services.AddTransient<FaqRepository>();
 builder.Services.AddTransient<ChecklistRepository>();
 builder.Services.AddTransient<MessageRepository>();
 builder.Services.AddTransient<CourseMappedRepository>();
+builder.Services.AddTransient<NotificationRepository>();
 
 builder.Services.AddTransient<UniversityRepository>();
 builder.Services.AddTransient<StudentRepository>();

@@ -1,5 +1,6 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Models;
+using ERMAN.Services;
 using ERMAN.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +13,13 @@ namespace ERMAN.Controllers
     public class StudentController : ControllerBase
     {
         private readonly StudentRepository _studentRepo;
-        public StudentController(StudentRepository studentRepo)
+        private readonly MessagingService _messagingService;
+        private readonly MessageRepository _messageRepo;
+        public StudentController(StudentRepository studentRepo, MessagingService messagingService, MessageRepository messageRepo)
         {
             _studentRepo = studentRepo;
+            _messagingService = messagingService;
+            _messageRepo = messageRepo;
         }
 
         [HttpPost(Name = "StudentPost")]
@@ -35,6 +40,27 @@ namespace ERMAN.Controllers
         {
             _studentRepo.Get(id).SelectedCourses.FirstOrDefault(x => x.Id == mappedId).ApprovedStatus = approvedStatus;
             _studentRepo.Update();
+
+
+            var notificationText = "";
+            if (approvedStatus == ApprovedStatus.Rejected)
+            {
+                notificationText = "Your course approval was rejected.";
+            }
+            else if (approvedStatus == ApprovedStatus.Approved)
+            {
+                notificationText = "Your course approval was approved!";
+            }
+
+            var message = new MessageDto
+            {
+                messageText = notificationText,
+                senderId = -1,
+                receiverId = id,
+            };
+            _messageRepo.Add(message);
+
+            _messagingService.sendMessage(-1, id, notificationText);
         }
 
         [HttpPut("/api/Student/removeCourse", Name = "StudentRemoveCourse")]
@@ -59,7 +85,7 @@ namespace ERMAN.Controllers
         }
 
         [HttpGet("/api/Student/SelectedCourses", Name = "StudentGetSelecetedCourses")]
-        public List<CourseMapped> getSelectedCourses()
+        public List<CourseMapped> GetSelectedCourses()
         {
             var userId = (int)HttpContext.Items["userID"];
             return _studentRepo.GetStudentWithCourses(userId).SelectedCourses;

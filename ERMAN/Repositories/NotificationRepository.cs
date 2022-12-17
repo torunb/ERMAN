@@ -18,7 +18,7 @@ namespace ERMAN.Repositories
         }
 
 
-        public void Read(int notificationId)
+        public void SetAsRead(int notificationId)
         {
             var notification = _dbContext.NotificationTable.Where(notification => notification.Id == notificationId).FirstOrDefault();
             notification.Read = true;
