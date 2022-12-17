@@ -79,24 +79,35 @@ namespace ERMAN.Controllers
                     Degree = newStudentList[i].Degree,
                     TotalPoints = newStudentList[i].TotalPoints,
                     DurationPreferred = newStudentList[i].DurationPreferred,
-                    UniversityId = newStudentList[i].UniversityId,
+                    UniversityId = FindUniversity(newStudentList, i),
                     PreferredUniversity = newStudentList[i].PreferredUniversity
                 };
-
-                for (int j = 0; j < newStudentList[i].PreferredUniversity.Count; j++)
-                {
-                    var university = _context.UniversityTable.FirstOrDefault(s => (s.UniversityName == newStudentList[i].PreferredUniversity[j]));
-                    if (university.UniversityCapacity > 0)
-                    {
-                        newStudentList[i].UniversityId = university.Id;
-                        university.UniversityCapacity--;
-                        //_context.UniversityTable.
-                        _context.SaveChanges();
-                        break;
-                    }
-                }
                 _placeRepo.Add(student);
+
+                
+                
             }
+        }
+
+        private int FindUniversity(List<PlacementStudent> newStudentList, int i)
+        {
+            int ReturnVal = 0;
+            for (int j = 0; j < newStudentList[i].PreferredUniversity.Count; j++)
+            {
+                var university = _context.UniversityTable.FirstOrDefault(s => (s.UniversityName.CompareTo(newStudentList[i].PreferredUniversity[j]) == 0));
+                if (university.UniversityCapacity > 0)
+                {
+                    ReturnVal = university.Id;
+                    university.UniversityCapacity--;
+                    
+                    //_context.UniversityTable.
+                    break;
+                }
+            }
+            Console.WriteLine(ReturnVal);
+            return ReturnVal;
+
+
         }
 
         [HttpPost("/deleteOneStudent", Name = "deleteOneStudent")]

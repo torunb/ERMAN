@@ -22,6 +22,7 @@ namespace ERMAN.Repositories
                 Faculty = placedStu.Faculty,
                 Department = placedStu.Department,
                 Degree = placedStu.Degree,
+                UniversityId = placedStu.UniversityId,
                 TotalPoints = placedStu.TotalPoints,
                 DurationPreferred = placedStu.DurationPreferred,
                 PreferredUniversity = placedStu.PreferredUniversity,
