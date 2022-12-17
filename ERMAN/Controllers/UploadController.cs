@@ -14,7 +14,7 @@ namespace ERMAN.Controllers
         {
             var userId = ((int)HttpContext.Items["userID"]).ToString();
 
-            string formType = formData["formType"];
+            string formType = formData["fileType"];
 
             string path = "";
             try
@@ -26,6 +26,8 @@ namespace ERMAN.Controllers
                     {
                         Directory.CreateDirectory(path);
                     }
+                    Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                    Console.WriteLine(Path.Combine(path, formType + ".pdf"));
                     using (var fileStream = new FileStream(Path.Combine(path, formType + ".pdf"), FileMode.Create))
                     {
                         await pdfFile.CopyToAsync(fileStream);
