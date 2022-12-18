@@ -1,5 +1,6 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,16 +8,17 @@ namespace ERMAN.Controllers
 {
     public class ErasmusOfficeController : ControllerBase
     {
-        private readonly PlacementStudentRepository _repo;
+        private readonly PlacementStudentRepository _placeRepo;
         private readonly ErmanDbContext _context;
 
         public ErasmusOfficeController(PlacementStudentRepository repo, ErmanDbContext context)
         {
-            _repo = repo;
+            _placeRepo = repo;
             _context = context;
         }
 
-        [HttpPost("/api/ErasmnusOffice/StudentPlacement", Name = "ErasmusOfficeAPI")]
+        [HttpPost("/studentplacement", Name = "StudentPlacementAPI")]
+        [Authorize(Roles = "ExchangeOffice")]
         public void Post(List<PlacementStudentDto> studentList)
         {
             studentList.Sort((x, y) => Convert.ToDouble(x.TotalPoints).CompareTo(Convert.ToDouble(y.TotalPoints)));
@@ -40,12 +42,11 @@ namespace ERMAN.Controllers
                         studentList[i].UniversityId = university.Id;
                         university.UniversityCapacity--;
                         //_context.UniversityTable.
-                        _context.SaveChanges();
                         break;
                     }
                 }
                 //Console.WriteLine(studentList[i].Ranking);
-                _repo.Add(studentList[i]);
+                _placeRepo.Add(studentList[i]);
             }
         }
     }
