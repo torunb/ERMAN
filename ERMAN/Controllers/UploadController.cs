@@ -77,7 +77,7 @@ namespace ERMAN.Controllers
 
 
         [HttpPost("/api/Upload/view", Name = "ViewFiles")]
-        [Authorize(Roles = "Student, Coordinator")]
+        [Authorize(Roles = "Coordinator")]
         public List<string> GetUploadedFiles()
         {
             var userId = ((int)HttpContext.Items["userID"]).ToString();
@@ -93,6 +93,37 @@ namespace ERMAN.Controllers
                     foreach (var file in files)
                     {
                         fileNames.Add(file.Name);
+                    }
+                }
+
+                return fileNames;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("File Copy Failed", ex);
+            }
+        }
+
+        [HttpPost("/api/Upload/view-all", Name = "ViewAllFiles")]
+        [Authorize(Roles = "Coordinator")]
+        public List<string> GetUploadedFilesCoordinator()
+        {
+            var fileNames = new List<string>();
+            try
+            {
+                var uploadedFilesPath = Path.Combine(Environment.CurrentDirectory, "UploadedFiles/");
+                if (System.IO.Directory.Exists(uploadedFilesPath))
+                {
+                    var uploadedFiles = new DirectoryInfo(uploadedFilesPath);
+                    var directories = uploadedFiles.GetDirectories();
+                    foreach (var directory in directories)
+                    {
+                        var files = directory.GetFiles();
+                        foreach (var file in files)
+                        {
+                            var result = file.DirectoryName + "//" + file.Name;
+                            fileNames.Add(result);
+                        }
                     }
                 }
 
