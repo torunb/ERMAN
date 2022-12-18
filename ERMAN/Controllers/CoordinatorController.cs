@@ -11,12 +11,10 @@ namespace ERMAN.Controllers
     [ApiController]
     public class CoordinatorController : ControllerBase
     {
-        private readonly CoordinatorRepository repository;
         private readonly StudentRepository _studentRepo;
 
-        public CoordinatorController(CoordinatorRepository repository, StudentRepository studentRepository)
+        public CoordinatorController(StudentRepository studentRepository)
         {
-            this.repository = repository;
             _studentRepo = studentRepository;
         }
 
