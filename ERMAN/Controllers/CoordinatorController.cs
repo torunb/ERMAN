@@ -12,10 +12,12 @@ namespace ERMAN.Controllers
     public class CoordinatorController : ControllerBase
     {
         private readonly StudentRepository _studentRepo;
+        private readonly CourseProposalRepository _proposalRepo;
 
-        public CoordinatorController(StudentRepository studentRepository)
+        public CoordinatorController(StudentRepository studentRepository, CourseProposalRepository proposalRepo)
         {
             _studentRepo = studentRepository;
+            _proposalRepo = proposalRepo;
         }
 
         //[HttpDelete("api/Coordinator/ApproveOrReject", Name = "CoordinatorCourseApproveReject")]
@@ -40,10 +42,10 @@ namespace ERMAN.Controllers
         //    _studentRepo.Update();
         //}
 
-        [HttpDelete("api/Coordinator/GetPendingCourseMapped", Name = "CoordinatorCoursePendingGet")]
-        public List<CourseMapped> GetPendingCourseMapped()
+        [HttpGet("/GetPendingCourseMapped", Name = "CoordinatorCoursePendingGet")]
+        public List<ProposalCourse> GetPendingCourseMapped()
         {
-            return _studentRepo.GetAllCourses().Where(courseMapped => courseMapped.ApprovedStatus == ApprovedStatus.Pending).ToList();
+            return _proposalRepo.GetCoordinatorApproved();
         }
 
 
