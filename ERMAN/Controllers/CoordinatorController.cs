@@ -18,27 +18,27 @@ namespace ERMAN.Controllers
             _studentRepo = studentRepository;
         }
 
-        [HttpDelete("api/Coordinator/ApproveOrReject", Name = "CoordinatorCourseApproveReject")]
-        public void ApproveRejectCourseMapped(int courseMappedId, bool approve)
-        {
-            if (approve)
-            {
-                CourseMapped mapped = _studentRepo.GetCourseMapped(courseMappedId);
-                if ( mapped.BilkentCourse.IsMustCourse)
-                {
-                    mapped.ApprovedStatus = ApprovedStatus.CoordinatorApproved;
-                }
-                else // it is an approved elective course
-                {
-                    mapped.ApprovedStatus = ApprovedStatus.InstructorApproved;
-                }
-            }
-            else // reject
-            {
-                _studentRepo.GetCourseMapped(courseMappedId).ApprovedStatus = ApprovedStatus.Rejected;
-            }
-
-        }
+        //[HttpDelete("api/Coordinator/ApproveOrReject", Name = "CoordinatorCourseApproveReject")]
+        //public void ApproveRejectCourseMapped(int authId, int courseMappedId, bool approve)
+        //{
+        //    if (approve)
+        //    {
+        //        CourseMapped mapped = _studentRepo.GetCourseMapped(courseMappedId);
+        //        if ( mapped.BilkentCourse.CourseType == "Must")
+        //        {
+        //            mapped.ApprovedStatus = ApprovedStatus.CoordinatorApproved;
+        //        }
+        //        else // it is an approved elective course
+        //        {
+        //            mapped.ApprovedStatus = ApprovedStatus.InstructorApproved;
+        //        }
+        //    }
+        //    else // reject
+        //    {
+        //        _studentRepo.GetCourseMapped(courseMappedId).ApprovedStatus = ApprovedStatus.Rejected;
+        //    }
+        //    _studentRepo.Update();
+        //}
 
         [HttpDelete("api/Coordinator/GetPendingCourseMapped", Name = "CoordinatorCoursePendingGet")]
         public List<CourseMapped> GetPendingCourseMapped()

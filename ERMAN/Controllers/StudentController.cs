@@ -36,35 +36,36 @@ namespace ERMAN.Controllers
         }
 
         [HttpPut("/api/Student/approveStatus", Name = "StudentApproveCourseStatus")]
-        public void SetSelectedCourseAs(int id, int mappedId, ApprovedStatus approvedStatus)
+        public void SetSelectedCourseAs(int id, int courseMappedId, bool approved)
         {
-            _studentRepo.Get(id).SelectedCourses.FirstOrDefault(x => x.Id == mappedId).ApprovedStatus = approvedStatus;
+            if (approved) // 
+            {
+                CourseMapped mapped = _studentRepo.GetCourseMapped(courseMappedId);
+                if (mapped.BilkentCourse.CourseType == "Must")
+                {
+                    mapped.ApprovedStatus = ApprovedStatus.CoordinatorApproved;
+                }
+                else // it is an approved elective course
+                {
+                    mapped.ApprovedStatus = ApprovedStatus.InstructorApproved;
+
+                    var msgText = "Your course approval was approved";
+                    var message = new MessageDto
+                    {
+                        messageText = msgText,
+                        senderId = -1,
+                        receiverId = id,
+                    };
+                    _messageRepo.Add(message);
+                    _messagingService.sendMessage(-1, id, msgText);
+                }
+            }
+            else // reject
+            {
+                _studentRepo.GetCourseMapped(courseMappedId).ApprovedStatus = ApprovedStatus.Rejected;
+            }
             _studentRepo.Update();
 
-
-            var notificationText = "";
-            if (approvedStatus == ApprovedStatus.Rejected)
-            {
-                notificationText = "Your course approval was rejected.";
-            }
-            else if (approvedStatus == ApprovedStatus.CoordinatorApproved)
-            {
-                notificationText = "Your course approval was approved by the coordinator, waiting for instructor approval!";
-            }
-            else if (approvedStatus == ApprovedStatus.InstructorApproved)
-            {
-                notificationText = "Your course approval was approved!";
-            }
-
-            var message = new MessageDto
-            {
-                messageText = notificationText,
-                senderId = -1,
-                receiverId = id,
-            };
-            _messageRepo.Add(message);
-
-            _messagingService.sendMessage(-1, id, notificationText);
         }
 
         [HttpPut("/api/Student/removeCourse", Name = "StudentRemoveCourse")]

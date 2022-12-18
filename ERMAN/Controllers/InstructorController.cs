@@ -1,6 +1,7 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Models;
 using ERMAN.Repositories;
+using ERMAN.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +13,14 @@ namespace ERMAN.Controllers
     {
         private readonly IGeneralInterface<Instructor, InstructorDto> _instrRepo;
         private readonly StudentRepository _studentRepo;
-        public InstructorController(IGeneralInterface<Instructor, InstructorDto> instrRepo, StudentRepository studentRepo)
+        private readonly MessagingService _messagingService;
+        private readonly MessageRepository _messageRepo;
+        public InstructorController(IGeneralInterface<Instructor, InstructorDto> instrRepo, StudentRepository studentRepo, MessageRepository messageRepo, MessagingService messagingService)
         {
             _instrRepo = instrRepo;
             _studentRepo = studentRepo;
+            _messagingService = messagingService;
+            _messageRepo = messageRepo;
         }
 
         [HttpPost(Name = "InstructorPost")]
@@ -25,17 +30,27 @@ namespace ERMAN.Controllers
         }
 
         [HttpDelete("/api/Instructor/ApproveOrReject", Name = "InstructorCourseApproveReject")]
-        public void ApproveRejectCourseMapped(int courseMappedId, bool approve)
+        public void ApproveRejectCourseMapped(int id, int courseMappedId, bool approve)
         {
             if (approve)
             {
-                _studentRepo.GetCourseMapped( courseMappedId).ApprovedStatus = ApprovedStatus.InstructorApproved;
+                _studentRepo.GetCourseMapped(courseMappedId).ApprovedStatus = ApprovedStatus.InstructorApproved;
+
+                var msgText = "Your course approval was approved";
+                var message = new MessageDto
+                {
+                    messageText = msgText,
+                    senderId = -1,
+                    receiverId = id,
+                };
+                _messageRepo.Add(message);
+                _messagingService.sendMessage(-1, id, msgText);
             }
             else // reject
             {
-                _studentRepo.GetCourseMapped( courseMappedId).ApprovedStatus = ApprovedStatus.Rejected;
+                _studentRepo.GetCourseMapped(courseMappedId).ApprovedStatus = ApprovedStatus.Rejected;
             }
-
+            _studentRepo.Update();
         }
         [HttpDelete("api/Coordinator/GetPendingCourseMapped", Name = "InstructorCoursePendingGet")]
         public List<CourseMapped> GetPendingCourseMapped()

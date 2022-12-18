@@ -25,7 +25,7 @@ namespace ERMAN.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Coordinator")]
+        [Authorize(Roles = "Coordinator, Instructor")]
         public TodoResponse GetCoordinatorTodos()
         {
             var pendingProposals = _proposalRepo.GetAll().ToList().Count;
