@@ -115,7 +115,7 @@ namespace ERMAN.Controllers
                     
                     for (int j = 0; j < studentList[i].PreferredUniversity.Count; j++)
                     {
-                        if ((studentList[i].PreferredUniversity[j] == university.UniversityName) && studentFound == false&& (studentList[i].UniversityId == 0 || studentList[i].UniversityId == null))
+                        if ((studentList[i].PreferredUniversity[j] == university.UniversityName) && studentFound == false&& (studentList[i].UniversityId == 0 || studentList[i].UniversityId == null) && studentList[i].Ranking != -1)
                         {
                             
                             var StudentToChange = _context.PlacementStudentTable.FirstOrDefault(s => s.StudentId == studentList[i].StudentId);
@@ -124,6 +124,10 @@ namespace ERMAN.Controllers
                           
                         }
                     }
+                }
+                if(studentFound == false)
+                {
+                    university.UniversityCapacity++;
                 }
             }
             toDelete.Ranking = -1;
