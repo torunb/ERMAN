@@ -58,6 +58,8 @@ namespace ERMAN.Controllers
             toDelete.Ranking = -1;
             toDelete.UniversityId = null;
             toDelete.TotalPoints = "0";
+            var student = _context.StudentTable.FirstOrDefault(s => s.StudentId == (int)Convert.ToInt32(toDelete.StudentId));
+            student.University = null;
             _context.SaveChanges();
 
         }
