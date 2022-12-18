@@ -11,13 +11,11 @@ namespace ERMAN.Controllers
     [ApiController]
     public class CourseProposalController : ControllerBase
     {
-        private readonly ErmanDbContext _context;
         private readonly StudentRepository _studentRepository;
         private readonly CourseProposalRepository _courseProposalRepository;
 
-        public CourseProposalController(ErmanDbContext context, StudentRepository studentRepository, CourseProposalRepository courseProposalRepository)
+        public CourseProposalController(StudentRepository studentRepository, CourseProposalRepository courseProposalRepository)
         {
-            _context = context;
             _studentRepository = studentRepository;
             _courseProposalRepository = courseProposalRepository;
         }
