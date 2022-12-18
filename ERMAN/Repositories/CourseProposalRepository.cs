@@ -45,5 +45,10 @@ namespace ERMAN.Repositories
         {
             return _context.ProposalCourseTable.Include(proposal => proposal.Course.BilkentCourse).Include(proposal => proposal.Course.HostCourses).ToList();
         }
+
+        public List<ProposalCourse> GetCoordinatorApproved()
+        {
+            return _context.ProposalCourseTable.Where(proposal => proposal.Course.ApprovedStatus == ApprovedStatus.CoordinatorApproved).ToList();
+        }
     }
 }

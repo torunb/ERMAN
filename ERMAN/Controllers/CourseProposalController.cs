@@ -38,6 +38,12 @@ namespace ERMAN.Controllers
             return _courseProposalRepository.GetAll();
         }
 
+        [HttpGet("/api/Proposals/CoordinatorApproved", Name = "GetCoordinatorApprovedAPI")]
+        public List<ProposalCourse> GetCoordinatorApproved()
+        {
+            return _courseProposalRepository.GetCoordinatorApproved();
+        }
+
         [HttpDelete("/api/Proposals", Name = "Remove")]
         public ProposalCourse RemoveProposal(int proposalId)
         {
