@@ -26,8 +26,6 @@ namespace ERMAN.Controllers
                     {
                         Directory.CreateDirectory(path);
                     }
-                    Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                    Console.WriteLine(Path.Combine(path, formType + ".pdf"));
                     using (var fileStream = new FileStream(Path.Combine(path, formType + ".pdf"), FileMode.Create))
                     {
                         await pdfFile.CopyToAsync(fileStream);
@@ -80,12 +78,11 @@ namespace ERMAN.Controllers
         [Authorize(Roles = "Coordinator")]
         public List<string> GetUploadedFiles()
         {
-            var userId = ((int)HttpContext.Items["userID"]).ToString();
             var fileNames = new List<string>();
 
             try
             {
-                string path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles/" + userId));
+                string path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles"));
                 if (System.IO.Directory.Exists(path))
                 {
                     var directory = new DirectoryInfo(path);
