@@ -33,7 +33,7 @@ namespace ERMAN.Controllers
         }
 
         [Route("api/Messages")]
-        [Authorize(Roles = "Student, Coordinator")]
+        [Authorize(Roles = "Student, Coordinator, Instructor")]
         [HttpGet]
         public AllMessages GetUserMessages()
         {
@@ -49,7 +49,7 @@ namespace ERMAN.Controllers
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [Route("/ws")]
-        [Authorize(Roles = "Student, Coordinator")]
+        [Authorize(Roles = "Student, Coordinator, Instructor")]
         public async Task Get()
         {
             if (HttpContext.WebSockets.IsWebSocketRequest)

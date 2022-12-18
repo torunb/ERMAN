@@ -23,10 +23,25 @@ namespace ERMAN.Controllers
         [Authorize]
         public UserInfoDTO Get()
         {
-            var userId = (int) HttpContext.Items["userID"];
-            var userInfo = _userService.Get(userId);
+            var userType = (string) HttpContext.Items["userType"];
+            var userId = (int)HttpContext.Items["userID"];
 
-            return userInfo;
+            if (userType == "ExchangeOffice")
+            {
+                var info = new UserInfoDTO {
+                    userType = "exchange-office",
+                    email = "exchangeoffice@bilkent.edu.tr",
+                    authId = userId,
+                    firstName = "Erman Exchange",
+                    lastName = "",
+                };
+                return info;
+            }
+            else {
+                var userInfo = _userService.Get(userId);
+
+                return userInfo;
+            }
         }
 
         [HttpGet("/api/user-info/all", Name = "UserGetInfoAll")]
