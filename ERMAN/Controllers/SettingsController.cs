@@ -31,26 +31,30 @@ namespace ERMAN.Controllers
             var toDelete = _context.PlacementStudentTable.FirstOrDefault(s => Convert.ToInt32(s.Id) == userId);
             if (toDelete.UniversityId != 0)
             {
-                List<PlacementStudent> studentList = _context.PlacementStudentTable.Where(s => (s.Ranking > toDelete.Ranking && s.UniversityId == 0)).ToList();
+                List<PlacementStudent> studentList = _context.PlacementStudentTable.Where(s => (s.Ranking > toDelete.Ranking)).ToList();
                 bool studentFound = false;
-
-                for (int i = 0; i < studentList.Count || !studentFound; i++)
+                var university = _context.UniversityTable.FirstOrDefault(s => (s.Id == toDelete.UniversityId));
+                for (int i = 0; i < studentList.Count && studentFound == false; i++)
                 {
-                    foreach (string UniversityName in studentList[i].PreferredUniversity)
+                    for (int j = 0; j < studentList[i].PreferredUniversity.Count; j++)
                     {
-                        var university = _context.UniversityTable.FirstOrDefault(s => (s.Id == toDelete.UniversityId));
-                        if (UniversityName == university.UniversityName)
+                        if ((studentList[i].PreferredUniversity[j] == university.UniversityName) && studentFound == false && (studentList[i].UniversityId == 0 || studentList[i].UniversityId == null) && studentList[i].Ranking != -1)
                         {
-                            var StudentToChange = _context.PlacementStudentTable.FirstOrDefault(s => s.Id == studentList[i].Id);
-                            StudentToChange.UniversityId = toDelete.UniversityId;
+
+                            var StudentToChange = _context.PlacementStudentTable.FirstOrDefault(s => s.StudentId == studentList[i].StudentId);
+                            StudentToChange.UniversityId = university.Id;
                             studentFound = true;
-                            _context.SaveChanges();
+
                         }
                     }
                 }
+                if (studentFound == false)
+                {
+                    university.UniversityCapacity++;
+                }
             }
             toDelete.Ranking = -1;
-            toDelete.UniversityId = 0;
+            toDelete.UniversityId = null;
             toDelete.TotalPoints = "0";
             _context.SaveChanges();
 

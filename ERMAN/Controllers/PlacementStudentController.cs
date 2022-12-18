@@ -106,13 +106,9 @@ namespace ERMAN.Controllers
             {
                 List<PlacementStudent> studentList = _context.PlacementStudentTable.Where(s => (s.Ranking > toDelete.Ranking )).ToList();
                 bool studentFound = false;
-                Console.WriteLine("Size: " + studentList.Count);
-
                 var university = _context.UniversityTable.FirstOrDefault(s => (s.Id == toDelete.UniversityId));
                 for (int i = 0; i < studentList.Count && studentFound == false; i++)
                 {
-
-                    
                     for (int j = 0; j < studentList[i].PreferredUniversity.Count; j++)
                     {
                         if ((studentList[i].PreferredUniversity[j] == university.UniversityName) && studentFound == false&& (studentList[i].UniversityId == 0 || studentList[i].UniversityId == null) && studentList[i].Ranking != -1)
@@ -120,8 +116,7 @@ namespace ERMAN.Controllers
                             
                             var StudentToChange = _context.PlacementStudentTable.FirstOrDefault(s => s.StudentId == studentList[i].StudentId);
                             StudentToChange.UniversityId = university.Id;
-                            studentFound = true;
-                          
+                            studentFound = true; 
                         }
                     }
                 }
