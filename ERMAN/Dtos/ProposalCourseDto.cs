@@ -9,6 +9,8 @@ namespace ERMAN.Dtos
 
         public CourseMapped? Course { get; set; }
 
+        public ProposalStatus Status { get; set; }
+
         public string? StudentId { get; set; }
 
         public int AuthId { get; set; }

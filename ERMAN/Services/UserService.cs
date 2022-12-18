@@ -41,10 +41,11 @@ namespace ERMAN.Services
             {
                 var instructorNew = new InstructorDto
                 {
-                    InstructorEmailAddress = user.Email,
+                    Email = user.Email,
                     InstructorId = user.BilkentId,
-                    InstructorName = user.FirstName + " " + user.LastName,
-
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    AuthId = user.AuthId,
                 };
                 _instructorRepository.Add(instructorNew);
             }
@@ -69,6 +70,7 @@ namespace ERMAN.Services
         {
             Student student = _studentRepository.Get(authId);
             Coordinator coordinator = _coordinatorRepository.Get(authId);
+            Instructor instuctor = _instructorRepository.GetByUserId(authId);
             Console.WriteLine("authid: " + authId.ToString());
 
             if (student != null) {
@@ -105,6 +107,22 @@ namespace ERMAN.Services
                     lastName = coordinator.LastName,
                     department = coordinator.Department,
                     faculty = coordinator.Faculty,
+                };
+
+                Console.WriteLine(userInfo.email);
+                return userInfo;
+            }
+            else if (instuctor != null)
+            {
+                var userInfo = new UserInfoDTO
+                {
+                    authId = instuctor.AuthId,
+                    userType = UserType.Instructor.ToString().ToLower(),
+                    email = instuctor.Email,
+                    firstName = instuctor.FirstName,
+                    lastName = instuctor.LastName,
+                    department = instuctor.Department,
+                    faculty = instuctor.Faculty,
                 };
 
                 Console.WriteLine(userInfo.email);

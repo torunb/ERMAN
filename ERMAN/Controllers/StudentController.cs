@@ -37,19 +37,22 @@ namespace ERMAN.Controllers
             _studentRepo.UpdateStudentSelectedCourses(userId, courses);
         }
 
-        [HttpPut("/api/Student/approveStatus", Name = "StudentApproveCourseStatus")]
+        [HttpPost("/api/Student/approveStatus", Name = "StudentApproveCourseStatus")]
         public void SetSelectedCourseAs(int id, int mappedId, bool approvedStatus, int proposalId)
         {
+            var proposal = _proposalRepo.Get(proposalId);
             if (approvedStatus) // 
             {
                 CourseMapped mapped = _studentRepo.GetCourseMapped(mappedId);
                 if (mapped.BilkentCourse.CourseType == "Must")
                 {
                     mapped.ApprovedStatus = ApprovedStatus.CoordinatorApproved;
+                    proposal.Status = ProposalStatus.WaitingInstructor;
                 }
                 else // it is an approved elective course
                 {
                     mapped.ApprovedStatus = ApprovedStatus.InstructorApproved;
+                    _proposalRepo.Remove(proposalId);
 
                     var msgText = "Your course approval was approved";
                     var message = new MessageDto
@@ -68,7 +71,7 @@ namespace ERMAN.Controllers
             }
 
             _studentRepo.Update();
-            _proposalRepo.Remove(proposalId);
+            _proposalRepo.Update();
         }
 
         [HttpPut("/api/Student/removeCourse", Name = "StudentRemoveCourse")]

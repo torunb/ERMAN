@@ -17,8 +17,10 @@ namespace ERMAN.Repositories
             var instructorNew = new Instructor
             {
                 InstructorId = instructor.InstructorId,
-                InstructorEmailAddress = instructor.InstructorEmailAddress,
-                InstructorName = instructor.InstructorName,
+                Email = instructor.Email,
+                FirstName = instructor.FirstName,
+                LastName = instructor.LastName,
+                AuthId = instructor.AuthId,
             };
 
             _dbContext.InstructorTable.Add(instructorNew);
@@ -41,6 +43,14 @@ namespace ERMAN.Repositories
             Instructor toBeFind = _dbContext.InstructorTable.Find(id);
             return toBeFind;
         }
+
+
+        public Instructor GetByUserId(int authId)
+        {
+            Instructor toBeFind = _dbContext.InstructorTable.Where(instructor => instructor.AuthId == authId).FirstOrDefault();
+            return toBeFind;
+        }
+
 
         public void Update()
         {

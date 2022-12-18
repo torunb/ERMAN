@@ -11,12 +11,12 @@ namespace ERMAN.Controllers
     [ApiController]
     public class InstructorController : ControllerBase
     {
-        private readonly IGeneralInterface<Instructor, InstructorDto> _instrRepo;
+        private readonly InstructorRepository _instrRepo;
         private readonly StudentRepository _studentRepo;
         private readonly MessagingService _messagingService;
         private readonly MessageRepository _messageRepo;
         private readonly CourseProposalRepository _proposalRepository;
-        public InstructorController(IGeneralInterface<Instructor, InstructorDto> instrRepo, StudentRepository studentRepo, MessageRepository messageRepo, MessagingService messagingService, CourseProposalRepository proposalRepository)
+        public InstructorController(InstructorRepository instrRepo, StudentRepository studentRepo, MessageRepository messageRepo, MessagingService messagingService, CourseProposalRepository proposalRepository)
         {
             _instrRepo = instrRepo;
             _studentRepo = studentRepo;

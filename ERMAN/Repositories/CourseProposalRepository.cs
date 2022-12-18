@@ -41,14 +41,29 @@ namespace ERMAN.Repositories
             return newProposedCourse;
         }
 
+        public ProposalCourse Get(int proposalID)
+        {
+            return _context.ProposalCourseTable.Find(proposalID);
+        }
+
         public List<ProposalCourse> GetAll()
         {
             return _context.ProposalCourseTable.Include(proposal => proposal.Course.BilkentCourse).Include(proposal => proposal.Course.HostCourses).ToList();
         }
 
+        public List<ProposalCourse> GetWaitingCoordinatorProposal()
+        {
+            return _context.ProposalCourseTable.Where(proposal => proposal.Status == ProposalStatus.WaitingCoordinator).ToList();
+        }
+
         public List<ProposalCourse> GetCoordinatorApproved()
         {
             return _context.ProposalCourseTable.Where(proposal => proposal.Course.ApprovedStatus == ApprovedStatus.CoordinatorApproved).ToList();
+        }
+
+        public void Update()
+        {
+            _context.SaveChanges();
         }
     }
 }

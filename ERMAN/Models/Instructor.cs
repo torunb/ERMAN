@@ -9,10 +9,16 @@ namespace ERMAN.Models
 
         [Required(ErrorMessage = "Email address is required.")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Please enter valid e-mail address")]
-        public string InstructorEmailAddress { get; set; } = null!;
+        public string Email { get; set; } = null!;
 
-        [Required]
-        public string InstructorName { get; set; } = null!;
+        [Required(ErrorMessage = "AuthId must be provided")]
+        public int AuthId { get; set; }
+        public string? FirstName { get; set; } = null!;
+        public string? LastName { get; set; } = null!;
+
+        public string? Faculty { get; set; }
+        public string? Department { get; set; }
+
 
         public int? InstructorId { get; set; }
 

@@ -11,9 +11,16 @@ namespace ERMAN.Models
 
         public virtual CourseMapped? Course { get; set; }
 
+        public ProposalStatus Status { get; set; }
+
         public string? StudentId { get; set; }
 
         [Required]
         public int AuthId { get; set; }
     }
+}
+
+public enum ProposalStatus {
+    WaitingCoordinator,
+    WaitingInstructor
 }

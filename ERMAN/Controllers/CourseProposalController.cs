@@ -25,6 +25,8 @@ namespace ERMAN.Controllers
         {
             var userId = (int)HttpContext.Items["userID"];
             proposedCourse.Course.ApprovedStatus = ApprovedStatus.Pending;
+            proposedCourse.Status = ProposalStatus.WaitingCoordinator;
+
 
             var student = _studentRepository.Get(userId);
             student.SelectedCourses.Add(proposedCourse.Course);
@@ -35,7 +37,7 @@ namespace ERMAN.Controllers
         [HttpGet("/api/Proposals", Name = "GetAPI")]
         public List<ProposalCourse> Get()
         {
-            return _courseProposalRepository.GetAll();
+            return _courseProposalRepository.GetWaitingCoordinatorProposal();
         }
 
         [HttpGet("/api/Proposals/CoordinatorApproved", Name = "GetCoordinatorApprovedAPI")]
