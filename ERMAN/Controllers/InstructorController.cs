@@ -15,12 +15,14 @@ namespace ERMAN.Controllers
         private readonly StudentRepository _studentRepo;
         private readonly MessagingService _messagingService;
         private readonly MessageRepository _messageRepo;
-        public InstructorController(IGeneralInterface<Instructor, InstructorDto> instrRepo, StudentRepository studentRepo, MessageRepository messageRepo, MessagingService messagingService)
+        private readonly CourseProposalRepository _proposalRepository;
+        public InstructorController(IGeneralInterface<Instructor, InstructorDto> instrRepo, StudentRepository studentRepo, MessageRepository messageRepo, MessagingService messagingService, CourseProposalRepository proposalRepository)
         {
             _instrRepo = instrRepo;
             _studentRepo = studentRepo;
             _messagingService = messagingService;
             _messageRepo = messageRepo;
+            _proposalRepository = proposalRepository;
         }
 
         [HttpPost(Name = "InstructorPost")]
@@ -30,7 +32,7 @@ namespace ERMAN.Controllers
         }
 
         [HttpDelete("/api/Instructor/ApproveOrReject", Name = "InstructorCourseApproveReject")]
-        public void ApproveRejectCourseMapped(int id, int courseMappedId, bool approve)
+        public void ApproveRejectCourseMapped(int id, int courseMappedId, bool approve, int proposalId)
         {
             if (approve)
             {
@@ -51,6 +53,7 @@ namespace ERMAN.Controllers
                 _studentRepo.GetCourseMapped(courseMappedId).ApprovedStatus = ApprovedStatus.Rejected;
             }
             _studentRepo.Update();
+            _proposalRepository.Remove(proposalId);
         }
         [HttpDelete("api/Coordinator/GetPendingCourseMapped", Name = "InstructorCoursePendingGet")]
         public List<CourseMapped> GetPendingCourseMapped()

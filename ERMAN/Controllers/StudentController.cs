@@ -15,11 +15,13 @@ namespace ERMAN.Controllers
         private readonly StudentRepository _studentRepo;
         private readonly MessagingService _messagingService;
         private readonly MessageRepository _messageRepo;
-        public StudentController(StudentRepository studentRepo, MessagingService messagingService, MessageRepository messageRepo)
+        private readonly CourseProposalRepository _proposalRepo;
+        public StudentController(StudentRepository studentRepo, MessagingService messagingService, MessageRepository messageRepo, CourseProposalRepository proposalRepo)
         {
             _studentRepo = studentRepo;
             _messagingService = messagingService;
             _messageRepo = messageRepo;
+            _proposalRepo = proposalRepo;
         }
 
         [HttpPost(Name = "StudentPost")]
@@ -36,7 +38,7 @@ namespace ERMAN.Controllers
         }
 
         [HttpPut("/api/Student/approveStatus", Name = "StudentApproveCourseStatus")]
-        public void SetSelectedCourseAs(int id, int mappedId, bool approvedStatus)
+        public void SetSelectedCourseAs(int id, int mappedId, bool approvedStatus, int proposalId)
         {
             if (approvedStatus) // 
             {
@@ -64,8 +66,9 @@ namespace ERMAN.Controllers
             {
                 _studentRepo.GetCourseMapped(mappedId).ApprovedStatus = ApprovedStatus.Rejected;
             }
-            _studentRepo.Update();
 
+            _studentRepo.Update();
+            _proposalRepo.Remove(proposalId);
         }
 
         [HttpPut("/api/Student/removeCourse", Name = "StudentRemoveCourse")]
