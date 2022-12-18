@@ -12,19 +12,45 @@ namespace ERMAN.Controllers
     public class TodoController : ControllerBase
     {
         private readonly TodoRepository _todoRepo;
+        private readonly CourseProposalRepository _proposalRepo;
 
-        public TodoController(TodoRepository todoRepo)
+        public TodoController(TodoRepository todoRepo, CourseProposalRepository proposalRepo)
         {
             _todoRepo = todoRepo;
+            _proposalRepo = proposalRepo;
+        }
+
+        public class TodoResponse {
+            public int pendingProposals { get; set; }
         }
 
         [HttpGet]
-        [Authorize(Roles = "Student, Coordinator")]
-        public IEnumerable<Todo> Get()
+        [Authorize(Roles = "Coordinator")]
+        public TodoResponse GetCoordinatorTodos()
         {
-            var userId = (int) HttpContext.Items["userID"];
-            return _todoRepo.GetAll(userId);
+            var pendingProposals = _proposalRepo.GetAll().ToList().Count;
+
+            var response = new TodoResponse
+            {
+                pendingProposals = pendingProposals,
+            };
+
+            return response;
         }
+
+        //[HttpGet]
+        //[Authorize(Roles = "Student")]
+        //public IEnumerable<Todo> GetStudentTodos()
+        //{
+        //    var userId = (int)HttpContext.Items["userID"];
+        //    var userType = HttpContext.Items["userType"];
+
+        //    var pendingProposals = _proposalRepo.GetAll().ToList().Count;
+
+
+        //    return _todoRepo.GetAll(userId);
+        //}
+
 
         [HttpPost]
         [Authorize(Roles = "Coordinator")]

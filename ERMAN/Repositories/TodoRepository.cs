@@ -38,9 +38,9 @@ namespace ERMAN.Repositories
             return toBeDeleted;
         }
 
-        public Todo Get(int id)
+        public Todo Get(int authId)
         {
-            Todo toBeFind = _dbContext.TodoTable.Find(id);
+            Todo toBeFind = _dbContext.TodoTable.Find(authId);
             return toBeFind;
         }
 
