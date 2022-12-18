@@ -1,5 +1,6 @@
 ﻿using ERMAN.Dtos;
 using ERMAN.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ERMAN.Repositories
 {
@@ -27,6 +28,11 @@ namespace ERMAN.Repositories
             _context.SaveChanges();
 
             return newProposedCourse;
+        }
+
+        public List<ProposalCourse> GetAll()
+        {
+            return _context.ProposalCourseTable.Include(proposal => proposal.Course.BilkentCourse).Include(proposal => proposal.Course.HostCourses).ToList();
         }
     }
 }

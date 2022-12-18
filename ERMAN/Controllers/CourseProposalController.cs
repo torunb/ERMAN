@@ -37,7 +37,7 @@ namespace ERMAN.Controllers
         [HttpGet("/api/Proposals", Name = "GetAPI")]
         public List<ProposalCourse> Get()
         {
-            return _context.ProposalCourseTable.Include(proposal=>proposal.Course.BilkentCourse).Include(proposal => proposal.Course.HostCourses).ToList();
+            return _courseProposalRepository.GetAll();
         }
     }
 }
