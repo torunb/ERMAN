@@ -180,7 +180,7 @@ namespace ERMAN.Controllers
             return StatusCode(200);
         }
 
-        [Authorize(Roles = "student")]
+        [Authorize(Roles = "Student, Coordinator, Instructor")]
         [HttpPost("/api/logout", Name = "Logout")]
         public async void Logout()
         {

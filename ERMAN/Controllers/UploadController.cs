@@ -48,7 +48,7 @@ namespace ERMAN.Controllers
         }
 
         [HttpPost("/api/Upload/download", Name = "DownloadFile")]
-        [Authorize(Roles = "Student, Coordinator")]
+        [Authorize(Roles = "Student")]
         public IActionResult Download(DownloadRequest req)
         {
             var userId = ((int)HttpContext.Items["userID"]).ToString();
@@ -69,20 +69,41 @@ namespace ERMAN.Controllers
             }
         }
 
+        [HttpPost("/api/Upload/download-coordinator", Name = "DownloadFileCoordinator")]
+        [Authorize(Roles = "Coordinator")]
+        public IActionResult DownloadCoordinator(DownloadRequest req)
+        {
+            try
+            {
+                string path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles/" + req.fileName));
+                if (System.IO.File.Exists(path))
+                {
+                    var fileContent = System.IO.File.ReadAllBytes(path);
+                    return File(fileContent, "application/pdf");
+                }
+                return StatusCode(404);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("File Copy Failed", ex);
+            }
+        }
+
         public class FilesResponse {
             public List<string> names { get; set; }
         }
 
 
         [HttpPost("/api/Upload/view", Name = "ViewFiles")]
-        [Authorize(Roles = "Coordinator")]
+        [Authorize(Roles = "Student")]
         public List<string> GetUploadedFiles()
         {
+            var userId = ((int)HttpContext.Items["userID"]).ToString();
             var fileNames = new List<string>();
 
             try
             {
-                string path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles"));
+                string path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles/" + userId));
                 if (System.IO.Directory.Exists(path))
                 {
                     var directory = new DirectoryInfo(path);
@@ -118,7 +139,7 @@ namespace ERMAN.Controllers
                         var files = directory.GetFiles();
                         foreach (var file in files)
                         {
-                            var result = file.DirectoryName + "//" + file.Name;
+                            var result = directory.Name + "/" + file.Name;
                             fileNames.Add(result);
                         }
                     }
