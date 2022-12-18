@@ -13,34 +13,25 @@ namespace ERMAN.Controllers
     {
         private readonly ErmanDbContext _context;
         private readonly StudentRepository _studentRepository;
+        private readonly CourseProposalRepository _courseProposalRepository;
 
-        public CourseProposalController(ErmanDbContext context, StudentRepository studentRepository)
+        public CourseProposalController(ErmanDbContext context, StudentRepository studentRepository, CourseProposalRepository courseProposalRepository)
         {
             _context = context;
             _studentRepository = studentRepository;
+            _courseProposalRepository = courseProposalRepository;
         }
 
         [HttpPost]
         public ProposalCourse Post(ProposalCourseDto proposedCourse)
         {
             var userId = (int)HttpContext.Items["userID"];
-
             proposedCourse.Course.ApprovedStatus = ApprovedStatus.Pending;
-            var newProposedCourse = new ProposalCourse
-            {
-                Course = proposedCourse.Course,
-                Intensions = proposedCourse.Intensions,
-                StudentId = proposedCourse.StudentId,
-                AuthId = userId,
-            };
 
             var student = _studentRepository.Get(userId);
             student.SelectedCourses.Add(proposedCourse.Course);
-  
-            _context.ProposalCourseTable.Add(newProposedCourse);
-            _context.SaveChanges();
 
-            return newProposedCourse;
+            return _courseProposalRepository.Add(proposedCourse);
         }
 
         [HttpGet("/api/Proposals", Name = "GetAPI")]

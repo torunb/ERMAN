@@ -38,6 +38,7 @@ builder.Services.AddTransient<StudentRepository>();
 builder.Services.AddTransient<CoordinatorRepository>();
 builder.Services.AddTransient<InstructorRepository>();
 builder.Services.AddTransient<PlacementStudentRepository>();
+builder.Services.AddTransient<CourseProposalRepository>();
 
 builder.Services.AddTransient<UserService>();
 builder.Services.AddSingleton<MessagingService>();
