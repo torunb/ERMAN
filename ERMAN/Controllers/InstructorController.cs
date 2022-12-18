@@ -55,7 +55,7 @@ namespace ERMAN.Controllers
             _studentRepo.Update();
             _proposalRepository.Remove(proposalId);
         }
-        [HttpDelete("api/Coordinator/GetPendingCourseMapped", Name = "InstructorCoursePendingGet")]
+        [HttpGet("api/Coordinator/GetPendingCourseMapped", Name = "InstructorCoursePendingGet")]
         public List<ProposalCourse> GetPendingCourseMapped()
         {
             return _proposalRepository.GetCoordinatorApproved();
