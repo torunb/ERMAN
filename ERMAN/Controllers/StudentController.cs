@@ -36,11 +36,11 @@ namespace ERMAN.Controllers
         }
 
         [HttpPut("/api/Student/approveStatus", Name = "StudentApproveCourseStatus")]
-        public void SetSelectedCourseAs(int id, int courseMappedId, bool approved)
+        public void SetSelectedCourseAs(int id, int mappedId, bool approved)
         {
             if (approved) // 
             {
-                CourseMapped mapped = _studentRepo.GetCourseMapped(courseMappedId);
+                CourseMapped mapped = _studentRepo.GetCourseMapped(mappedId);
                 if (mapped.BilkentCourse.CourseType == "Must")
                 {
                     mapped.ApprovedStatus = ApprovedStatus.CoordinatorApproved;
@@ -62,7 +62,7 @@ namespace ERMAN.Controllers
             }
             else // reject
             {
-                _studentRepo.GetCourseMapped(courseMappedId).ApprovedStatus = ApprovedStatus.Rejected;
+                _studentRepo.GetCourseMapped(mappedId).ApprovedStatus = ApprovedStatus.Rejected;
             }
             _studentRepo.Update();
 

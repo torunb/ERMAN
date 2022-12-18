@@ -52,9 +52,9 @@ namespace ERMAN.Repositories
         }
 
         // does this work?
-        public CourseMapped GetCourseMapped( int courseMapId)
+        public CourseMapped GetCourseMapped(int courseMapId)
         {
-            return _dbContext.StudentTable.Select( student => student.SelectedCourses.FirstOrDefault(courseMapped => courseMapped.Id == courseMapId)).FirstOrDefault();
+            return _dbContext.CourseMappedTable.FirstOrDefault(courseMapped => courseMapped.Id == courseMapId);
         }
 
         public List<CourseMapped> GetAllCourses()
