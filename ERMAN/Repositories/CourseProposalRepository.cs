@@ -13,6 +13,17 @@ namespace ERMAN.Repositories
             _context = context;
         }
 
+        public ProposalCourse Remove(int proposedId)
+        {
+            ProposalCourse toBeDeleted = _context.ProposalCourseTable.FirstOrDefault(proposal => proposal.Id == proposedId);
+            if (toBeDeleted != null)
+            {
+                _context.ProposalCourseTable.Remove(toBeDeleted);
+                _context.SaveChanges();
+            }
+            return toBeDeleted;
+        }
+
         public ProposalCourse Add(ProposalCourseDto proposedCourse)
         {
             proposedCourse.Course.ApprovedStatus = ApprovedStatus.Pending;

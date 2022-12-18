@@ -37,5 +37,11 @@ namespace ERMAN.Controllers
         {
             return _courseProposalRepository.GetAll();
         }
+
+        [HttpDelete("/api/Proposals", Name = "Remove")]
+        public ProposalCourse RemoveProposal(int proposalId)
+        {
+            return _courseProposalRepository.Remove(proposalId);
+        }
     }
 }
