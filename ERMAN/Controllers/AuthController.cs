@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using ERMAN.Services;
+using ERMAN.Repositories;
 
 namespace ERMAN.Controllers
 {
@@ -17,11 +18,13 @@ namespace ERMAN.Controllers
     {
         private readonly ErmanDbContext _dbContext;
         private readonly UserService _userService;
+        private readonly UniversityRepository _universityRepo;
 
-        public AuthController(ErmanDbContext dbContext, UserService userService)
+        public AuthController(ErmanDbContext dbContext, UserService userService, UniversityRepository universityRepo)
         {
             _dbContext = dbContext;
             _userService = userService;
+            _universityRepo = universityRepo;
         }
 
         public class LoginRequest
@@ -106,12 +109,13 @@ namespace ERMAN.Controllers
         [HttpPost("/api/register", Name = "AuthRegister")]
         public ActionResult<bool> Register(StudentRegisterRequest registerData)
         {
-            //var student = _dbContext.PlacementStudentTable.Where(student => student.StudentId == (registerData.bilkentID).ToString()).FirstOrDefault();
+            var student = _dbContext.PlacementStudentTable.Where(student => student.StudentId == (registerData.bilkentID).ToString()).FirstOrDefault();
 
-            //if (student == null) {
-            //    // no student with that ID is in the excel data
-            //    return StatusCode(404);
-            //}
+            if (student == null)
+            {
+                // no student with that ID is in the excel data
+                return StatusCode(404);
+            }
 
             var user = _dbContext.AuthenticationTable.Where(x => x.Username == registerData.email).FirstOrDefault();
 
@@ -132,13 +136,20 @@ namespace ERMAN.Controllers
             _dbContext.AuthenticationTable.Add(newUser);
             _dbContext.SaveChanges();
 
+
+           
+            var university = _universityRepo.Get((int)(student.UniversityId != null ? student.UniversityId! : -1));
             var newUserDto = new UserDto {
                 AuthId = newUser.Id,
                 UserType = UserType.Student,
                 Email = registerData.email,
                 BilkentId = registerData.bilkentID,
-                //FirstName = student.FirstName,
-                //LastName = student.LastName,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Department = student.Department,
+                Faculty = student.Faculty,
+                University = (university != null ? university.UniversityName : ""),
+                DurationPreffered = student.DurationPreferred,
             };
             _userService.Add(newUserDto);
 

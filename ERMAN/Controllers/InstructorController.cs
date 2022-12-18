@@ -31,7 +31,7 @@ namespace ERMAN.Controllers
             _instrRepo.Add(faq);
         }
 
-        [HttpDelete("/api/Instructor/ApproveOrReject", Name = "InstructorCourseApproveReject")]
+        [HttpPost("/api/Instructor/ApproveOrReject", Name = "InstructorCourseApproveReject")]
         public void ApproveRejectCourseMapped(int id, int courseMappedId, bool approve, int proposalId)
         {
             if (approve)
