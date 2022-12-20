@@ -27,11 +27,12 @@ namespace ERMAN.Controllers
         [HttpPost("/api/settings/cancel", Name = "DropProgram")]
         public void dropProgram()
         {
-            var userId = (int)HttpContext.Items["userId"];
+            var userId = (int)HttpContext.Items["userID"];
             //var user = _context.AuthenticationTable.FirstOrDefault(s => s.Id== userId);
             //_context.AuthenticationTable.Remove(user);
-            var toDelete = _context.PlacementStudentTable.FirstOrDefault(s => Convert.ToInt32(s.Id) == userId);
-            if (toDelete.UniversityId != 0)
+            var toDeletePlacement = _context.StudentTable.FirstOrDefault(s => Convert.ToInt32(s.AuthId) == userId);
+            var toDelete = _context.PlacementStudentTable.FirstOrDefault(s => Convert.ToInt32(s.StudentId) == toDeletePlacement.StudentId);
+            if ( toDelete.UniversityId != null)
             {
                 List<PlacementStudent> studentList = _context.PlacementStudentTable.Where(s => (s.Ranking > toDelete.Ranking)).ToList();
                 bool studentFound = false;
