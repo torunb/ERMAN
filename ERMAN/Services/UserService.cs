@@ -31,6 +31,10 @@ namespace ERMAN.Services
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
+                    Faculty = user.Faculty,
+                    UniversityName = user.University,
+                    Department = user.Department,
+                    DurationPreffered = user.DurationPreffered,
                     StudentId = user.BilkentId,
                     AuthId = user.AuthId,
                 };

@@ -18,7 +18,7 @@ namespace ERMAN.Models
         public int? CoordinatorId { get; set; }
 
         public string? CoordinatorName { get; set; }
-
+        public string? UniversityName { get; set; }
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }

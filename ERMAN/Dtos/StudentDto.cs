@@ -41,6 +41,7 @@ namespace ERMAN.Dtos
         public string? DurationPreffered { get; set; }
 
         public University? University { get; set; }
+        public string? UniversityName { get; set; }
 
         public string? ApplicationStatus { get; set; }
 
