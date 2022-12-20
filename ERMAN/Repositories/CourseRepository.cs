@@ -25,6 +25,7 @@ namespace ERMAN.Repositories
                 CourseCredit = course.CourseCredit,
                 UniversityId = course.UniversityId,
                 CourseCode = course.CourseCode,
+                InstructorMail = course.InstructorMail,
             };
             _dbContext.CourseTable.Add(courseNew);
             _dbContext.SaveChanges();

@@ -121,7 +121,7 @@ namespace ERMAN.Services
                 var userInfo = new UserInfoDTO
                 {
                     authId = instuctor.AuthId,
-                    userType = UserType.Instructor.ToString().ToLower(),
+                    userType = "instructor",
                     email = instuctor.Email,
                     firstName = instuctor.FirstName,
                     lastName = instuctor.LastName,
