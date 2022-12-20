@@ -13,6 +13,8 @@ namespace ERMAN.Dtos
         public bool IsElectiveCourse { get; set; }
         public bool IsMustCourse { get; set; }
 
+        public string? InstructorMail { get; set; }
+
         public string? CourseType { get; set; }
 
         [Required(ErrorMessage = "Course credit must be provided")]

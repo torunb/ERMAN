@@ -10,6 +10,8 @@ namespace ERMAN.Models
 
         public int? AInstructorId { get; set; }
 
+        public string? InstructorMail { get; set; }
+
         [Required(ErrorMessage = "Course name must be provided")]
         public string CourseName { get; set; } = null!;
         public bool IsForeignUniversity { get; set; }
